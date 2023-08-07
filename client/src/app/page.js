@@ -1,29 +1,35 @@
-"use client"
+'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, use, useEffect, useState } from 'react'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { Combobox, Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link'
-
-const people = [
-  { id: 1, name: 'Leslie Alexander', url: '#' },
-  // More people...
-]
+import useSchoolsApi from '@/api/schools'
+const getSchools = useSchoolsApi();
+const schools = getSchools();
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
+
+
 export default function Home() {
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(true)
+  const data = use(schools);
 
-  const filteredPeople =
+
+  const filteredSchools =
     query === ''
       ? []
-      : people.filter((person) => {
-        return person.name.toLowerCase().includes(query.toLowerCase())
+      : data.filter((school) => {
+        return school.name.toLowerCase().includes(query.toLowerCase())
       })
+
+
+
 
   return (
 
@@ -31,26 +37,26 @@ export default function Home() {
 
       <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="mb-20 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Welcome to Course Grader</h2>
-          <h2 className="mb-10 text-2xl font-bold tracking-tight text-pink-400 sm:text-4xl">Search for your school</h2>
+          <h2 className="mb-20 text-4xl font-bold tracking-tight text-pink-400 sm:text-6xl">Welcome to Course Grader</h2>
+          {/* <h2 className="mb-10 text-2xl font-bold tracking-tight text-pink-400 sm:text-4xl">Search for your school</h2> */ }
 
           <Combobox onChange={ (person) => (window.location = person.url) } >
 
             <Combobox.Input
-              className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-900 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
-              placeholder="Search..."
+              className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
+              placeholder="Search for your school..."
               onChange={ (event) => setQuery(event.target.value) }
             />
 
-            { filteredPeople.length > 0 && (
+            { filteredSchools.length > 0 && (
               <Combobox.Options
                 static
                 className=" -mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left "
               >
-                { filteredPeople.map((person) => (
+                { filteredSchools.map((school) => (
                   <Combobox.Option
-                    key={ person.id }
-                    value={ person }
+                    key={ school.id }
+                    value={ school.name }
                     className={ ({ active }) =>
                       classNames(
                         'cursor-default select-none rounded-md px-4 py-2 ',
@@ -58,13 +64,13 @@ export default function Home() {
                       )
                     }
                   >
-                    { person.name }
+                    { school.name }
                   </Combobox.Option>
                 )) }
               </Combobox.Options>
             ) }
 
-            { query !== '' && filteredPeople.length === 0 && (
+            { query !== '' && filteredSchools.length === 0 && (
               <div className="px-4 py-14 text-center sm:px-14 ">
                 <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
                 <p className="mt-4 text-sm text-gray-900">No schools found using that search term.</p>
@@ -189,3 +195,5 @@ export default function Home() {
 
   )
 }
+
+

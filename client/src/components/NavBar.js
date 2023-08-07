@@ -12,12 +12,7 @@ const user = {
     imageUrl:
         'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
-const items = [
-    { id: 'Dashboard', href: '#', current: true },
-    { id: 'Calendar', href: '#', current: false },
-    { id: 'Teams', href: '#', current: false },
-    { id: 'Directory', href: '#', current: false },
-]
+
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
@@ -166,12 +161,7 @@ export default function NavBar() {
                                         </Transition>
                                     </Menu>
 
-                                    <a
-                                        href="#"
-                                        className="ml-6 inline-flex items-center rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    >
-                                        New Review
-                                    </a>
+
                                 </div>
                             </div>
                         </div>

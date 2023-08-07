@@ -1,0 +1,9 @@
+// ,
+// {
+//     name: "client",
+//     script : "server.js",
+//     cwd : "/var/www/personal-site/server",
+//     env: { 
+//         "MONGO_URL": "mongodb+srv://cookietester:yumyumyum@firstcluster.pqqo6r9.mongodb.net/?retryWrites=true&w=majority"
+//     }
+// }
