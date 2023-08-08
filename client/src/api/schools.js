@@ -25,8 +25,32 @@ const getSchools = async () => {
 };
 
 
+const searchSchools = async (q) => {
+
+    if (q === "") return [];
+
+    try {
+        const response = await axios.get(
+            `/data/schools/search/${q}`,
+            {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            }
+        );
+        await console.log(response.data)
+        return await response.data;
+
+    } catch (err) {
+        console.log(err)
+        return err;
+
+    }
+
+};
+
+
 const useSchoolsApi = () => {
-    return getSchools;
+    return searchSchools;
 }
 
 export default useSchoolsApi;

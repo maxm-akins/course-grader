@@ -23,33 +23,44 @@ router.get('/schools', async (req, res) => {
 });
 
 
-router.get('/names', async (req, res) => {
+router.get('/schools/search/:q', async (req, res) => {
     try {
-        const schools = await SchoolModel.find({});
-        console.log(schools.length);
+        const q = req.params.q;
+        console.log(q);
 
-        // schools[0].save().then(() => { },
-        //     (err) => {
-        //         console.log(err);
-        //         res.status(err.status || 400).json({ message: err.message });
-        //         return;
+        // Start building the search aggregation stage
+        let searcher_aggregate = {
+            "$search": {
+                "index": 'search_schools',
+                "compound": {
+                    "must": [
+                        // get home where queries.category is property_type
+                        {
+                            "text": {
+                                "query": q,
+                                "path": 'name',
+                                "fuzzy": {}
+                            }
+                        },
 
-        //     })
+                    ]
+                }
+            }
+        };
+
+        let projection = {
+            '$project': {
+                'name': 1,
+                'trunkName': 1,
+                "_id": 0
+
+            }
+        };
 
 
-        schools.forEach((school) => {
-            school.uuid = short.generate()
-            school.save().then(() => { },
-                (err) => {
-                    console.log(err);
-                    res.status(err.status || 400).json({ message: err.message });
-                    return;
+        let results = await SchoolModel.aggregate([searcher_aggregate, projection]).limit(50);
+        res.send(results).status(200);
 
-                })
-
-        })
-
-        res.status(200).json(schools);
     }
     catch (err) {
         console.log(err);
