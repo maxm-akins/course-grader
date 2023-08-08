@@ -1,6 +1,5 @@
 "use client"
-import { usePathname } from "next/navigation";
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import { Link } from "next/link"
 import {
     CheckIcon,
@@ -10,6 +9,9 @@ import {
     StarIcon,
 } from '@heroicons/react/20/solid'
 import { Menu, Transition } from '@headlessui/react'
+import { usePathname } from 'next/navigation'
+
+import SchoolContext from "@/context/SchoolProvider";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -17,16 +19,9 @@ function classNames(...classes) {
 
 
 
-export default function SchoolHeader() {
+export default function SchoolHeader({ }) {
+    let { school } = useContext(SchoolContext)
     const pathname = usePathname();
-
-
-
-
-
-
-
-
 
     return (
         <div className="lg:flex lg:items-center lg:justify-between">
@@ -43,24 +38,25 @@ export default function SchoolHeader() {
                         <li>
                             <div className="flex items-center">
                                 <ChevronRightIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                <a href="#" className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                    University of Pittsburgh
+                                <a href={ `/${school?.trunkName}` } className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                    { school?.name }
                                 </a>
                             </div>
                         </li>
+
                     </ol>
                 </nav>
                 <h2 className="mt-2 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-                    University of Pittsburgh
+                    { school?.name }
                 </h2>
                 <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
                     <div className="mt-2 flex items-center text-sm text-gray-500">
                         <StarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                        5/5
+                        { school?.rating }
                     </div>
                     <div className="mt-2 flex items-center text-sm text-gray-500">
                         <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                        Pittsburgh, PA
+                        { `${school?.city}, ${school?.state}` }
                     </div>
 
                 </div>

@@ -3,35 +3,14 @@ import { useState } from "react";
 import axios from "./axios";
 
 
-const getSchools = async () => {
 
-    try {
-        const response = await axios.get(
-            "/data/schools",
-            {
-                headers: { "Content-Type": "application/json" },
-                withCredentials: true,
-            }
-        );
-        await console.log(response.data)
-        return response.data;
-
-    } catch (err) {
-        console.log(err)
-        return err;
-
-    }
-
-};
-
-
-export const searchSchools = async (q) => {
+export const searchClasses = async (school, q) => {
 
     if (q === "") return [];
 
     try {
         const response = await axios.get(
-            `/data/schools/search/${q}`,
+            `/data/classes/search/${school}/${q}`,
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
@@ -49,13 +28,13 @@ export const searchSchools = async (q) => {
 };
 
 
-export const getSchool = async (q) => {
+export const getClass = async (q) => {
 
     if (q === "") return "";
 
     try {
         const response = await axios.get(
-            `/data/schools/${q}`,
+            `/data/classes/${q}`,
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
@@ -73,8 +52,10 @@ export const getSchool = async (q) => {
 };
 
 
-const useSchoolsApi = () => {
-    return searchSchools;
+
+
+const useClassesApi = () => {
+    return searchClasses;
 }
 
-export default useSchoolsApi;
+export default useClassesApi;

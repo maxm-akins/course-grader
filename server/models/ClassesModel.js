@@ -6,21 +6,21 @@ const ClassesSchema = new Schema({
         type: String,
         required: true,
     },
-    schoolCode: {
+    descripCode: {
         type: String,
         required: true,
     },
-
     classCode: {
         type: String,
         required: true,
     },
-    prof: {
-        type: String,
+    profs: {
+        type: Array,
         required: true,
+        default: []
     },
     parentRef: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
     },
     addedBy: {
@@ -29,6 +29,10 @@ const ClassesSchema = new Schema({
     },
     rating: {
         type: Number,
+        required: true,
+    },
+    uuid: {
+        type: String,
         required: true,
     },
 

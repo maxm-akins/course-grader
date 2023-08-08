@@ -5,6 +5,7 @@ const verifyJWT = require("../middleware/verifyJWT");
 const SchoolModel = require("../models/SchoolModel");
 const { randomUUID } = require('crypto');
 const short = require('short-uuid');
+const ClassesModel = require("../models/ClassesModel");
 
 
 // PROP TYPE END POINTS
@@ -15,6 +16,19 @@ router.get('/schools', async (req, res) => {
         const schools = await SchoolModel.find({});
 
         res.status(200).json(schools);
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+router.get('/schools/:q', async (req, res) => {
+    const q = req.params.q;
+    try {
+        const school = await SchoolModel.findOne({ trunkName: q }, { _id: 0, name: 1, uuid: 1, rating: 1, city: 1, state: 1, trunkName: 1 });
+
+        res.status(200).json(school);
     }
     catch (err) {
         console.log(err);
@@ -61,6 +75,171 @@ router.get('/schools/search/:q', async (req, res) => {
         let results = await SchoolModel.aggregate([searcher_aggregate, projection]).limit(50);
         res.send(results).status(200);
 
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+
+
+router.post('/classes/', async (req, res) => {
+    const q = req.params.q;
+    try {
+        const newClass = new ClassesModel({});
+        newClass.name = "Calc 2"
+        newClass.classCode = "0230"
+        newClass.descripCode = "MATH"
+        newClass.parentRef = "dLahKVTqXZM48x6foNkvpp"
+        newClass.addedBy = "Course Judger"
+        newClass.rating = 86;
+        newClass.profs = [{ name: "Angela Athanas", ref: "123123123" }]
+        newClass.uuid = short.generate();
+
+
+        newClass.save().then(() => {
+            console.log("new class saved");
+            res.status(200).json({ message: "Data Successfully Created." });
+            return
+        },
+            (err) => {
+                console.log(err);
+                res.status(err.status || 400).json({ message: err.message });
+                return;
+
+            })
+
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+
+router.get('/classes/', async (req, res) => {
+    const q = req.params.q;
+    try {
+        const newClasses = await ClassesModel.find({});
+
+
+        newClasses.forEach((classes) => {
+            classes.uuid = short.generate();
+            classes.save().then(() => {
+                console.log(" class saved");
+
+            },
+                (err) => {
+                    console.log(err);
+                    res.status(err.status || 400).json({ message: err.message });
+                    return;
+
+                })
+        })
+
+
+
+
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+
+
+router.get('/classes/search/:school/:q', async (req, res) => {
+    try {
+        const school = req.params.school;
+        const q = req.params.q;
+        console.log(q);
+        console.log(school);
+
+        // Start building the search aggregation stage
+
+
+        let searcher_aggregate = {
+            "$search": {
+                "index": 'class_search',
+                "compound": {
+
+                    "should": [
+                        // get home where queries.category is property_type
+                        {
+                            "text": {
+                                "query": q,
+                                "path": 'name',
+                                "fuzzy": {}
+                            }
+                        },
+                        {
+                            "text": {
+                                "query": q,
+                                "path": 'descripCode',
+                                "fuzzy": {}
+                            }
+                        },
+                        {
+                            "text": {
+                                "query": q,
+                                "path": 'classCode',
+                                "fuzzy": {}
+                            }
+                        },
+                        {
+                            "text": {
+                                "query": q,
+                                "path": 'profs.name',
+                                "fuzzy": {}
+                            }
+                        },
+
+                    ],
+                    "must": [
+                        {
+                            "text": {
+                                "query": school,
+                                "path": 'parentRef',
+                            }
+                        },
+
+                    ]
+                }
+            }
+        };
+
+        let projection = {
+            '$project': {
+                'name': 1,
+                'profs': 1,
+                "descripCode": 1,
+                "classCode": 1,
+                "uuid": 1,
+                "rating": 1,
+                "_id": 0,
+            }
+        };
+
+
+        let results = await ClassesModel.aggregate([searcher_aggregate, projection]).limit(50);
+        console.log(results)
+        res.send(results).status(200);
+
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+router.get('/classes/:q', async (req, res) => {
+    const q = req.params.q;
+    try {
+        const course = await ClassesModel.findOne({ uuid: q }, { _id: 0, name: 1, uuid: 1, rating: 1, profs: 1, descripCode: 1, classCode: 1, });
+
+        res.status(200).json(course);
     }
     catch (err) {
         console.log(err);

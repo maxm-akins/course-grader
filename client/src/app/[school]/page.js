@@ -1,7 +1,8 @@
 "use client"
-
+import { useParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useContext } from 'react'
 import {
     BriefcaseIcon,
     CalendarIcon,
@@ -17,6 +18,10 @@ import {
 import { Menu, Transition, Combobox } from '@headlessui/react'
 import { useState } from 'react'
 import SchoolHeader from '@/components/SchoolHeader'
+import { getSchool } from '@/api/schools'
+import SchoolContext from '@/context/SchoolProvider'
+import { searchClasses } from '@/api/classes'
+import { useRouter } from 'next/navigation'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -27,36 +32,58 @@ const people = [
     // More people...
 ]
 
-export default function School() {
-    const [query, setQuery] = useState('')
 
-    const filteredPeople =
-        query === ''
-            ? []
-            : people.filter((person) => {
-                return person.name.toLowerCase().includes(query.toLowerCase())
-            })
+
+export default function School() {
+    const router = useRouter()
+    const pathname = usePathname()
+    const [query, setQuery] = useState('');
+    const [classes, setClasses] = useState([]);
+    const [schoolInfo, setSchoolInfo] = useState({})
+    const params = useParams();
+    const schoolParam = params?.school;
+    let { school, setSchool } = useContext(SchoolContext);
+
+
+
+    const handleQueryChange = async (q) => {
+        await setQuery(q);
+        setClasses((await searchClasses(school.uuid, q)));
+    }
+
+    useEffect(() => {
+
+    }, [classes])
+
+
+    const getSchoolInfo = async () => {
+        setSchool((await getSchool(schoolParam)))
+    }
+
+    useEffect(() => {
+        getSchoolInfo();
+    }, [])
 
 
 
 
     return (
         <>
-            <SchoolHeader />
+            <SchoolHeader school={ schoolInfo } />
 
             <div className="mt-9">
                 <div className=" ">
-                    <h2 className="mb-3 text-2xl font-medium tracking-tight text-pink-400 sm:text-base">Search by class name, code, school, or professor</h2>
+                    <h2 className="mb-3 text-2xl font-medium tracking-tight text-pink-400 sm:text-base">Search by class name, codes, or professor</h2>
 
-                    <Combobox onChange={ (person) => (window.location = `/universityofpittsburgh/${person.url}`) } >
+                    <Combobox onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
                         <Combobox.Input
                             className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
                             placeholder="Search for a class..."
-                            onChange={ (event) => setQuery(event.target.value) }
+                            onChange={ (event) => handleQueryChange(event.target.value) }
                         />
 
-                        { filteredPeople.length > 0 && (
+                        { classes?.length > 0 && (
                             <Combobox.Options
                                 static
                                 className=" -mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left "
@@ -67,7 +94,7 @@ export default function School() {
                                     value={ 0 }
                                     className={ ({ active }) =>
                                         classNames(
-                                            'cursor-default select-none rounded-md px-2 py-2 grid grid-cols-4 text-pink-400 ',
+                                            'cursor-default select-none rounded-md px-2 py-2 font-medium grid grid-cols-3 gap-4 text-pink-400 ',
                                             active && 'bg-pink-400 text-white'
                                         )
                                     }
@@ -77,54 +104,49 @@ export default function School() {
 
                                     </p>
                                     <p>
-                                        School Code
+                                        Subject Code
 
                                     </p>
                                     <p>
                                         Class Code
 
                                     </p>
-                                    <p>
-                                        Professor
 
-                                    </p>
                                 </Combobox.Option>
-                                { filteredPeople.map((person) => (
+                                { classes.map((item) => (
 
 
                                     <Combobox.Option
-                                        key={ person.id }
-                                        value={ person }
+                                        key={ item?.uuid }
+                                        value={ item?.uuid }
                                         className={ ({ active }) =>
                                             classNames(
-                                                'cursor-default select-none rounded-md px-2 py-2 grid grid-cols-4 ',
+                                                'cursor-default select-none rounded-md px-2 py-2 grid grid-cols-3 gap-4  ',
                                                 active && 'bg-pink-400 text-white'
                                             )
                                         }
                                     >
                                         <p>
-                                            { person.name }
+                                            { item?.name }
 
                                         </p>
                                         <p>
-                                            { person.schoolCode }
+                                            { item?.descripCode }
 
                                         </p>
                                         <p>
-                                            { person.classCode }
+                                            { item?.classCode }
 
                                         </p>
-                                        <p>
-                                            { person.prof }
 
-                                        </p>
+
                                     </Combobox.Option>
 
                                 )) }
                             </Combobox.Options>
                         ) }
 
-                        { query !== '' && filteredPeople.length === 0 && (
+                        { query && classes?.length === 0 && (
                             <div className="px-4 py-14 text-center sm:px-14 ">
                                 <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
                                 <p className="mt-4 text-sm text-gray-900">No classes found?</p>

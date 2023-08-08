@@ -1,7 +1,15 @@
 "use client"
 
-import ClassHeader from "@/components/ClassHeader"
 import { StarIcon, } from "@heroicons/react/20/solid"
+import { getClass } from "@/api/classes"
+import { getSchool } from "@/api/schools"
+import SchoolContext from '@/context/SchoolProvider'
+import { searchClasses } from '@/api/classes'
+import { useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+import { useState, useContext, useEffect } from "react"
+
 
 const reviews = {
     average: 4,
@@ -34,7 +42,33 @@ function classNames(...classes) {
 
 export default function Class() {
 
+    const router = useRouter()
+    const pathname = usePathname()
+    const [classes, setClasses] = useState([]);
+    const params = useParams();
+    const course = params?.class;
+    const school = params?.school;
+    let { setCourse, setSchool } = useContext(SchoolContext);
 
+
+
+    useEffect(() => {
+
+    }, [classes])
+
+
+    const getClassInfo = async () => {
+        setCourse((await getClass(course)))
+    }
+    const getSchoolInfo = async () => {
+        setSchool((await getSchool(school)))
+    }
+
+
+    useEffect(() => {
+        getClassInfo();
+        getSchoolInfo();
+    }, [])
 
 
 

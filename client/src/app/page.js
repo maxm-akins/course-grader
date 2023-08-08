@@ -1,8 +1,8 @@
 'use client'
-
-import { Fragment, use, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { UsersIcon } from '@heroicons/react/24/outline'
-import { Combobox, Dialog, Transition } from '@headlessui/react'
+import { Combobox, } from '@headlessui/react'
 import Link from 'next/link'
 import useSchoolsApi from '@/api/schools'
 const searchSchools = useSchoolsApi();
@@ -13,21 +13,18 @@ function classNames(...classes) {
 }
 
 
-
-
-
-
-
 export default function Home() {
+  const router = useRouter()
   const [schools, setSchools] = useState([]);
+  const [query, setQuery] = useState("");
 
 
   const handleQueryChange = async (q) => {
+    await setQuery(q);
     setSchools((await searchSchools(q)));
   }
 
   useEffect(() => {
-    console.log("schools change")
 
   }, [schools])
 
@@ -41,23 +38,25 @@ export default function Home() {
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="mb-20 text-4xl font-bold tracking-tight text-pink-400 sm:text-6xl">Welcome to Course Grader</h2>
 
-          <Combobox onChange={ (value) => (window.location = value) } >
+          <Combobox onChange={ (value) => (router.push(`/${value}`)) } >
 
             <Combobox.Input
               className="w-full rounded-t-lg  bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
               placeholder="Search for your school..."
-              onChange={ (event) => handleQueryChange(event.target.value) }
+              onChange={ (event) => {
+                handleQueryChange(event.target.value);
+              } }
             />
 
-            { schools.length > 0 && (
+            { schools?.length > 0 && (
               <Combobox.Options
                 static
                 className=" -mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-gray-100 rounded-b-lg  text-left "
               >
-                { schools.map((school) => (
+                { schools?.map((school) => (
                   <Combobox.Option
-                    key={ school.trunkName }
-                    value={ school.trunkName }
+                    key={ school?.trunkName }
+                    value={ school?.trunkName }
                     className={ ({ active }) =>
                       classNames(
                         'cursor-default select-none rounded-md px-4 py-2 ',
@@ -65,13 +64,13 @@ export default function Home() {
                       )
                     }
                   >
-                    { school.name }
+                    { school?.name }
                   </Combobox.Option>
                 )) }
               </Combobox.Options>
             ) }
 
-            { schools.length === 0 && (
+            { schools?.length === 0 && query && (
               <div className="px-4 py-14 text-center sm:px-14 ">
                 <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
                 <p className="mt-4 text-sm text-gray-900">No schools found using that search term.</p>
