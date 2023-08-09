@@ -102,7 +102,7 @@ export default function New() {
                             >
                                 <option disabled>Select a professor</option>
                                 <option>Canada</option>
-                                <option>Mexico</option>
+                                <option>Other</option>
                             </select>
                         </div>
                     </div>

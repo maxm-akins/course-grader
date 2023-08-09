@@ -35,8 +35,8 @@ export default function Home() {
     <>
 
       <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="mb-20 text-4xl font-bold tracking-tight text-pink-400 sm:text-6xl">Welcome to Course Grader</h2>
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="mb-20 text-4xl font-bold tracking-tight text-pink-400 sm:text-9xl">Course Grader</h2>
 
           <Combobox onChange={ (value) => (router.push(`/${value}`)) } >
 

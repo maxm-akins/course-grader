@@ -148,7 +148,7 @@ export default function ClassHeader() {
                         defaultValue="All professors"
                     >
                         <option >All Professors</option>
-                        { course?.profs.map((prof) => (
+                        { course?.profs?.map((prof) => (
                             <option value={ prof.ref }>{ prof.name }</option>
                         )) }
                     </select>
