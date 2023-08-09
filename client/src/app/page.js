@@ -55,7 +55,7 @@ export default function Home() {
               >
                 { schools?.map((school) => (
                   <Combobox.Option
-                    key={ school?.trunkName }
+                    key={ school?.uuid }
                     value={ school?.trunkName }
                     className={ ({ active }) =>
                       classNames(

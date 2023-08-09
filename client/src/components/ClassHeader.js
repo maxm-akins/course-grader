@@ -11,7 +11,8 @@ import {
 } from '@heroicons/react/20/solid'
 import { Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+
 import SchoolContext from '@/context/SchoolProvider'
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -19,8 +20,9 @@ function classNames(...classes) {
 
 export default function ClassHeader() {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
     let { school, course } = useContext(SchoolContext);
-
+    const router = useRouter();
     const handleNewReviewClick = () => {
         console.log("new review clicked")
         console.log(pathname)
@@ -144,12 +146,15 @@ export default function ClassHeader() {
                     <select
                         id="prof"
                         name="prof"
-                        className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        defaultValue="All professors"
+                        className="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        value={ searchParams.get("filter") }
+                        onChange={ (event) => {
+                            router.push(`?filter=${event?.target?.value}`)
+                        } }
                     >
-                        <option >All Professors</option>
+                        <option value={ "none" } >All Professors</option>
                         { course?.profs?.map((prof) => (
-                            <option value={ prof.ref }>{ prof.name }</option>
+                            <option key={ prof?.uuid } value={ prof?.ref }>{ prof.name }</option>
                         )) }
                     </select>
                 </div>

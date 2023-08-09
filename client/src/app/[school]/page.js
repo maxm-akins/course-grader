@@ -80,7 +80,7 @@ export default function School() {
                         <Combobox.Input
                             className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
                             placeholder="Search for a class..."
-                            onChange={ (event) => handleQueryChange(event.target.value) }
+                            onChange={ (event) => handleQueryChange(event?.target?.value) }
                         />
 
                         { classes?.length > 0 && (

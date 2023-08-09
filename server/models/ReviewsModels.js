@@ -3,27 +3,43 @@ const Schema = mongoose.Schema;
 
 const ReviewsSchema = new Schema({
     schoolRef: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
     },
-    classRef: {
-        type: mongoose.Schema.Types.ObjectId,
+    courseRef: {
+        type: String,
         required: true,
     },
     userRef: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
+        required: true,
+    },
+    profName: {
+        type: String,
         required: true,
     },
     profRef: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-    },
-    review: {
         type: String,
         required: true,
     },
-    addedBy: {
+    description: {
         type: String,
+        required: true,
+    },
+    title: {
+        type: String,
+        required: false,
+    },
+    date: {
+        type: String,
+        required: true,
+    },
+    term: {
+        type: String,
+        required: true,
+    },
+    year: {
+        type: Number,
         required: true,
     },
     profRating: {
@@ -34,8 +50,16 @@ const ReviewsSchema = new Schema({
         type: Number,
         required: true,
     },
+    difficultyRating: {
+        type: Number,
+        required: true,
+    },
     private: {
-        type: boolean,
+        type: Boolean,
+        required: true,
+    },
+    uuid: {
+        type: String,
         required: true,
     },
 
