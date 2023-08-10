@@ -262,6 +262,7 @@ router.get('/classes/:q', async (req, res) => {
         results.difficultyRating = diffAvg;
         results.courseRating = courseAvg;
         results.profRating = profAvg;
+        results.amount = length;
 
 
         res.status(200).json(results);

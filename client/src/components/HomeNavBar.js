@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react'
 import { Menu, Popover, Transition, Combobox, Disclosure } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
-
+import Link from 'next/link'
 const user = {
     name: 'Chelsea Hagon',
     email: 'chelsea.hagon@example.com',
@@ -53,7 +53,7 @@ export default function HomeNavBar() {
                 { ({ open }) => (
                     <>
                         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                            <div className="relative flex h-16 justify-between">
+                            <div className="relative flex h-20 justify-between">
                                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                     {/* Mobile menu button */ }
                                     <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -66,19 +66,26 @@ export default function HomeNavBar() {
                                         ) }
                                     </Disclosure.Button>
                                 </div>
-                                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                                    <div className="flex flex-shrink-0 items-center">
+                                <div className=" flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                                    <div className="hidden sm:flex flex-shrink-0 items-center">
                                         <img
-                                            className="h-8 w-auto"
-                                            src="/MA_logo_alt3_small.png"
+                                            className="h-16 w-auto"
+                                            src="/CJ_Logo1.png"
                                             alt="Your Company"
                                         />
 
                                     </div>
+                                    <div className='flex items-center  '>
+                                        <h2 className=" font-bold text-transparent tracking-tight text-3xl sm:text-4xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Judger</h2>
+
+                                    </div>
+
                                     <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
 
                                     </div>
                                 </div>
+
+
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
 
@@ -145,34 +152,39 @@ export default function HomeNavBar() {
                         <Disclosure.Panel className="sm:hidden">
                             <div className="space-y-1 pb-4 pt-2">
                                 {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */ }
-                                <Disclosure.Button
-                                    as="a"
-                                    href="#"
-                                    className="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700"
+                                <Link
+                                    href="/"
                                 >
-                                    Dashboard
-                                </Disclosure.Button>
-                                <Disclosure.Button
-                                    as="a"
-                                    href="#"
-                                    className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                    <Disclosure.Button
+
+                                        className="block border-l-4 border-pink-400 bg-pink-50 py-2 pl-3 pr-4 text-base font-medium text-pink-700"
+                                    >
+                                        School Search
+                                    </Disclosure.Button>
+                                </Link>
+                                <Link
+                                    href="/policies"
                                 >
-                                    Team
-                                </Disclosure.Button>
-                                <Disclosure.Button
-                                    as="a"
-                                    href="#"
-                                    className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                    <Disclosure.Button
+
+                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                    >
+                                        Policies
+                                    </Disclosure.Button>
+                                </Link>
+
+                                <Link
+                                    href="/socials"
                                 >
-                                    Projects
-                                </Disclosure.Button>
-                                <Disclosure.Button
-                                    as="a"
-                                    href="#"
-                                    className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
-                                >
-                                    Calendar
-                                </Disclosure.Button>
+                                    <Disclosure.Button
+
+                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                    >
+                                        Socials
+                                    </Disclosure.Button>
+                                </Link>
+
+
                             </div>
                         </Disclosure.Panel>
                     </>

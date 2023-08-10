@@ -34,14 +34,21 @@ export default function Home() {
 
     <>
 
-      <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
+      <div className="bg-white px-6 pt-12 sm:pt-24 lg:px-8 pb-20">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mb-20 text-4xl font-bold tracking-tight text-pink-400 sm:text-9xl">Course Grader</h2>
+          {/* <h2 className="mb-10 font-bold text-transparent tracking-tight text-9xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Grader</h2> */ }
+          <div className=' mb-10 flex justify-center'>
+            <img
+              className="h-64 w-auto"
+              src="/CJ_Logo1.png"
+              alt="Your Company"
+            />
+          </div>
 
           <Combobox onChange={ (value) => (router.push(`/${value}`)) } >
 
             <Combobox.Input
-              className="w-full rounded-t-lg  bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
+              className={ `w-full ${schools?.length < 1 ? "rounded-lg" : " rounded-t-lg "} bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all` }
               placeholder="Search for your school..."
               onChange={ (event) => {
                 handleQueryChange(event.target.value);
@@ -55,7 +62,7 @@ export default function Home() {
               >
                 { schools?.map((school) => (
                   <Combobox.Option
-                    key={ school?.uuid }
+                    key={ school?.trunkName }
                     value={ school?.trunkName }
                     className={ ({ active }) =>
                       classNames(
@@ -87,6 +94,8 @@ export default function Home() {
 
         </div>
       </div>
+
+
       {/* <div className="container mx-auto sm:px-6 lg:px-8 grid justify-center content-center w-full h-full ease-linear  ">
 
         <Combobox onChange={ (person) => (window.location = person.url) } >

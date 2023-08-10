@@ -35,13 +35,13 @@ export default function ClassHeader() {
 
         <>
 
-            <div className="lg:flex lg:items-center lg:justify-between">
-                <div className="min-w-0 flex-1">
+            <div className="flex items-center justify-between">
+                <div className="hidden md:flex min-w-0 flex flex-1">
                     <nav className="flex" aria-label="Breadcrumb">
                         <ol role="list" className="flex items-center space-x-4">
                             <li>
                                 <div className="flex">
-                                    <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-700">
+                                    <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-700 ">
                                         Schools
                                     </Link>
                                 </div>
@@ -49,7 +49,7 @@ export default function ClassHeader() {
                             <li>
                                 <div className="flex items-center">
                                     <ChevronRightIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                    <Link href={ `/${school?.trunkName}` } className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                    <Link href={ `/${school?.trunkName}` } className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 ">
                                         { school?.name }
                                     </Link>
                                 </div>
@@ -57,14 +57,14 @@ export default function ClassHeader() {
                             <li>
                                 <div className="flex items-center">
                                     <ChevronRightIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                    <Link href={ `${pathname}` } className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
+                                    <Link href={ `${pathname}` } className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 ">
                                         { course?.name }
                                     </Link>
                                 </div>
                             </li>
                         </ol>
                     </nav>
-                    <h2 className="mt-2 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                    {/* <h2 className="mt-2 text-3xl font-bold leading-7 text-gray-900  sm:text-6xl sm:tracking-tight">
                         { school?.name }
                     </h2>
                     <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
@@ -77,9 +77,9 @@ export default function ClassHeader() {
                             { `${school?.city}, ${school?.state}` }
                         </div>
 
-                    </div>
+                    </div> */}
                 </div>
-                <div className="mt-5 flex lg:ml-4 lg:mt-0">
+                <div className="hidden md:flex ">
 
                     { (pathname.slice(-3) == "new") ? (
                         <span className="sm:ml-3">
@@ -121,19 +121,14 @@ export default function ClassHeader() {
                 </div >
             </div >
 
-            <div className="relative my-5">
-                <div className=" inset-0 flex items-center" aria-hidden="true">
-                    <div className="w-full border-t border-gray-300" />
-                </div>
 
-            </div>
 
-            <div className="grid grid-cols-4  md:items-end md:justify-between gap-5 ">
-                <h2 className="md:col-span-2 sm:col-span-4 text-3xl font-bold leading-7 text-pink-400  ">
+            <div className="grid grid-cols-4 mt-4  justify-between gap-5 ">
+                <h2 className="col-span-4 text-3xl sm:text-6xl font-bold text-pink-400  ">
                     { course?.name }
                 </h2>
-                <div className='flex gap-2 justify-start md:col-span-1 sm:col-span-2 '>
-                    <h2 className="text-xl font-bold leading-7 text-gray-600 sm:text-xl ">
+                <div className='flex gap-2 justify-start col-span-4 md:col-span-2 '>
+                    <h2 className=" text-xl font-bold leading-7 text-gray-600 sm:text-xl ">
                         { course?.descripCode }
                     </h2>
                     <h2 className="text-xl font-bold leading-7 text-gray-600 sm:text-xl ">
@@ -142,11 +137,11 @@ export default function ClassHeader() {
 
 
                 </div>
-                <div>
+                <div className='col-span-4 md:col-span-2 flex justify-start md:justify-end '>
                     <select
                         id="prof"
                         name="prof"
-                        className="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         value={ searchParams.get("filter") }
                         onChange={ (event) => {
                             router.push(`?filter=${event?.target?.value}`)

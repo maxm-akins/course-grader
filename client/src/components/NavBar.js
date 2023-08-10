@@ -1,11 +1,12 @@
 "use client"
 
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useContext } from 'react'
 import { Menu, Popover, Transition, Combobox, } from '@headlessui/react'
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { MagnifyingGlassIcon, StarIcon, MapPinIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
-
+import SchoolContext from '@/context/SchoolProvider'
+import Link from 'next/link'
 const user = {
     name: 'Chelsea Hagon',
     email: 'chelsea.hagon@example.com',
@@ -33,6 +34,7 @@ function classNames(...classes) {
 
 export default function NavBar() {
     const [query, setQuery] = useState('')
+    const { school } = useContext(SchoolContext);
     const [selectedPerson, setSelectedPerson] = useState(null)
     const filteredPeople =
         query === ''
@@ -56,71 +58,65 @@ export default function NavBar() {
             >
                 { ({ open }) => (
                     <>
-                        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                            <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
-                                <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
+                        <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-3 sm:pt-0 lg:px-8">
+                            <div className="relative justify-between gap-8 gap-y-0 grid grid-cols-12">
+
+
+
+                                <div className="flex order-1 inset-y-0 left-0 lg:static col-span-2 sm:col-span-1 mr-2">
                                     <div className="flex flex-shrink-0 items-center">
-                                        <a href="#">
+                                        <a href="/">
                                             <img
-                                                className="h-8 w-auto"
-                                                src="/MA_logo_alt3_small.png"
+                                                className="h-12 w-auto "
+                                                src="/CJ_Logo1.png"
                                                 alt="Your Company"
                                             />
                                         </a>
                                     </div>
                                 </div>
-                                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-                                    <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
-                                        <div className="w-full">
-                                            <label htmlFor="search" className="sr-only">
-                                                Search
-                                            </label>
-                                            <div className="relative">
-                                                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                </div>
-                                                <input
-                                                    id="search"
-                                                    name="search"
-                                                    className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-500 sm:text-sm sm:leading-6"
-                                                    placeholder="Search..."
-                                                    type="search"
-                                                />
 
-                                                { filteredPeople.length > 1 &&
-                                                    (
-                                                        <div className="absolute w-full overflow-hidden rounded-md bg-white shadow z-50 mt-2">
-                                                            <ul role="list" className="divide-y divide-gray-200">
-                                                                { filteredPeople.map((item) => (
-                                                                    <li key={ item.name } className="text-gray-900 border-none hover:bg-gray-200 py-2 pl-3 pr-9 text-base font-medium ">
-                                                                        { item.name }
-                                                                    </li>
-                                                                )) }
-                                                            </ul>
-                                                        </div>
+                                <div className='sm:hidden flex justify-center col-span-8 order-2 text-center items-center  '>
+                                    <h2 className=" font-bold text-transparent tracking-tight text-3xl sm:text-4xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Judger</h2>
 
-                                                    ) }
+                                </div>
 
 
 
+                                <div className="min-w-0 flex-1 order-3 sm:order-2  col-span-12 sm:col-span-10 ">
+                                    <div className="flex flex-wrap justify-center items-center px-6 py-4 md:mx-auto lg:mx-0 gap-6 gap-y-0 xl:px-0">
+
+                                        <div className="mt-2 flex  text-center	flex-wrap justify-center lg:text-xl text-lg font-bold text-gray-600  tranistion-all ">
+                                            <Link href={ `/${school?.trunkName}` }> { school?.name } </Link>
+                                        </div>
+                                        <div className='hidden sm:flex sm:mt-0  space-x-6 w-full justify-center sm:w-auto'>
+                                            <div className="mt-2  flex items-center text-sm text-gray-500">
+                                                <StarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-yellow-400" aria-hidden="true" />
+                                                { school?.rating }
+                                            </div>
+                                            <div className="mt-2 flex items-center text-center text-sm text-gray-500">
+                                                <MapPinIcon className=" h-5 w-5 flex-shrink-0 text-red-400" aria-hidden="true" />
+                                                { `${school?.city}, ${school?.state}` }
                                             </div>
 
+
                                         </div>
+
                                     </div>
                                 </div>
-                                <div className="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
+
+                                <div className="col-span-2 order-2 sm:order-3 sm:col-start-12 col-start-11  sm:col-span-1 sm flex items-center  inset-y-0 right-0 md:hidden">
                                     {/* Mobile menu button */ }
                                     <Popover.Button className="relative -mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                         <span className="absolute -inset-0.5" />
                                         <span className="sr-only">Open menu</span>
                                         { open ? (
-                                            <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                                            <XMarkIcon className="block h-8 w-8" aria-hidden="true" />
                                         ) : (
-                                            <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                                            <Bars3Icon className="block h-8 w-8" aria- hidden="true" />
                                         ) }
                                     </Popover.Button>
                                 </div>
-                                <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
+                                <div className="hidden md:flex md:items-center md:justify-end col-span-2 order-2 sm:order-3 sm:col-start-12 col-start-11">
 
 
                                     {/* Profile dropdown */ }
@@ -157,7 +153,10 @@ export default function NavBar() {
                                                         ) }
                                                     </Menu.Item>
                                                 )) }
+
+
                                             </Menu.Items>
+
                                         </Transition>
                                     </Menu>
 
@@ -166,7 +165,9 @@ export default function NavBar() {
                             </div>
                         </div>
 
-                        <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
+
+
+                        <Popover.Panel as="nav" className="md:hidden" aria-label="Global">
 
                             <div className="border-t border-gray-200 pb-3 pt-4">
                                 <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
@@ -186,6 +187,30 @@ export default function NavBar() {
                                     </button>
                                 </div>
                                 <div className="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
+                                    <Popover.Button
+                                        as={ Link }
+                                        onClick={ () => (setOpen(false)) }
+                                        key={ "schools" }
+                                        href={ `/` }
+                                        className="block rounded-md px-3 py-2 text-base font-medium text-pink-400 hover:bg-gray-50 hover:text-gray-900"
+                                    >
+                                        School Search
+
+                                    </Popover.Button>
+                                    <Popover.Button
+
+                                        as={ Link }
+                                        onClick={ () => (setOpen(false)) }
+                                        key={ "courses" }
+                                        href={ `/${school?.trunkName}` }
+                                        className="block rounded-md px-3 py-2 text-base font-medium text-pink-400 hover:bg-gray-50 hover:text-gray-900"
+                                    >
+                                        Course Search
+
+                                    </Popover.Button>
+
+
+
                                     { userNavigation.map((item) => (
                                         <a
                                             key={ item.name }
@@ -195,6 +220,8 @@ export default function NavBar() {
                                             { item.name }
                                         </a>
                                     )) }
+
+
                                 </div>
                             </div>
                         </Popover.Panel>

@@ -22,6 +22,8 @@ import { getSchool } from '@/api/schools'
 import SchoolContext from '@/context/SchoolProvider'
 import { searchClasses } from '@/api/classes'
 import { useRouter } from 'next/navigation'
+import { notFound } from 'next/navigation'
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -57,7 +59,10 @@ export default function School() {
 
 
     const getSchoolInfo = async () => {
-        setSchool((await getSchool(schoolParam)))
+        const data = await getSchool(schoolParam);
+        if (!data) return notFound();
+        else setSchool((data))
+
     }
 
     useEffect(() => {
@@ -71,15 +76,15 @@ export default function School() {
         <>
             <SchoolHeader school={ schoolInfo } />
 
-            <div className="mt-9">
+            <div className="mt-3 ">
                 <div className=" ">
-                    <h2 className="mb-3 text-2xl font-medium tracking-tight text-pink-400 sm:text-base">Search by class name, codes, or professor</h2>
+                    <h2 className="mb-3 text-2xl font-bold tracking-tight text-pink-400 sm:text-4xl">Find a class  <span className='sm:text-xl text-sm text-gray-600'> at { school?.name } </span> </h2>
 
                     <Combobox onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
                         <Combobox.Input
                             className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
-                            placeholder="Search for a class..."
+                            placeholder="Search"
                             onChange={ (event) => handleQueryChange(event?.target?.value) }
                         />
 
@@ -94,7 +99,7 @@ export default function School() {
                                     value={ 0 }
                                     className={ ({ active }) =>
                                         classNames(
-                                            'cursor-default select-none rounded-md px-2 py-2 font-medium grid grid-cols-3 gap-4 text-pink-400 ',
+                                            'cursor-default select-none rounded-md px-2 py-2 font-bold text-xl grid grid-cols-3 gap-4 text-pink-400 ',
                                             active && 'bg-pink-400 text-white'
                                         )
                                     }
@@ -121,7 +126,7 @@ export default function School() {
                                         value={ item?.uuid }
                                         className={ ({ active }) =>
                                             classNames(
-                                                'cursor-default select-none rounded-md px-2 py-2 grid grid-cols-3 gap-4  ',
+                                                'cursor-default select-none font-base text-gray-600 md:text-base text-sm rounded-md px-2 py-2 grid grid-cols-3 gap-4  ',
                                                 active && 'bg-pink-400 text-white'
                                             )
                                         }

@@ -97,6 +97,99 @@ export default function Class() {
 
 
 
+    const returnReviews = (review) => {
+        return (
+            <>
+                <div key={ review?.uuid } className="rounded-lg bg-gray-100 mb-2 hover:shadow-xl transition-all">
+                    <div className="grid grid-cols-3 p-3 gap-3 justifiy-end">
+
+                        {/* <img src={ review.avatarSrc } alt={ `${review?.userRef}.` } className="h-12 w-12 rounded-full" /> */ }
+
+                        <div className="col-span-1">
+                            { review?.title && (
+                                <div className="text-xl sm:text-3xl text-pink-400 font-bold">{ review?.title }</div>
+                            ) }
+
+
+
+                        </div>
+                        <div className="col-span-2 grid grid-cols-3">
+                            <div className="col-span-1 flex flex-wrap justify-center">
+                                <div className="w-full flex justify-center text-xs sm:text-lg text-gray-600 font-semibold">Course</div>
+                                <div className="mt-1  ">
+                                    <div
+                                        className={ `p-2 rounded-md ${review?.courseRating < 4 ? "bg-red-100" : review?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-4xl font-black items-end flex ` }
+                                    >
+                                        { review?.courseRating }
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                            <div className="col-span-1 flex flex-wrap  justify-center">
+
+                                <div className="w-full flex justify-center text-xs sm:text-lg text-gray-600 font-semibold">Professor</div>
+                                <div className="mt-1  ">
+                                    <div className={ `p-2 rounded-md ${review?.profRating < 4 ? "bg-red-100" : review?.profRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-4xl font-black flex items-end ` }>
+                                        <span>{ review?.profRating }</span>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div className="col-span-1 flex flex-wrap justify-center">
+
+                                <div className="w-full flex justify-center items-end text-xs sm:text-lg text-gray-600 font-semibold">Difficulty</div>
+                                <div className="mt-1  ">
+                                    <div className={ `p-2 rounded-md ${review?.difficultyRating < 4 ? "bg-emerald-100" : review?.difficultyRating < 7 ? "bg-yellow-100" : "bg-red-100"} text-xl sm:text-4xl font-black flex items-end ` }>
+                                        { review?.difficultyRating }
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <p className=" col-span-3 text-sm md:text-base font-medium my-5">{ review?.description }</p>
+
+
+
+                        <div className="mt-5 col-span-1 flex flex-wrap justify-right items-end transition-all">
+                            <div className="w-full text-gray-600 font-medium"> Term: <span className="text-pink-400">{ review?.term }{ " " }{ review?.year }</span> </div>
+
+                            <div className="font-medium text-gray-600"> Professor:<span className="text-pink-400 hover:text-gray-400">{ " " }{ review?.profName } </span></div>
+
+
+                        </div>
+
+                        <div className="mt-2 col-span-2 flex flex-wrap justify-end items-end transition-all">
+                            { review?.private ? (
+                                <div className="text-gray-600 font-medium"> Posted by: <span className="text-pink-400">Course Judger User</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
+                            ) : (
+                                <div className="text-gray-600 font-medium"> Posted by: <span className="text-pink-400">{ review?.userRef }</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
+
+                            ) }
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div
+                        className="mt-4 space-y-6 text-base italic text-gray-600"
+                        dangerouslySetInnerHTML={ { __html: review.content } }
+                    />
+                </div>
+            </>
+        )
+    }
+
+
     return (
         <>
 
@@ -111,17 +204,19 @@ export default function Class() {
             </div>
 
             <div className="bg-white">
-                <div className="lg:grid lg:max-w-7xl lg:grid-cols-12  lg:gap-x-8  ">
-                    <div className="lg:col-span-3">
-                        <div className="flex flex-wrap justify-between justify-items-stretch gap-5">
-                            <div className={ `${course?.courseRating < 4 ? " bg-red-100" : course?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} rounded-md w-full p-2` }>
-                                <h2 className="text-2xl font-base tracking-tight text-gray-900">Avg. Overall Rating</h2>
+                <div className="grid lg:max-w-7xl grid-cols-12 gap-x-5  ">
+                    <div className="lg:col-span-2 col-span-12">
+                        <div className="flex flex-wrap justify-stretch justify-items-stretch gap-4">
+
+
+                            <div className={ `${course?.courseRating < 4 ? " bg-red-100" : course?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} grow rounded-md lg:w-full p-2` }>
+                                <h2 className="text-lg font-semibold tracking-tight text-gray-600"> Course </h2>
+
                                 <div className="mt-3 flex items-center">
                                     <div>
                                         <div className="flex items-center">
-                                            <p className="text-5xl font-black">
-                                                { Math.round(course.courseRating * 100) / 100 } / 10
-                                            </p>
+                                            <p className="text-6xl sm:text-8xl lg:text-5xl font-black">
+                                                { Math.round(course.courseRating * 100) / 100 } <span className="text-sm">/ 10                                             </span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -129,28 +224,28 @@ export default function Class() {
 
 
 
-                            <div className={ `${course?.profRating < 4 ? " bg-red-100" : course?.profRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} rounded-md w-full p-2` }>
-                                <h2 className="text-2xl font-base tracking-tight text-gray-900">Avg. Professor Rating</h2>
+                            <div className={ `${course?.profRating < 4 ? " bg-red-100" : course?.profRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} grow rounded-md lg:w-full p-2` }>
+                                <h2 className="text-lg font-semibold tracking-tight text-gray-600"> Professor </h2>
 
                                 <div className="mt-3 flex items-center">
                                     <div>
                                         <div className="flex items-center">
-                                            <p className="text-5xl font-black">
-                                                { Math.round(course.profRating * 100) / 100 } / 10                                            </p>
+                                            <p className="text-6xl sm:text-8xl lg:text-5xl font-black">
+                                                { Math.round(course.profRating * 100) / 100 } <span className="text-sm">/ 10                                             </span></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className={ `${course?.difficultyRating < 4 ? " bg-emerald-100" : course?.difficultyRating < 7 ? "bg-yellow-100" : "bg-red-100"} rounded-md w-full p-2` }>
-                                <h2 className={ `text-2xl font-base tracking-tight text-gray-900  ` }>Avg. Difficulty Rating</h2>
+
+                            <div className={ `${course?.difficultyRating < 4 ? " bg-emerald-100" : course?.difficultyRating < 7 ? "bg-yellow-100" : "bg-red-100"} grow rounded-md lg:w-full p-2` }>
+                                <h2 className="text-lg font-semibold tracking-tight text-gray-600"> Difficulty </h2>
 
                                 <div className="mt-3 flex items-center">
                                     <div>
                                         <div className="flex items-center">
-                                            <p className="text-5xl font-black">
-                                                { Math.round(course.difficultyRating * 100) / 100 } / 10
-                                            </p>
+                                            <p className=" text-6xl sm:text-8xl lg:text-5xl font-black">
+                                                { Math.round(course.difficultyRating * 100) / 100 } <span className="text-sm">/ 10                                             </span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -158,11 +253,11 @@ export default function Class() {
 
                         </div>
 
-                        <p className="ml-2 mt-3 text-sm text-gray-900">Based on { reviews.totalCount } reviews</p>
+                        <p className=" mt-3 text-sm text-gray-900">Based on { course?.amount } review(s)</p>
 
 
 
-                        <div className="mt-10">
+                        <div className="mt-2 mb-5">
                             <h3 className="text-lg font-medium text-gray-900">Share your thoughts</h3>
                             <p className="mt-1 text-sm text-gray-600">
                                 If you’ve taken this course, share your thoughts with other students.
@@ -178,192 +273,21 @@ export default function Class() {
                         </div>
                     </div>
 
-                    <div className="mt-16 lg:col-span-9 lg:mt-0">
-                        <h3 className="sr-only">Recent reviews</h3>
+                    <div className=" col-span-12 lg:col-span-10 mt-0">
 
                         <div className="flow-root">
-                            <div className="my-6  ">
+                            <div className="  ">
 
                                 { searchParams.get('filter') === "none" || !searchParams.get('filter') ? (
                                     <>
-                                        { reviews?.map((review) => (
-                                            <div key={ review?.uuid } className="rounded-lg bg-gray-100 mb-2 hover:shadow-xl transition-all">
-                                                <div className="grid grid-cols-3 p-3 gap-3 justifiy-end">
-
-                                                    {/* <img src={ review.avatarSrc } alt={ `${review?.userRef}.` } className="h-12 w-12 rounded-full" /> */ }
-
-                                                    <div className="col-span-3">
-                                                        { review?.title && (
-                                                            <div className="text-xl sm:text-3xl text-pink-400 font-bold">{ review?.title }</div>
-                                                        ) }
-                                                        <p className="text-sm md:text-base font-medium my-5">{ review?.description }</p>
-
-
-                                                    </div>
-
-
-
-                                                    <div className="col-span-1 flex flex-wrap justify-center">
-                                                        <div className="w-full flex justify-center text-xs sm:text-lg  font-bold">Course Rating</div>
-                                                        <div className="mt-1  ">
-                                                            <div
-                                                                className={ `p-2 rounded-md ${review?.courseRating < 4 ? "bg-red-100" : review?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-3xl font-black flex justify-center` }
-                                                            >
-                                                                { review?.courseRating } / 10
-                                                            </div>
-
-
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="col-span-1 flex flex-wrap justify-center">
-
-                                                        <div className="w-full flex justify-center text-xs sm:text-lg  font-bold">Professor Rating</div>
-                                                        <div className="mt-1  ">
-                                                            <div className={ `p-2 rounded-md ${review?.profRating < 4 ? "bg-red-100" : review?.profRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-3xl font-black flex justify-center` }>
-                                                                { review?.profRating } / 10
-                                                            </div>
-
-
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-span-1 flex flex-wrap justify-center">
-
-                                                        <div className="w-full flex justify-center text-xs sm:text-lg  font-bold">Difficulty Rating</div>
-                                                        <div className="mt-1  ">
-                                                            <div className={ `p-2 rounded-md ${review?.difficultyRating < 4 ? "bg-emerald-100" : review?.difficultyRating < 7 ? "bg-yellow-100" : "bg-red-100"} text-xl sm:text-3xl font-black flex justify-center` }>
-                                                                { review?.difficultyRating } / 10
-                                                            </div>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="mt-5 col-span-1 flex flex-wrap justify-right items-end transition-all">
-                                                        <div className="w-full text-gray-900 font-medium"> Term: <span className="text-pink-400">{ review?.term }{ " " }{ review?.year }</span> </div>
-
-                                                        <div className="font-medium"> Professor:<span className="text-pink-400 hover:text-gray-400">{ " " }{ review?.profName } </span></div>
-
-
-                                                    </div>
-
-                                                    <div className="mt-2 col-span-2 flex flex-wrap justify-end items-end transition-all">
-                                                        { review?.private ? (
-                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">Course Judger User</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
-                                                        ) : (
-                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">{ review?.userRef }</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
-
-                                                        ) }
-
-
-
-                                                    </div>
-
-
-
-                                                </div>
-
-                                                <div
-                                                    className="mt-4 space-y-6 text-base italic text-gray-600"
-                                                    dangerouslySetInnerHTML={ { __html: review.content } }
-                                                />
-                                            </div>
-                                        )) }
+                                        { reviews?.map((review) => returnReviews(review)) }
                                     </>
+
                                 ) : (
                                     <>
-                                        { filteredReviews?.map((review) => (
-                                            <div key={ review?.uuid } className="rounded-lg bg-gray-100 mb-2 hover:shadow-xl transition-all">
-                                                <div className="grid grid-cols-3 p-3 gap-3 justifiy-end">
-
-                                                    {/* <img src={ review.avatarSrc } alt={ `${review?.userRef}.` } className="h-12 w-12 rounded-full" /> */ }
-
-                                                    <div className="col-span-3">
-                                                        { review?.title && (
-                                                            <div className="text-xl sm:text-3xl text-pink-400 font-bold">{ review?.title }</div>
-                                                        ) }
-                                                        <p className="text-sm md:text-base font-medium my-5">{ review?.description }</p>
-
-
-                                                    </div>
-
-
-
-                                                    <div className="col-span-1 flex flex-wrap justify-center">
-                                                        <div className="w-full flex justify-center text-xs sm:text-lg  font-bold">Course Rating</div>
-                                                        <div className="mt-1  ">
-                                                            <div
-                                                                className={ `p-2 rounded-md ${review?.courseRating < 4 ? "bg-red-100" : review?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-3xl font-black flex justify-center` }
-                                                            >
-                                                                { review?.courseRating } / 10
-                                                            </div>
-
-
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="col-span-1 flex flex-wrap justify-center">
-
-                                                        <div className="w-full flex justify-center text-xs sm:text-lg  font-bold">Professor Rating</div>
-                                                        <div className="mt-1  ">
-                                                            <div className={ `p-2 rounded-md ${review?.profRating < 4 ? "bg-red-100" : review?.profRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-3xl font-black flex justify-center` }>
-                                                                { review?.profRating } / 10
-                                                            </div>
-
-
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-span-1 flex flex-wrap justify-center">
-
-                                                        <div className="w-full flex justify-center text-xs sm:text-lg  font-bold">Difficulty Rating</div>
-                                                        <div className="mt-1  ">
-                                                            <div className={ `p-2 rounded-md ${review?.difficultyRating < 4 ? "bg-emerald-100" : review?.difficultyRating < 7 ? "bg-yellow-100" : "bg-red-100"} text-xl sm:text-3xl font-black flex justify-center` }>
-                                                                { review?.difficultyRating } / 10
-                                                            </div>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="mt-5 col-span-2 flex flex-wrap justify-right items-end transition-all">
-                                                        <div className="w-full text-gray-900 font-medium"> Term: <span className="text-pink-400">{ review?.term }{ " " }{ review?.year }</span> </div>
-
-                                                        <div className="font-medium"> Professor:<span className="text-pink-400 hover:text-gray-400">{ " " }{ review?.profName } </span></div>
-
-
-                                                    </div>
-
-                                                    <div className="mt-2 col-span-1 flex flex-wrap justify-end items-end transition-all">
-                                                        { review?.private ? (
-                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">Course Judger User</span> </div>
-                                                        ) : (
-                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">{ review?.userRef }</span> </div>
-
-                                                        ) }
-
-
-
-                                                    </div>
-
-
-
-                                                </div>
-
-                                                <div
-                                                    className="mt-4 space-y-6 text-base italic text-gray-600"
-                                                    dangerouslySetInnerHTML={ { __html: review.content } }
-                                                />
-                                            </div>
-                                        )) }
-
-
+                                        { filteredReviews?.map((review) => returnReviews(review)) }
                                     </>
-
                                 ) }
-
-
-
-
 
                             </div>
                         </div>
