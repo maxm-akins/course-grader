@@ -300,9 +300,10 @@ router.get('/profs', async (req, res) => {
 });
 
 
-router.get('/profs/search/:school/:q', async (req, res) => {
+router.get('/profs/search/:school/:course/:q', async (req, res) => {
     try {
         const school = req.params.school;
+        const course = req.params.course;
         const q = req.params.q;
         console.log(q);
         console.log(school);
@@ -319,6 +320,18 @@ router.get('/profs/search/:school/:q', async (req, res) => {
                                 "query": q,
                                 "path": 'name',
                                 "fuzzy": {}
+                            },
+
+                        },
+
+
+                    ],
+                    "mustNot": [
+                        // get home where queries.category is property_type
+                        {
+                            "text": {
+                                "query": course,
+                                "path": 'courseRefs',
                             },
 
                         },
@@ -343,6 +356,7 @@ router.get('/profs/search/:school/:q', async (req, res) => {
                 'name': 1,
                 'uuid': 1,
                 "schoolRefs": 1,
+                "courseRefs": 1,
                 "_id": 0
 
             }
@@ -366,13 +380,15 @@ router.post('/review', async (req, res) => {
     console.log(data);
     try {
         let prof = await ProfModel.findOne({ name: { $in: [data.prof, data.newProf] }, schoolRefs: data.schoolRef });
-        let profObj;
+        let profObj = prof.toObject();
         let course = await ClassesModel.findOne({ uuid: data?.courseRef });
         let newProf = null;
         let newProfUUID = null;
         if (data.newProfShow) {
             if (!prof) {
-                newProfUUID = await short.generate()
+                newProfUUID = await short.generate();
+
+
                 newProf = new ProfModel({
                     name: data.newProf,
                     uuid: newProfUUID,
@@ -380,12 +396,34 @@ router.post('/review', async (req, res) => {
                     schoolRefs: [data.schoolRef],
 
                 });
-                course?.profs?.push({ name: data.newProf, ref: newProfUUID });
+                let dup = false;
+                dup = course?.profs?.find((obj) => {
+                    if (obj.ref === newProfUUID || obj.name === data.newProf) return true
+                })
+
+                if (!dup) course?.profs?.push({ name: data.newProf, ref: newProfUUID });
             }
             else {
-                profObj = prof.toObject();
-                prof?.courseRefs?.push(data.courseRef);
-                course?.profs?.push({ name: prof.name, ref: prof.uuid });
+                let dup1 = false;
+                dup1 = course?.profs?.find((obj) => {
+                    if (obj.ref === prof?.uuid || obj.name === prof.name) return true
+                })
+
+                let dup2 = false;
+                dup2 = prof?.courseRefs?.find((obj) => {
+                    if (obj === data.courseRef) return true
+                })
+
+
+                if (dup1 || dup2) {
+                    throw new Error("The professor or course or both is/are already associated with the other.");
+
+                }
+                else {
+                    prof?.courseRefs?.push(data.courseRef);
+                    course?.profs?.push({ name: prof.name, ref: prof.uuid });
+                }
+
             }
         }
 
@@ -394,9 +432,9 @@ router.post('/review', async (req, res) => {
             review.courseRef = data.courseRef,
             review.userRef = "admin",
             review.profName = data.newProfShow ? data.newProf : data.prof,
-            review.profRef = data.newProfShow ? newProfUUID : profObj.uuid,
+            review.profRef = (!prof) ? newProfUUID : profObj.uuid,
             review.description = data.description,
-            review.title = data.title,
+            review.title = data?.title || `Review on ${new Date().toLocaleDateString("en-US")} `,
             review.term = data.term,
             review.year = data.year,
             review.profRating = data.profRating,
@@ -408,27 +446,43 @@ router.post('/review', async (req, res) => {
 
 
 
+            console.log(await review.validate());
+        if (!prof) console.log(await newProf.validate());
+        else console.log(await prof.validate());
+        console.log(await course.validate());
 
-            review.save().then(() => {
-                console.log("new review saved");
-            }, (err) => {
-                console.log(err);
-            })
+
+
+        review.save().then(() => {
+            console.log("new review saved");
+        }, (err) => {
+            console.log(err);
+            throw new Error(err);
+        })
 
         if (!prof) {
             newProf.save().then(() => {
                 console.log("new prof created");
-            }, (err) => { console.log(err); })
+            }, (err) => {
+                console.log(err);
+                throw new Error(err);
+            })
         }
         else {
             prof.save().then(() => {
                 console.log("prof updated");
-            }, (err) => { console.log(err); })
+            }, (err) => {
+                console.log(err);
+                throw new Error(err);
+            })
         }
 
         course.save().then(() => {
             console.log("course updated");
-        }, (err) => { console.log(err); })
+        }, (err) => {
+            console.log(err);
+            throw new Error(err);
+        })
 
         return res.status(200).json({ message: "Data Successfully Created." });
 
@@ -443,7 +497,7 @@ router.post('/review', async (req, res) => {
 router.get('/reviews/:q', async (req, res) => {
     const q = req.params.q;
     try {
-        const reviews = await ReviewsModels.find({ courseRef: q }, { _id: 0, courseRef: 0, schoolRef: 0, });
+        const reviews = await ReviewsModels.find({ courseRef: q }, { _id: 0, courseRef: 0, schoolRef: 0, }).sort('-date');
         console.log(reviews)
         res.status(200).json(reviews);
     }

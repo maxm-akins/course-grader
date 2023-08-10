@@ -120,7 +120,7 @@ export default function Class() {
                                     <div>
                                         <div className="flex items-center">
                                             <p className="text-5xl font-black">
-                                                { course.courseRating } / 10
+                                                { Math.round(course.courseRating * 100) / 100 } / 10
                                             </p>
                                         </div>
                                     </div>
@@ -136,8 +136,7 @@ export default function Class() {
                                     <div>
                                         <div className="flex items-center">
                                             <p className="text-5xl font-black">
-                                                { course.profRating } / 10
-                                            </p>
+                                                { Math.round(course.profRating * 100) / 100 } / 10                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +149,7 @@ export default function Class() {
                                     <div>
                                         <div className="flex items-center">
                                             <p className="text-5xl font-black">
-                                                { course.difficultyRating } / 10
+                                                { Math.round(course.difficultyRating * 100) / 100 } / 10
                                             </p>
                                         </div>
                                     </div>
@@ -185,7 +184,7 @@ export default function Class() {
                         <div className="flow-root">
                             <div className="my-6  ">
 
-                                { searchParams.get('filter') === "none" ? (
+                                { searchParams.get('filter') === "none" || !searchParams.get('filter') ? (
                                     <>
                                         { reviews?.map((review) => (
                                             <div key={ review?.uuid } className="rounded-lg bg-gray-100 mb-2 hover:shadow-xl transition-all">
@@ -240,7 +239,7 @@ export default function Class() {
                                                         </div>
                                                     </div>
 
-                                                    <div className="mt-5 col-span-2 flex flex-wrap justify-right items-end transition-all">
+                                                    <div className="mt-5 col-span-1 flex flex-wrap justify-right items-end transition-all">
                                                         <div className="w-full text-gray-900 font-medium"> Term: <span className="text-pink-400">{ review?.term }{ " " }{ review?.year }</span> </div>
 
                                                         <div className="font-medium"> Professor:<span className="text-pink-400 hover:text-gray-400">{ " " }{ review?.profName } </span></div>
@@ -248,11 +247,11 @@ export default function Class() {
 
                                                     </div>
 
-                                                    <div className="mt-2 col-span-1 flex flex-wrap justify-end items-end transition-all">
+                                                    <div className="mt-2 col-span-2 flex flex-wrap justify-end items-end transition-all">
                                                         { review?.private ? (
-                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">Course Judger User</span> </div>
+                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">Course Judger User</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
                                                         ) : (
-                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">{ review?.userRef }</span> </div>
+                                                            <div className="text-gray-900 font-medium"> Posted by: <span className="text-pink-400">{ review?.userRef }</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
 
                                                         ) }
 

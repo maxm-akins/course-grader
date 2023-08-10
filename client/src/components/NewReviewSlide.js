@@ -151,6 +151,7 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                             </label>
                                                             <div className='flex gap-1'>
                                                                 <select
+                                                                    required
                                                                     onChange={ (event) => setTerm(event?.target?.value) }
                                                                     defaultValue={ "Select a term" }
                                                                     id="term"

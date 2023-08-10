@@ -39,12 +39,12 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
     const [profs, setProfs] = useState([]);
     const [selectedProf, setSelectedProf] = useState("");
     const [query, setQuery] = useState("");
-    let { school } = useContext(SchoolContext);
+    let { school, course } = useContext(SchoolContext);
 
 
     const handleQueryChange = async (q) => {
         await setQuery(q);
-        setProfs((await searchProfsBySchool(school?.uuid, q)));
+        setProfs((await searchProfsBySchool(school?.uuid, course?.uuid, q)));
     }
 
     useEffect(() => {

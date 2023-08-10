@@ -3,13 +3,13 @@ import axios from "./axios";
 
 
 
-export const searchProfsBySchool = async (school, q) => {
+export const searchProfsBySchool = async (school, course, q) => {
 
     if (q === "") return [];
 
     try {
         const response = await axios.get(
-            `/data/profs/search/${school}/${q}`,
+            `/data/profs/search/${school}/${course}/${q}`,
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
