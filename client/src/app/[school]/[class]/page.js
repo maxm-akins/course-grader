@@ -12,32 +12,19 @@ import { usePathname } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
 import { getReviews } from "@/api/reviews"
+import { Transition } from "@headlessui/react"
+import { Fragment } from "react"
+import { Dialog } from "@headlessui/react"
 // import classNames from "classnames"
 
-const reviews = {
-    average: 4,
-    totalCount: 1624,
-    counts: [
-        { rating: 5, count: 1019 },
-        { rating: 4, count: 162 },
-        { rating: 3, count: 97 },
-        { rating: 2, count: 199 },
-        { rating: 1, count: 147 },
-    ],
-    featured: [
-        {
-            id: 1,
-            rating: 5,
-            content: `
-        <p>This is the bag of my dreams. I took it on my last vacation and was able to fit an absurd amount of snacks for the many long and hungry flights.</p>
-      `,
-            author: 'Emily Selman',
-            avatarSrc:
-                'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80',
-        },
-        // More reviews...
-    ],
-}
+import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
+
+const stats = [
+    { name: 'Total Subscribers', stat: '71,897', previousStat: '70,946', change: '12%', changeType: 'increase' },
+    { name: 'Avg. Open Rate', stat: '58.16%', previousStat: '56.14%', change: '2.02%', changeType: 'increase' },
+    { name: 'Avg. Click Rate', stat: '24.57%', previousStat: '28.62%', change: '4.05%', changeType: 'decrease' },
+]
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -45,6 +32,7 @@ function classNames(...classes) {
 
 export default function Class() {
     const [open, setOpen] = useState(false)
+    const [open2, setOpen2] = useState(true)
     const [reviews, setReviews] = useState([])
     const [filteredReviews, setFilteredReviews] = useState([])
 
@@ -100,7 +88,24 @@ export default function Class() {
     const returnReviews = (review) => {
         return (
             <>
-                <div key={ review?.uuid } className="rounded-lg bg-gray-100 mb-2 hover:shadow-xl transition-all">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div key={ review?.uuid } className=" drop-shadow-xl rounded-lg bg-white mb-2 hover:drop-shadow-2xl transition-all">
                     <div className="grid grid-cols-3 p-3 gap-3 justifiy-end">
 
                         {/* <img src={ review.avatarSrc } alt={ `${review?.userRef}.` } className="h-12 w-12 rounded-full" /> */ }
@@ -113,6 +118,10 @@ export default function Class() {
 
 
                         </div>
+
+
+
+
                         <div className="col-span-2 grid grid-cols-3">
                             <div className="col-span-1 flex flex-wrap justify-center">
                                 <div className="w-full flex justify-center text-xs sm:text-lg text-gray-600 font-semibold">Course</div>
@@ -195,6 +204,115 @@ export default function Class() {
 
             <NewReviewSlide open={ open } setOpen={ setOpen } />
 
+            <Transition.Root show={ open2 } as={ Fragment }>
+                <Dialog as="div" className="relative z-10" onClose={ setOpen2 }>
+                    <Transition.Child
+                        as={ Fragment }
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
+                    </Transition.Child>
+
+                    <div className="fixed bg-white inset-0 z-10 overflow-y-auto">
+                        <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+                            {/* This element is to trick the browser into centering the modal contents. */ }
+                            <span className="hidden md:inline-block md:h-screen md:align-middle" aria-hidden="true">
+                                &#8203;
+                            </span>
+                            <Transition.Child
+                                as={ Fragment }
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                                enterTo="opacity-100 translate-y-0 md:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 md:scale-100"
+                                leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                            >
+                                <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                                        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                                            <img
+                                                className="mx-auto h-10 w-auto"
+                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                                alt="Your Company"
+                                            />
+                                            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                                                Sign in to your account
+                                            </h2>
+                                        </div>
+
+                                        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                                            <form className="space-y-6" action="#" method="POST">
+                                                <div>
+                                                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                                        Email address
+                                                    </label>
+                                                    <div className="mt-2">
+                                                        <input
+                                                            id="email"
+                                                            name="email"
+                                                            type="email"
+                                                            autoComplete="email"
+                                                            required
+                                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <div className="flex items-center justify-between">
+                                                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                                                            Password
+                                                        </label>
+                                                        <div className="text-sm">
+                                                            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                                                Forgot password?
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        <input
+                                                            id="password"
+                                                            name="password"
+                                                            type="password"
+                                                            autoComplete="current-password"
+                                                            required
+                                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <button
+                                                        type="submit"
+                                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                                    >
+                                                        Sign in
+                                                    </button>
+                                                </div>
+                                            </form>
+
+                                            <p className="mt-10 text-center text-sm text-gray-500">
+                                                Not a member?{ ' ' }
+                                                <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                                                    Start a 14 day free trial
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+
+
 
             <div className="relative my-5">
                 <div className=" inset-0 flex items-center" aria-hidden="true">
@@ -205,6 +323,10 @@ export default function Class() {
 
             <div className="bg-white">
                 <div className="grid lg:max-w-7xl grid-cols-12 gap-x-5  ">
+
+
+
+
                     <div className="lg:col-span-2 col-span-12">
                         <div className="flex flex-wrap justify-stretch justify-items-stretch gap-4">
 

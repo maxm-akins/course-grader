@@ -39,7 +39,7 @@ export default function Home() {
           {/* <h2 className="mb-10 font-bold text-transparent tracking-tight text-9xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Grader</h2> */ }
           <div className=' mb-10 flex justify-center'>
             <img
-              className="h-64 w-auto"
+              className="h-48 w-auto"
               src="/CJ_Logo1.png"
               alt="Your Company"
             />

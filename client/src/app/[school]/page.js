@@ -78,7 +78,7 @@ export default function School() {
 
             <div className="mt-3 ">
                 <div className=" ">
-                    <h2 className="mb-3 text-2xl font-bold tracking-tight text-pink-400 sm:text-4xl">Find a class  <span className='sm:text-xl text-sm text-gray-600'> at { school?.name } </span> </h2>
+                    <h2 className="mb-3 text-3xl font-bold  text-pink-400 sm:text-4xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-gray-600'>  at { school?.name } </span> </h2>
 
                     <Combobox onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
