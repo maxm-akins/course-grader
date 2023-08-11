@@ -42,7 +42,8 @@ router.post('/schools/add', async (req, res) => {
 
     try {
         const trunkName = data?.name?.replace(/\s+/g, '').toLowerCase();
-        const dup = await SchoolModel.find({ trunkName: trunkName })
+        const name = data?.name?.trim()
+        const dup = await SchoolModel.find({ $or: [{ 'trunkName': trunkName }, { 'name': name }] })
 
         if (dup) {
             res.status(403).json({ message: "A record of the school already exists." });
@@ -53,7 +54,7 @@ router.post('/schools/add', async (req, res) => {
 
 
         const school = new SchoolModel({});
-        school.name = data.name.trim();
+        school.name = name;
         school.state = data.state;
         school.city = data.city.trim();
         school.website = data.website.trim();
@@ -96,7 +97,7 @@ router.get('/schools/search/:q', async (req, res) => {
                             "text": {
                                 "query": q,
                                 "path": 'name',
-                                "fuzzy": {}
+
                             }
                         },
 
@@ -350,12 +351,22 @@ router.get('/profs/search/:school/:course/:q', async (req, res) => {
         const q = req.params.q;
         console.log(q);
         console.log(school);
+        console.log(course);
 
         // Start building the search aggregation stage
         let searcher_aggregate = {
             "$search": {
                 "index": 'prof_search',
                 "compound": {
+                    "must": [
+                        {
+                            "text": {
+                                "query": school,
+                                "path": ['schoolRefs', 'schoolRef'],
+                            }
+                        },
+
+                    ],
                     "must": [
                         // get home where queries.category is property_type
                         {
@@ -381,15 +392,7 @@ router.get('/profs/search/:school/:course/:q', async (req, res) => {
 
 
                     ],
-                    "should": [
-                        {
-                            "text": {
-                                "query": school,
-                                "path": 'schoolRefs',
-                            }
-                        },
 
-                    ]
                 }
             }
         };
@@ -399,6 +402,7 @@ router.get('/profs/search/:school/:course/:q', async (req, res) => {
                 'name': 1,
                 'uuid': 1,
                 "schoolRefs": 1,
+                "schoolRef": 1,
                 "courseRefs": 1,
                 "_id": 0
 

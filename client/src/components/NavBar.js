@@ -78,15 +78,6 @@ export default function NavBar() {
 
                                 </div>
 
-                                {/* <div className="sm:hidden relative pt-4 ml-[-15px] w-screen sm:order-6 order-3 col-span-12">
-                                    <div className=" inset-0 flex items-center" aria-hidden="true">
-                                        <div className="w-full border-t-2 border-gray-100" />
-                                    </div>
-                                    <div className="relative flex justify-center">
-                                    </div>
-                                </div> */}
-
-
 
                                 <div className="min-w-0 flex-1 order-3 sm:order-2  col-span-12 sm:col-span-10 ">
                                     <div className="flex flex-wrap justify-center items-center px-6 sm:py-4 py-0 pb-2 md:mx-auto lg:mx-0 gap-6 gap-y-0 xl:px-0">
@@ -109,18 +100,11 @@ export default function NavBar() {
 
                                     </div>
                                 </div>
-                                {/* 
-                                <div className="xl:ml-[-200px] ml-[-20px] left-0 w-[110vw] col-span-12 order-5 ">
-                                    <div className=" inset-0 flex items-center" aria-hidden="true">
-                                        <div className="w-full border-t-2 border-gray-100" />
-                                    </div>
-                                    <div className="relative flex justify-center">
-                                    </div>
-                                </div> */}
+
 
                                 <div className="col-span-2 order-2 sm:order-3 sm:col-start-12 col-start-11 sm:col-span-1 sm flex items-center  inset-y-0 right-0 md:hidden">
                                     {/* Mobile menu button */ }
-                                    <Popover.Button className="relative -mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                                    <Popover.Button className="relative -mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-pink-400 hover:text-gray-900  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                         <span className="absolute -inset-0.5" />
                                         <span className="sr-only">Open menu</span>
                                         { open ? (

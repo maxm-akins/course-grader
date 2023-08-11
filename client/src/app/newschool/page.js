@@ -337,7 +337,11 @@ export default function NewSchool() {
             <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
             <div>
                 <div className="space-y-12">
-                    <div className="grid grid-cols-1  gap-y-5 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+                    <div className="grid gap-y-5 border-b border-gray-900/10 pb-12 grid-cols-3">
+
+
+
+
                         <div className='col-span-3'>
                             <h2 className="text-3xl mb-5 font-black leading-7 text-gray-900">Add a school</h2>
 
@@ -358,32 +362,38 @@ export default function NewSchool() {
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div className='sm:col-span-1 col-span-3'>
                             <h2 className="text-base font-semibold leading-7 text-gray-900">Details</h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">
                             </p>
                         </div>
 
-                        <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2 ">
-                            <div className="sm:col-span-4">
+
+
+
+                        <div className="grid max-w-2xl gap-x-6 gap-y-8 grid-cols-1 md:col-span-1 col-span-3">
+                            <div className="col-span-1">
                                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                                     Name of School
                                 </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                         <input
                                             required
                                             type="text"
                                             name="name"
                                             id="name"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 lg:max-w-lg"
                                             placeholder="School name"
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="sm:col-span-4">
+                            <div className="col-span-1">
 
                                 <div className="mt-2">
                                     <div className="">
@@ -394,7 +404,7 @@ export default function NewSchool() {
                                             required
                                             id="state"
                                             name="state"
-                                            className="mt-2 block w-full rounded-md border-0 py-2 pl-1 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="mt-2 block w-full rounded-md border-0 py-2 pl-1 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 text-sm sm:leading-6 lg:max-w-lg"
                                             defaultValue={ "" }
                                         >
                                             <option value={ "" } disabled >Select a state</option>
@@ -407,30 +417,30 @@ export default function NewSchool() {
                             </div>
 
 
-                            <div className="sm:col-span-4">
+                            <div className="col-span-1">
                                 <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
                                     City
                                 </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                         <input
                                             required
                                             type="text"
                                             name="city"
                                             id="city"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 "
                                             placeholder="City"
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="sm:col-span-4">
+                            <div className="col-span-1">
                                 <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
                                     School Website
                                 </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                         <input
                                             required
                                             type="website"
@@ -443,11 +453,11 @@ export default function NewSchool() {
                                 </div>
                             </div>
 
-
-
-
-
                         </div>
+
+
+
+
                         <div className="mt-6 col-span-3 flex items-center justify-end gap-x-6">
                             <Link
                                 href={ "/" }

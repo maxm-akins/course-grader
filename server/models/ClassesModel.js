@@ -6,6 +6,10 @@ const ClassesSchema = new Schema({
         type: String,
         required: true,
     },
+    trunkName: {
+        type: String,
+        required: true,
+    },
     descripCode: {
         type: String,
         required: true,
@@ -25,11 +29,11 @@ const ClassesSchema = new Schema({
     },
     department: {
         type: String,
-        required: true,
+        required: false,
     },
     rating: {
         type: Number,
-        required: true,
+        required: false,
     },
     prevRating: {
         type: Number,

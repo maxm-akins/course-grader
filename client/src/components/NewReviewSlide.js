@@ -15,7 +15,7 @@
 
 "use client"
 import { Fragment } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Transition, Switch } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { LinkIcon, PlusIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid'
@@ -28,6 +28,11 @@ import { usePathname } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
 import ProfSearch from './ProfSearch'
 import { submitReview } from '@/api/reviews'
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
 
 
 export default function NewReviewSlide({ open, setOpen }) {
@@ -43,6 +48,7 @@ export default function NewReviewSlide({ open, setOpen }) {
     const [year, setYear] = useState("");
     const [prof, setProf] = useState("");
     const [newProf, setNewProf] = useState("");
+    const [addProf, setAddProf] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [privacy, setPrivacy] = useState(false);
@@ -260,7 +266,29 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                                     Search Professors at this school
                                                                 </label> */}
                                                                 <ProfSearch newProf={ newProf } setNewProf={ setNewProf } />
-                                                                <p className='font-normal text-xs hover:underline p-1 pt-2'> Can't find the professor you are looking for? Add a new professor to "{ school?.name }" here</p>
+
+                                                                <div className='flex flex-wrap items-end'>
+                                                                    <Switch
+                                                                        checked={ addProf }
+                                                                        onChange={ setAddProf }
+                                                                        className={ classNames(
+                                                                            addProf ? 'bg-indigo-600' : 'bg-gray-200',
+                                                                            'relative inline-flex h-6 w-11 mt-3 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 ml-1'
+                                                                        ) }
+                                                                    >
+                                                                        <span className="sr-only">Use setting</span>
+                                                                        <span
+                                                                            aria-hidden="true"
+                                                                            className={ classNames(
+                                                                                addProf ? 'translate-x-5' : 'translate-x-0',
+                                                                                'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                                                            ) }
+                                                                        />
+                                                                    </Switch>
+                                                                    <p className='ml-1 font-normal text-xs  p-1 pt-2'> Toggle switch to add a new professor to "{ school?.name }" </p>
+
+                                                                </div>
+
                                                             </>
                                                         }
                                                     </div>

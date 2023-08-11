@@ -3,10 +3,12 @@
 
 import { PhotoIcon, UserCircleIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import { postSchool } from '@/api/schools'
-import { useState } from 'react'
+import { postClass } from '@/api/classes'
+import { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-
+import SchoolContext from '@/context/SchoolProvider'
+import { useParams } from 'next/navigation'
+import { getSchool } from '@/api/schools'
 
 import ErrorNotif from '@/components/ErrorNotif'
 import SuccessNotif from '@/components/SuccessNotif'
@@ -18,26 +20,41 @@ import SuccessNotif from '@/components/SuccessNotif'
 
 export default function NewCourse() {
     const router = useRouter();
+    const params = useParams();
+
     const [showError, setShowError] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [success, setSuccess] = useState(false);
     const [success2, setSuccess2] = useState(false);
     const [err, setErr] = useState(false);
+    let { school, setSchool } = useContext(SchoolContext);
+    const schoolParam = params?.school;
 
+
+    const getSchoolInfo = async () => {
+        const data = await getSchool(schoolParam);
+        if (!data) return notFound();
+        else setSchool((data))
+
+    }
+
+    useEffect(() => {
+        getSchoolInfo();
+    }, [])
 
 
     const handleNewSchoolSubmit = async () => {
-        const name = document.getElementById("name")?.value;
-        const state = document.getElementById("state")?.value;
-        const city = document.getElementById("city")?.value;
-        const website = document.getElementById("website")?.value;
+        const schoolRef = school?.uuid;
+        const courseName = document.getElementById("courseName")?.value;
+        const subjectCode = document.getElementById("subjectCode")?.value;
+        const classCode = document.getElementById("classCode")?.value;
 
 
         const data = {
-            name: name,
-            state: state,
-            city: city,
-            website: website,
+            schoolRef: schoolRef,
+            courseName: courseName,
+            subjectCode: subjectCode,
+            classCode: classCode,
         }
 
         const keys = Object.keys(data);
@@ -63,17 +80,17 @@ export default function NewCourse() {
             return;
         }
         else {
-            const res = await postSchool(data);
+            data.trunkName = courseName.replace(/\s+/g, '').toLowerCase();
+            const res = await postClass(data);
             if (res.status === 200) {
                 setShowSuccess(true)
                 setSuccess(res?.data?.message);
                 setSuccess2("You will be redirected shortly.");
-                document.getElementById("name").value = "";
-                document.getElementById("state").value = "";
-                document.getElementById("city").value = "";
-                document.getElementById("website").value = "";
+                document.getElementById("courseName").value = "";
+                document.getElementById("subjectCode").value = "";
+                document.getElementById("classCode").value = "";
                 setTimeout(() => {
-                    router.push(`/${name.replace(/\s+/g, '').toLowerCase()}`)
+                    router.push(`/${res?.data?.uuid}`)
                 }
                     , 3000);
             }
@@ -99,7 +116,11 @@ export default function NewCourse() {
             <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
             <div>
                 <div className="space-y-12">
-                    <div className="grid grid-cols-1  gap-y-5 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+                    <div className="grid gap-y-5 border-b border-gray-900/10 pb-12 grid-cols-3">
+
+
+
+
                         <div className='col-span-3'>
                             <h2 className="text-3xl mb-5 font-black leading-7 text-gray-900">Add a course</h2>
 
@@ -109,9 +130,9 @@ export default function NewCourse() {
                                         <InformationCircleIcon className="h-5 w-5 text-blue-400" aria-hidden="true" />
                                     </div>
                                     <div className="ml-3 flex-1 md:flex md:justify-between">
-                                        <p className="text-sm text-blue-700">Please search first to ensure that this school does not already exist.</p>
+                                        <p className="text-sm text-blue-700">Please search first to ensure that this course does not already exist.</p>
                                         <p className="mt-3 text-sm md:ml-6 md:mt-0">
-                                            <Link href="/" className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
+                                            <Link href={ `/${school?.trunkName}` } className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
                                                 Search
                                                 <span aria-hidden="true"> &rarr;</span>
                                             </Link>
@@ -120,75 +141,101 @@ export default function NewCourse() {
                                 </div>
                             </div>
                         </div>
+
+
+
                         <div className='sm:col-span-1 col-span-3'>
                             <h2 className="text-base font-semibold leading-7 text-gray-900">Details</h2>
                             <p className="mt-1 text-sm leading-6 text-gray-600">
+                                Please fill out each field with accurate information. Reference your school's documention
+                                for exact names and codes.
                             </p>
                         </div>
 
-                        <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2 ">
-                            <div className="sm:col-span-4">
+
+
+
+                        <div className="grid max-w-2xl gap-x-6 gap-y-8 grid-cols-1 md:col-span-1 col-span-3">
+                            <div className="col-span-1">
                                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Name of School
+                                    School Name
                                 </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                         <input
+                                            disabled
                                             required
                                             type="text"
                                             name="name"
                                             id="name"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            placeholder="School name"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 lg:max-w-lg"
+                                            value={ `${school?.name || "Loading..."} ` }
                                         />
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-                            <div className="sm:col-span-4">
-                                <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                                    City
+                            <div className="col-span-1">
+                                <label htmlFor="courseName" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Course Name
                                 </label>
                                 <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                         <input
                                             required
                                             type="text"
-                                            name="city"
-                                            id="city"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            placeholder="City"
+                                            name="courseName"
+                                            id="courseName"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 lg:max-w-lg"
+                                            placeholder="Course name"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-span-1">
+                                <label htmlFor="subjectCode" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Subject Code
+                                </label>
+                                <div className="mt-2">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
+                                        <input
+                                            required
+                                            type="text"
+                                            name="subjectCode"
+                                            id="subjectCode"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 lg:max-w-lg"
+                                            placeholder="Subject Code"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-span-1">
+                                <label htmlFor="classCode" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Class Code
+                                </label>
+                                <div className="mt-2">
+                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
+                                        <input
+                                            required
+                                            type="text"
+                                            name="classCode"
+                                            id="classCode"
+                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 lg:max-w-lg"
+                                            placeholder="Class Code"
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="sm:col-span-4">
-                                <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
-                                    School Website
-                                </label>
-                                <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                        <input
-                                            required
-                                            type="website"
-                                            name="website"
-                                            id="website"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            placeholder="Website"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
 
 
 
 
 
                         </div>
+
+
+
+
                         <div className="mt-6 col-span-3 flex items-center justify-end gap-x-6">
                             <Link
                                 href={ "/" }

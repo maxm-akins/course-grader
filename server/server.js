@@ -24,6 +24,7 @@ mongoose
 
 
 app.use('/data', require('./routes/data'));
+app.use('/classes', require('./routes/classes'));
 
 
 app.listen(3001, console.log("listening on port 3001"));

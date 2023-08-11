@@ -14,7 +14,7 @@ export default function NavBarRender() {
     return (
         <>
 
-            { pathname === "/" || pathname === "/newschool" ? (
+            { pathname === "/" || pathname === "/newschool" || pathname.includes("/newcourse") ? (
 
                 <HomeNavBar />
 

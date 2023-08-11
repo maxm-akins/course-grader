@@ -78,7 +78,19 @@ export default function School() {
 
             <div className="mt-3 ">
                 <div className=" ">
-                    <h2 className="mb-3 text-5xl font-bold  text-pink-400 sm:text-5xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
+                    <div className='flex justify-between items-end'>
+                        <h2 className="mb-3 text-5xl font-bold  text-pink-400 sm:text-5xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
+                        <Link
+                            href={ `/${school?.trunkName}/newcourse/` }
+                        >
+                            <button
+                                type="button"
+                                className=" mb-3 inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >New Course
+                            </button>
+                        </Link>
+
+                    </div>
 
                     <Combobox onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
@@ -157,7 +169,7 @@ export default function School() {
                                 <p className="mt-4 text-sm text-gray-900">No classes found?</p>
                                 <Link
                                     className="mt-4 text-sm text-pink-400 hover:text-blue-400"
-                                    href="/newcourse"
+                                    href={ `/${school?.trunkName}/newcourse` }
                                 >
                                     Click here to submit a new class!
 

@@ -23,7 +23,7 @@ import { getClass } from "@/api/classes"
 import { getSchool } from "@/api/profs"
 import SchoolContext from '@/context/SchoolProvider'
 import { useRouter } from 'next/navigation'
-import { Combobox, } from '@headlessui/react'
+import { Combobox, Switch } from '@headlessui/react'
 import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
@@ -39,6 +39,8 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
     const [profs, setProfs] = useState([]);
     const [selectedProf, setSelectedProf] = useState("");
     const [query, setQuery] = useState("");
+    const [addProf, setAddProf] = useState(false)
+
     let { school, course } = useContext(SchoolContext);
 
 
