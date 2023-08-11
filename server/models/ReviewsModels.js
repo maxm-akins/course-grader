@@ -26,10 +26,6 @@ const ReviewsSchema = new Schema({
         type: String,
         required: true,
     },
-    title: {
-        type: String,
-        required: false,
-    },
     date: {
         type: Date,
         required: true,
@@ -54,14 +50,19 @@ const ReviewsSchema = new Schema({
         type: Number,
         required: true,
     },
-    private: {
-        type: Boolean,
-        required: true,
-    },
     uuid: {
         type: String,
         required: true,
     },
+    tags: {
+        type: Array,
+        required: false,
+    },
+    reviewed: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 
 });
 

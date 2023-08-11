@@ -253,13 +253,14 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                     <div className='col-span-3'>
                                                         { newProfShow &&
                                                             <>
-                                                                <label
+                                                                {/* <label
                                                                     htmlFor="project-name"
                                                                     className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
                                                                 >
-                                                                    New Professor Name
-                                                                </label>
+                                                                    Search Professors at this school
+                                                                </label> */}
                                                                 <ProfSearch newProf={ newProf } setNewProf={ setNewProf } />
+                                                                <p className='font-normal text-xs hover:underline p-1 pt-2'> Can't find the professor you are looking for? Add a new professor to "{ school?.name }" here</p>
                                                             </>
                                                         }
                                                     </div>
@@ -349,29 +350,14 @@ export default function NewReviewSlide({ open, setOpen }) {
 
                                                 {/* Project description */ }
                                                 <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+
+
                                                     <div>
                                                         <label
                                                             htmlFor="project-description"
-                                                            className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
+                                                            className="block text-sm font-normal leading-6 text-gray-900 sm:mt-1.5"
                                                         >
-                                                            Review Title <span className='text-xs font-medium text-gray-500'>(optional)</span>
-                                                        </label>
-                                                    </div>
-                                                    <div className="sm:col-span-2">
-                                                        <input
-                                                            onChange={ (event) => setTitle(event?.target?.value) }
-                                                            type="text"
-                                                            name="project-name"
-                                                            id="project-name"
-                                                            className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label
-                                                            htmlFor="project-description"
-                                                            className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
-                                                        >
-                                                            Description
+                                                            <span className='font-medium'> Description </span>
                                                             <div className="text-xs text-gray-500">
                                                                 Tell us about your experience with this class, professor, etc!
                                                                 Other students will benefit greatly from your helpful insight.
@@ -384,7 +370,7 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                             id="project-description"
                                                             name="project-description"
                                                             rows={ 3 }
-                                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                            className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                             defaultValue={ '' }
                                                         />
                                                     </div>
@@ -392,83 +378,7 @@ export default function NewReviewSlide({ open, setOpen }) {
 
 
 
-                                                {/* Privacy */ }
-                                                <fieldset className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                                                    <legend className="sr-only">Privacy</legend>
-                                                    <div className="text-sm font-medium leading-6 text-gray-900" aria-hidden="true">
-                                                        Privacy
-                                                    </div>
-                                                    <div className="space-y-5 sm:col-span-2">
-                                                        <div className="space-y-5 sm:mt-0">
-                                                            <div className="relative flex items-start">
-                                                                <div className="absolute flex h-6 items-center">
-                                                                    <input
-                                                                        id="public-access"
-                                                                        name="privacy"
-                                                                        aria-describedby="public-access-description"
-                                                                        type="radio"
-                                                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                                                        checked={ publicChecked }
-                                                                        onChange={ () => setPublicChecked((prev) => !prev) }
-                                                                    />
-                                                                </div>
-                                                                <div className="pl-7 text-sm leading-6">
-                                                                    <label htmlFor="public-access" className="font-medium text-gray-900">
-                                                                        Public
-                                                                    </label>
-                                                                    <p id="public-access-description" className="text-gray-500">
-                                                                        Everyone who visits this page will see your profile associated with this review.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div className="relative flex items-start">
-                                                                <div className="absolute flex h-6 items-center">
-                                                                    <input
-                                                                        checked={ privateChecked }
-                                                                        onChange={ () => setPrivateChecked((prev) => !prev) }
-                                                                        id="restricted-access"
-                                                                        name="privacy"
-                                                                        aria-describedby="restricted-access-description"
-                                                                        type="radio"
-                                                                        className="h-4 w-4 border-gray-300 text-pink-600 focus:ring-pink-600"
-                                                                    />
-                                                                </div>
-                                                                <div className="pl-7 text-sm leading-6">
-                                                                    <label htmlFor="restricted-access" className="font-medium text-gray-900">
-                                                                        Private
-                                                                    </label>
-                                                                    <p id="restricted-access-description" className="text-gray-500">
-                                                                        No personal information accompanies this review when published.
-                                                                    </p>
-                                                                </div>
-                                                            </div>
 
-                                                        </div>
-                                                        <hr className="border-gray-200" />
-                                                        <div className="flex flex-col items-start space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-                                                            <div>
-                                                                <a
-                                                                    href="#"
-                                                                    className="group flex items-center space-x-2.5 text-sm font-medium text-indigo-600 hover:text-indigo-900"
-                                                                >
-                                                                    <LinkIcon
-                                                                        className="h-5 w-5 text-pink-400 group-hover:text-indigo-900"
-                                                                        aria-hidden="true"
-                                                                    />
-                                                                    <span className='text-pink-400'>Copy link to review</span>
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <a
-                                                                    href="#"
-                                                                    className="group flex items-center space-x-2.5 text-sm text-gray-500 hover:text-gray-900"
-                                                                >
-
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </fieldset>
                                             </div>
                                         </div>
 

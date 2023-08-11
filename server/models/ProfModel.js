@@ -2,11 +2,23 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ProfSchema = new Schema({
-    name: {
+    uuid: {
         type: String,
         required: true,
     },
-    uuid: {
+    firstName: {
+        type: String,
+        required: true,
+    },
+    middleName: {
+        type: String,
+        required: false,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+    department: {
         type: String,
         required: true,
     },
@@ -15,10 +27,9 @@ const ProfSchema = new Schema({
         required: true,
         default: [],
     },
-    schoolRefs: {
-        type: Array,
+    schoolRef: {
+        type: String,
         required: true,
-        default: [],
     }
 
 

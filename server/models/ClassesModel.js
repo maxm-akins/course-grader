@@ -19,17 +19,21 @@ const ClassesSchema = new Schema({
         required: true,
         default: []
     },
-    parentRef: {
+    schoolRef: {
         type: String,
         required: true,
     },
-    addedBy: {
+    department: {
         type: String,
         required: true,
     },
     rating: {
         type: Number,
         required: true,
+    },
+    prevRating: {
+        type: Number,
+        required: false,
     },
     uuid: {
         type: String,

@@ -19,11 +19,6 @@ import { Dialog } from "@headlessui/react"
 
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
 
-const stats = [
-    { name: 'Total Subscribers', stat: '71,897', previousStat: '70,946', change: '12%', changeType: 'increase' },
-    { name: 'Avg. Open Rate', stat: '58.16%', previousStat: '56.14%', change: '2.02%', changeType: 'increase' },
-    { name: 'Avg. Click Rate', stat: '24.57%', previousStat: '28.62%', change: '4.05%', changeType: 'decrease' },
-]
 
 
 function classNames(...classes) {
@@ -89,111 +84,115 @@ export default function Class() {
         return (
             <>
 
+                <ul role="list" className="divide-y  col-6 divide-gray-300">
+                    <li key={ review?.uuid } className=" grid grid-cols-6 justify-start py-5 px-2  transition-all">
+                        <div className="flex gap-x-4 pr-6 col-span-4">
+                            <div className="min-w-0 flex-auto">
+                                <p className="text-sm font-semibold leading-6 text-gray-900">
+                                    <div >
+                                        Professor: <span className=" inset-x-0 -top-px bottom-0 font-normal leading-5 text-sm text-gray-500 hover:underline" >
+                                            { review?.profName }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <div key={ review?.uuid } className=" drop-shadow-xl rounded-lg bg-white mb-2 hover:drop-shadow-2xl transition-all">
-                    <div className="grid grid-cols-3 p-3 gap-3 justifiy-end">
-
-                        {/* <img src={ review.avatarSrc } alt={ `${review?.userRef}.` } className="h-12 w-12 rounded-full" /> */ }
-
-                        <div className="col-span-1">
-                            { review?.title && (
-                                <div className="text-xl sm:text-3xl text-pink-400 font-bold">{ review?.title }</div>
-                            ) }
-
-
-
+                                        </span>
+                                    </div>
+                                    <div >
+                                        <span className=" inset-x-0 -top-px bottom-0 hover:underline" />
+                                        Term:  <span className=" font-normal leading-5 text-sm text-gray-500">{ review?.term }{ " " }{ review?.year }</span>
+                                    </div>
+                                </p>
+                                <p className="mt-1 flex  text-sm leading-5 text-gray-500">
+                                    <div className="relative   ">
+                                        { review?.description }
+                                    </div>
+                                </p>
+                            </div>
                         </div>
+                        <div className="flex items-start justify-end gap-x-4 col-span-2 sm:flex-none">
+                            <div className=" block">
+                                <p className="text-sm leading-6 text-end text-gray-900">{ new Date(review?.date).toLocaleDateString("en-US") }</p>
 
-
-
-
-                        <div className="col-span-2 grid grid-cols-3">
-                            <div className="col-span-1 flex flex-wrap justify-center">
-                                <div className="w-full flex justify-center text-xs sm:text-lg text-gray-600 font-semibold">Course</div>
-                                <div className="mt-1  ">
-                                    <div
-                                        className={ `p-2 rounded-md ${review?.courseRating < 4 ? "bg-red-100" : review?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-4xl font-black items-end flex ` }
-                                    >
-                                        { review?.courseRating }
+                                { review?.reviewed ? (
+                                    <div className="mt-1 flex items-center justify-end gap-x-1.5">
+                                        <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                                            <div className="h-1.5 w-1.5  rounded-full bg-emerald-500" />
+                                        </div>
+                                        <p className="text-xs leading-5  text-gray-500">Reviewed</p>
                                     </div>
 
-
-                                </div>
-
-                            </div>
-                            <div className="col-span-1 flex flex-wrap  justify-center">
-
-                                <div className="w-full flex justify-center text-xs sm:text-lg text-gray-600 font-semibold">Professor</div>
-                                <div className="mt-1  ">
-                                    <div className={ `p-2 rounded-md ${review?.profRating < 4 ? "bg-red-100" : review?.profRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} text-xl sm:text-4xl font-black flex items-end ` }>
-                                        <span>{ review?.profRating }</span>
+                                ) : (
+                                    <div className="mt-1 flex items-center justify-end gap-x-1.5">
+                                        <div className="flex-none rounded-full bg-red-500/20 p-1">
+                                            <div className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                                        </div>
+                                        <p className="text-xs leading-5  text-gray-500">Not reviewed</p>
                                     </div>
+                                ) }
 
-
-                                </div>
                             </div>
-                            <div className="col-span-1 flex flex-wrap justify-center">
+                            {/* <ChevronRightIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" /> */ }
+                        </div>
+                        <div className="col-span-6 md:col-span-6">
+                            <dl className="mt-5 grid  divide-gray-200 overflow-hidden rounded-lg bg-white border-2 grid-cols-3 divide-x md:divide-y-0">
+                                <div className="px-4 py-5 sm:p-6">
+                                    <dt className="text-base font-normal text-gray-900">Course </dt>
+                                    <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${review?.courseRating > 7 ? "text-emerald-500" : review?.courseRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { review?.courseRating }
+                                            <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
+                                        </div>
 
-                                <div className="w-full flex justify-center items-end text-xs sm:text-lg text-gray-600 font-semibold">Difficulty</div>
-                                <div className="mt-1  ">
-                                    <div className={ `p-2 rounded-md ${review?.difficultyRating < 4 ? "bg-emerald-100" : review?.difficultyRating < 7 ? "bg-yellow-100" : "bg-red-100"} text-xl sm:text-4xl font-black flex items-end ` }>
-                                        { review?.difficultyRating }
-                                    </div>
+                                        {/* <div
+                                                        className={ classNames(
+                                                            item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                                                            'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0'
+                                                        ) }
+                                                    >
+                                                        { item.changeType === 'increase' ? (
+                                                            <ArrowUpIcon
+                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                                                                aria-hidden="true"
+                                                            />
+                                                        ) : (
+                                                            <ArrowDownIcon
+                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+                                                                aria-hidden="true"
+                                                            />
+                                                        ) }
 
-
+                                                        <span className="sr-only"> { item.changeType === 'increase' ? 'Increased' : 'Decreased' } by </span>
+                                                        { item.change }
+                                                    </div> */}
+                                    </dd>
                                 </div>
-                            </div>
+                                <div className="px-4 py-5 sm:p-6">
+                                    <dt className="text-base font-normal text-gray-900">Professor </dt>
+                                    <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${review?.profRating < 4 ? " text-red-500" : review?.profRating < 7 ? "text-yellow-500" : "text-emerald-500"}` }>
+                                            { review?.profRating }
+                                            <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
+                                        </div>
 
+
+                                    </dd>
+                                </div>
+                                <div className="px-4 py-5 sm:p-6">
+                                    <dt className="text-base font-normal text-gray-900">Difficulty </dt>
+                                    <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${review?.difficultyRating < 4 ? " text-emerald-500" : review?.difficultyRating > 7 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { review?.difficultyRating }
+                                            <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
+                                        </div>
+
+
+                                    </dd>
+                                </div>
+                            </dl>
                         </div>
-
-                        <p className=" col-span-3 text-sm md:text-base font-medium my-5">{ review?.description }</p>
-
-
-
-                        <div className="mt-5 col-span-1 flex flex-wrap justify-right items-end transition-all">
-                            <div className="w-full text-gray-600 font-medium"> Term: <span className="text-pink-400">{ review?.term }{ " " }{ review?.year }</span> </div>
-
-                            <div className="font-medium text-gray-600"> Professor:<span className="text-pink-400 hover:text-gray-400">{ " " }{ review?.profName } </span></div>
-
-
-                        </div>
-
-                        <div className="mt-2 col-span-2 flex flex-wrap justify-end items-end transition-all">
-                            { review?.private ? (
-                                <div className="text-gray-600 font-medium"> Posted by: <span className="text-pink-400">Course Judger User</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
-                            ) : (
-                                <div className="text-gray-600 font-medium"> Posted by: <span className="text-pink-400">{ review?.userRef }</span> on { new Date(review?.date).toLocaleDateString("en-US") } </div>
-
-                            ) }
+                    </li>
+                </ul>
 
 
 
-                        </div>
-
-
-
-                    </div>
-
-                    <div
-                        className="mt-4 space-y-6 text-base italic text-gray-600"
-                        dangerouslySetInnerHTML={ { __html: review.content } }
-                    />
-                </div>
             </>
         )
     }
@@ -204,113 +203,6 @@ export default function Class() {
 
             <NewReviewSlide open={ open } setOpen={ setOpen } />
 
-            <Transition.Root show={ open2 } as={ Fragment }>
-                <Dialog as="div" className="relative z-10" onClose={ setOpen2 }>
-                    <Transition.Child
-                        as={ Fragment }
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
-                    </Transition.Child>
-
-                    <div className="fixed bg-white inset-0 z-10 overflow-y-auto">
-                        <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
-                            {/* This element is to trick the browser into centering the modal contents. */ }
-                            <span className="hidden md:inline-block md:h-screen md:align-middle" aria-hidden="true">
-                                &#8203;
-                            </span>
-                            <Transition.Child
-                                as={ Fragment }
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
-                                enterTo="opacity-100 translate-y-0 md:scale-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100 translate-y-0 md:scale-100"
-                                leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
-                            >
-                                <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
-                                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                                        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                                            <img
-                                                className="mx-auto h-10 w-auto"
-                                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                                alt="Your Company"
-                                            />
-                                            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                                Sign in to your account
-                                            </h2>
-                                        </div>
-
-                                        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                                            <form className="space-y-6" action="#" method="POST">
-                                                <div>
-                                                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                                        Email address
-                                                    </label>
-                                                    <div className="mt-2">
-                                                        <input
-                                                            id="email"
-                                                            name="email"
-                                                            type="email"
-                                                            autoComplete="email"
-                                                            required
-                                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                <div>
-                                                    <div className="flex items-center justify-between">
-                                                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                                            Password
-                                                        </label>
-                                                        <div className="text-sm">
-                                                            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                                                Forgot password?
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mt-2">
-                                                        <input
-                                                            id="password"
-                                                            name="password"
-                                                            type="password"
-                                                            autoComplete="current-password"
-                                                            required
-                                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                <div>
-                                                    <button
-                                                        type="submit"
-                                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                                    >
-                                                        Sign in
-                                                    </button>
-                                                </div>
-                                            </form>
-
-                                            <p className="mt-10 text-center text-sm text-gray-500">
-                                                Not a member?{ ' ' }
-                                                <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                                                    Start a 14 day free trial
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Dialog.Panel>
-                            </Transition.Child>
-                        </div>
-                    </div>
-                </Dialog>
-            </Transition.Root>
 
 
 
@@ -324,14 +216,67 @@ export default function Class() {
             <div className="bg-white">
                 <div className="grid lg:max-w-7xl grid-cols-12 gap-x-5  ">
 
-
-
-
                     <div className="lg:col-span-2 col-span-12">
-                        <div className="flex flex-wrap justify-stretch justify-items-stretch gap-4">
+                        <div className=" gap-4 ">
+
+                            <dl className="mt-5 grid lg:grid-cols-1 lg:divide-y lg:divide-gray-200 overflow-hidden border-2 rounded-lg bg-white shadow grid-cols-3 divide-x divide-y-0">
+                                <div className="px-4 py-5 sm:p-6 ">
+                                    <dt className="text-base font-normal text-gray-900">Course </dt>
+                                    <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${course?.courseRating > 7 ? " text-emerald-500" : course?.courseRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { Math.round(course?.courseRating * 100) / 100 }
+                                            <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
+                                        </div>
+
+                                        {/* <div
+                                                        className={ classNames(
+                                                            item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                                                            'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0'
+                                                        ) }
+                                                    >
+                                                        { item.changeType === 'increase' ? (
+                                                            <ArrowUpIcon
+                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
+                                                                aria-hidden="true"
+                                                            />
+                                                        ) : (
+                                                            <ArrowDownIcon
+                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
+                                                                aria-hidden="true"
+                                                            />
+                                                        ) }
+
+                                                        <span className="sr-only"> { item.changeType === 'increase' ? 'Increased' : 'Decreased' } by </span>
+                                                        { item.change }
+                                                    </div> */}
+                                    </dd>
+                                </div>
+                                <div className="px-4 py-5 sm:p-6">
+                                    <dt className="text-base font-normal text-gray-900">Professor </dt>
+                                    <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${course?.profRating > 7 ? " text-emerald-500" : course?.profRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { Math.round(course?.profRating * 100) / 100 }
+                                            <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
+                                        </div>
 
 
-                            <div className={ `${course?.courseRating < 4 ? " bg-red-100" : course?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} grow rounded-md lg:w-full p-2` }>
+                                    </dd>
+                                </div>
+                                <div className="px-4 py-5 sm:p-6">
+                                    <dt className="text-base font-normal text-gray-900">Difficulty </dt>
+                                    <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${course?.difficultyRating < 4 ? " text-emerald-500" : course?.difficultyRating > 7 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { Math.round(course?.difficultyRating * 100) / 100 }
+                                            <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
+                                        </div>
+
+
+                                    </dd>
+                                </div>
+                            </dl>
+
+
+                            {/* <div className={ `${course?.courseRating < 4 ? " bg-red-100" : course?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} grow rounded-md lg:w-full p-2` }>
                                 <h2 className="text-lg font-semibold tracking-tight text-gray-600"> Course </h2>
 
                                 <div className="mt-3 flex items-center">
@@ -371,7 +316,7 @@ export default function Class() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
 
@@ -394,6 +339,10 @@ export default function Class() {
                             </button>
                         </div>
                     </div>
+
+
+
+
 
                     <div className=" col-span-12 lg:col-span-10 mt-0">
 

@@ -37,6 +37,48 @@ router.get('/schools/:q', async (req, res) => {
     }
 });
 
+router.post('/schools/add', async (req, res) => {
+    const data = req.body;
+
+    try {
+        const trunkName = data?.name?.replace(/\s+/g, '').toLowerCase();
+        const dup = await SchoolModel.find({ trunkName: trunkName })
+
+        if (dup) {
+            res.status(403).json({ message: "A record of the school already exists." });
+            console.log("this school already exists");
+            return;
+
+        }
+
+
+        const school = new SchoolModel({});
+        school.name = data.name.trim();
+        school.state = data.state;
+        school.city = data.city.trim();
+        school.website = data.website.trim();
+        school.trunkName = trunkName;
+        school.uuid = short.generate();
+
+        school.save().then(() => {
+            console.log("new school saved");
+            res.status(200).json({ message: "School Successfully Added" });
+            return
+        },
+            (err) => {
+                console.log(err);
+                res.status(err.status || 400).json({ message: err.message });
+                return;
+
+            })
+
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ message: err.message });;
+    }
+});
+
 
 router.get('/schools/search/:q', async (req, res) => {
     try {

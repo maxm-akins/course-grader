@@ -78,7 +78,7 @@ export default function School() {
 
             <div className="mt-3 ">
                 <div className=" ">
-                    <h2 className="mb-3 text-3xl font-bold  text-pink-400 sm:text-4xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-gray-600'>  at { school?.name } </span> </h2>
+                    <h2 className="mb-3 text-5xl font-bold  text-pink-400 sm:text-5xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
 
                     <Combobox onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
@@ -99,7 +99,7 @@ export default function School() {
                                     value={ 0 }
                                     className={ ({ active }) =>
                                         classNames(
-                                            'cursor-default select-none rounded-md px-2 py-2 font-bold text-xl grid grid-cols-3 gap-4 text-pink-400 ',
+                                            'cursor-default select-none rounded-md px-2 py-2 font-bold text-xl grid grid-cols-3 gap-4 text-black ',
                                             active && 'bg-pink-400 text-white'
                                         )
                                     }
@@ -126,8 +126,8 @@ export default function School() {
                                         value={ item?.uuid }
                                         className={ ({ active }) =>
                                             classNames(
-                                                'cursor-default select-none font-base text-gray-600 md:text-base text-sm rounded-md px-2 py-2 grid grid-cols-3 gap-4  ',
-                                                active && 'bg-pink-400 text-white'
+                                                'cursor-default select-none font-base text-gray-600 md:text-base text-sm border-b-2 px-2 py-2 grid grid-cols-3 gap-4  ',
+                                                active && 'bg-gray-100 text-black'
                                             )
                                         }
                                     >
@@ -157,7 +157,7 @@ export default function School() {
                                 <p className="mt-4 text-sm text-gray-900">No classes found?</p>
                                 <Link
                                     className="mt-4 text-sm text-pink-400 hover:text-blue-400"
-                                    href="/"
+                                    href="/newcourse"
                                 >
                                     Click here to submit a new class!
 

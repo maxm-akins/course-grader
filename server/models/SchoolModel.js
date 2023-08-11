@@ -25,16 +25,18 @@ const SchoolsSchema = new Schema({
     rating: {
         type: String,
         required: false,
+        default: "n/a"
     },
-    addedBy: {
+    prevRating: {
         type: String,
+    },
+    departments: {
+        type: Array,
         required: true,
+        default: [],
     },
-    schoolCodes: {
-        type: Array,
-    },
-    classCodes: {
-        type: Array,
+    website: {
+        type: String,
     },
     uuid: {
         type: String,

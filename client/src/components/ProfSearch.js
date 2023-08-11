@@ -63,31 +63,17 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
 
                 <Combobox.Input
                     className="w-full rounded-lg  bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-sm hover:drop-shadow-md transition-all"
-                    placeholder="Search a professor"
+                    placeholder="Search professors at this school"
                     onChange={ (event) => {
                         handleQueryChange(event.target.value);
                     } }
                 />
 
-                { query !== "" && (
+                { query !== "" && profs?.length !== 0 && (
                     <Combobox.Options
                         static
                         className=" -mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-gray-100 rounded-b-lg  text-left "
                     >
-
-                        { query.length > 0 && (
-                            <Combobox.Option
-                                value={ query }
-                                className={ ({ active }) =>
-                                    classNames(
-                                        'cursor-default select-none rounded-md px-4 py-2 ',
-                                        active && 'bg-pink-400 text-white'
-                                    )
-                                }
-                            >
-                                Add new "{ query }"
-                            </Combobox.Option>
-                        ) }
                         { profs?.map((prof) => (
                             <Combobox.Option
                                 key={ prof?.uuid }
@@ -111,19 +97,19 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                     </Combobox.Options>
                 ) }
 
-                {/* { profs?.length === 0 && query && (
-                    <div className="px-4 py-14 text-center sm:px-14 ">
+                { profs?.length === 0 && query && (
+                    <div className="px-4 py-7 text-center sm:px-14 ">
                         <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
-                        <p className="mt-4 text-sm text-gray-900">No profs found using that search term.</p>
+                        <p className="mt-4 text-sm text-gray-900">No profs at { school?.name } found which match "{ query }"</p>
                         <Link
                             className="mt-4 text-sm text-pink-400 hover:text-blue-400"
                             href="/"
                         >
-                            Click here to request to add a school!
+                            Click here to add a new professor to this school!
 
                         </Link>
                     </div>
-                ) } */}
+                ) }
             </Combobox>
         </>
 

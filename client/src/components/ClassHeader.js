@@ -98,19 +98,14 @@ export default function ClassHeader() {
                         </span>
                     ) : (
                         <span className="sm:ml-3">
-                            <Link
-                                href={ pathname + "/new" }
+                            <button
+                                onClick={ handleNewReviewClick }
+                                type="button"
+                                className="inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                                <button
-                                    onClick={ handleNewReviewClick }
-                                    type="button"
-                                    className="inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-                                    New Review
-                                </button>
-                            </Link>
-
+                                <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                                New Review
+                            </button>
                         </span>
                     )
                     }
@@ -124,14 +119,14 @@ export default function ClassHeader() {
 
 
             <div className="grid grid-cols-4 mt-4  justify-between gap-5 ">
-                <h2 className="col-span-4 text-3xl sm:text-6xl font-bold text-pink-400  ">
+                <h2 className="col-span-4 text-3xl sm:text-6xl font-black text-black  ">
                     { course?.name }
                 </h2>
                 <div className='flex gap-2 justify-start col-span-4 md:col-span-2 '>
-                    <h2 className=" text-xl font-bold leading-7 text-gray-600 sm:text-xl ">
+                    <h2 className=" text-xl font-normal leading-7 text-gray-400 sm:text-xl ">
                         { course?.descripCode }
                     </h2>
-                    <h2 className="text-xl font-bold leading-7 text-gray-600 sm:text-xl ">
+                    <h2 className="text-xl font-normal leading-7 text-gray-400 sm:text-xl ">
                         { course?.classCode }
                     </h2>
 

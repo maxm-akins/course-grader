@@ -51,15 +51,15 @@ export default function NavBar() {
                 as="header"
                 className={ ({ open }) =>
                     classNames(
-                        open ? 'fixed inset-0 z-40 overflow-y-auto' : '',
+                        open ? 'fixed inset-0  z-40 overflow-y-auto' : '',
                         'bg-white  lg:static lg:overflow-y-visible'
                     )
                 }
             >
                 { ({ open }) => (
                     <>
-                        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-3 sm:pt-0 lg:px-8">
-                            <div className=" justify-between gap-8 gap-y-0 grid grid-cols-12">
+                        <div className="relative bg-black">
+                            <div className=" mx-auto max-w-7xl  px-4 sm:px-6 pt-3 sm:pt-0 lg:px-8 justify-between gap-8 gap-y-0 grid grid-cols-12">
 
                                 <div className="flex order-1 inset-y-0 left-0 lg:static col-span-2 sm:col-span-1 mr-2">
                                     <div className="flex flex-shrink-0 items-center">
@@ -78,29 +78,29 @@ export default function NavBar() {
 
                                 </div>
 
-                                <div className="sm:hidden relative pt-4 ml-[-15px] w-screen sm:order-6 order-3 col-span-12">
+                                {/* <div className="sm:hidden relative pt-4 ml-[-15px] w-screen sm:order-6 order-3 col-span-12">
                                     <div className=" inset-0 flex items-center" aria-hidden="true">
                                         <div className="w-full border-t-2 border-gray-100" />
                                     </div>
                                     <div className="relative flex justify-center">
                                     </div>
-                                </div>
+                                </div> */}
 
 
 
                                 <div className="min-w-0 flex-1 order-3 sm:order-2  col-span-12 sm:col-span-10 ">
                                     <div className="flex flex-wrap justify-center items-center px-6 sm:py-4 py-0 pb-2 md:mx-auto lg:mx-0 gap-6 gap-y-0 xl:px-0">
 
-                                        <div className="mt-2 flex  text-center	flex-wrap justify-center lg:text-xl text-lg font-bold text-gray-600  tranistion-all ">
+                                        <div className="mt-2 flex  text-center	flex-wrap justify-center lg:text-xl text-lg font-bold text-white  tranistion-all ">
                                             <Link href={ `/${school?.trunkName}` }> { school?.name } </Link>
                                         </div>
                                         <div className='hidden sm:flex sm:mt-0  space-x-6 w-full justify-center sm:w-auto'>
-                                            <div className="mt-2  flex items-center text-sm text-gray-500">
+                                            <div className="mt-2  flex items-center text-sm text-white">
                                                 <StarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-yellow-400" aria-hidden="true" />
                                                 { school?.rating }
                                             </div>
-                                            <div className="mt-2 flex items-center text-center text-sm text-gray-500">
-                                                <MapPinIcon className=" h-5 w-5 flex-shrink-0 text-red-400" aria-hidden="true" />
+                                            <div className="mt-2 flex items-center text-center text-sm text-white">
+                                                <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-red-400" aria-hidden="true" />
                                                 { `${school?.city}, ${school?.state}` }
                                             </div>
 
@@ -109,14 +109,14 @@ export default function NavBar() {
 
                                     </div>
                                 </div>
-
+                                {/* 
                                 <div className="xl:ml-[-200px] ml-[-20px] left-0 w-[110vw] col-span-12 order-5 ">
                                     <div className=" inset-0 flex items-center" aria-hidden="true">
                                         <div className="w-full border-t-2 border-gray-100" />
                                     </div>
                                     <div className="relative flex justify-center">
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="col-span-2 order-2 sm:order-3 sm:col-start-12 col-start-11 sm:col-span-1 sm flex items-center  inset-y-0 right-0 md:hidden">
                                     {/* Mobile menu button */ }

@@ -83,9 +83,9 @@ export default function Home() {
                 <p className="mt-4 text-sm text-gray-900">No schools found using that search term.</p>
                 <Link
                   className="mt-4 text-sm text-pink-400 hover:text-blue-400"
-                  href="/"
+                  href="/newschool"
                 >
-                  Click here to request to add a school!
+                  Click here to add a new school!
 
                 </Link>
               </div>

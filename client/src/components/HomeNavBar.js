@@ -49,7 +49,7 @@ export default function HomeNavBar() {
 
     return (
         <>
-            <Disclosure as="nav" className="bg-white shadow">
+            <Disclosure as="nav" className="bg-black shadow">
                 { ({ open }) => (
                     <>
                         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -157,7 +157,7 @@ export default function HomeNavBar() {
                                 >
                                     <Disclosure.Button
 
-                                        className="block border-l-4 border-pink-400 bg-pink-50 py-2 pl-3 pr-4 text-base font-medium text-pink-700"
+                                        className="block border-l-4  py-2 pl-3 pr-4 text-base font-medium text-pink-400"
                                     >
                                         School Search
                                     </Disclosure.Button>
@@ -167,7 +167,7 @@ export default function HomeNavBar() {
                                 >
                                     <Disclosure.Button
 
-                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500  hover:text-pink-600"
                                     >
                                         Policies
                                     </Disclosure.Button>
@@ -178,7 +178,7 @@ export default function HomeNavBar() {
                                 >
                                     <Disclosure.Button
 
-                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:text-pink-600"
                                     >
                                         Socials
                                     </Disclosure.Button>
