@@ -90,7 +90,7 @@ export default function NewCourse() {
                 document.getElementById("subjectCode").value = "";
                 document.getElementById("classCode").value = "";
                 setTimeout(() => {
-                    router.push(`/${res?.data?.uuid}`)
+                    router.push(`/${school?.trunkName}/${res?.data?.uuid}`)
                 }
                     , 3000);
             }

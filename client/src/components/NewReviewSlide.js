@@ -28,6 +28,7 @@ import { usePathname } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
 import ProfSearch from './ProfSearch'
 import { submitReview } from '@/api/reviews'
+import AddNewProf from './AddNewProf'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -118,7 +119,7 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                 <div className="flex items-start justify-between space-x-3">
                                                     <div className="space-y-1">
                                                         <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                                                            New Review for <span className='text-pink-400'>{ course.name }</span>
+                                                            <span className='text-4xl font-black block'> New Review </span>   for <span className='text-pink-400'>{ course.name }</span>
                                                         </Dialog.Title>
                                                         <p className="text-sm text-gray-500">
                                                             Get started by filling in the information below to publish your latest review!
@@ -267,6 +268,8 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                                 </label> */}
                                                                 <ProfSearch newProf={ newProf } setNewProf={ setNewProf } />
 
+
+
                                                                 <div className='flex flex-wrap items-end'>
                                                                     <Switch
                                                                         checked={ addProf }
@@ -286,7 +289,7 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                                         />
                                                                     </Switch>
                                                                     <p className='ml-1 font-normal text-xs  p-1 pt-2'> Toggle switch to add a new professor to "{ school?.name }" </p>
-
+                                                                    { addProf && <AddNewProf /> }
                                                                 </div>
 
                                                             </>

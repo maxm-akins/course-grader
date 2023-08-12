@@ -24,6 +24,7 @@ router.post('/add', async (req, res) => {
             return;
 
         }
+        const uuid = short.generate();
 
 
         const couse = new ClassesModel({});
@@ -32,11 +33,11 @@ router.post('/add', async (req, res) => {
         couse.classCode = data?.classCode;
         couse.trunkName = data?.trunkName;
         couse.schoolRef = data?.schoolRef;
-        couse.uuid = short.generate();
+        couse.uuid = uuid;
 
         couse.save().then(() => {
             console.log("new course saved");
-            res.status(200).json({ message: "Course Successfully Added" });
+            res.status(200).json({ message: "Course Successfully Added", uuid: uuid });
             return
         },
             (err) => {

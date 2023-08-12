@@ -27,7 +27,7 @@ router.get('/schools', async (req, res) => {
 router.get('/schools/:q', async (req, res) => {
     const q = req.params.q;
     try {
-        const school = await SchoolModel.findOne({ trunkName: q }, { _id: 0, name: 1, uuid: 1, rating: 1, city: 1, state: 1, trunkName: 1 });
+        const school = await SchoolModel.findOne({ trunkName: q }, { _id: 0, name: 1, uuid: 1, rating: 1, city: 1, state: 1, trunkName: 1, departments: 1 });
 
         res.status(200).json(school);
     }

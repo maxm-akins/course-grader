@@ -50,6 +50,7 @@ export default function Home() {
             <Combobox.Input
               className={ `w-full ${schools?.length < 1 ? "rounded-lg" : " rounded-t-lg "} bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all` }
               placeholder="Search for your school..."
+
               onChange={ (event) => {
                 handleQueryChange(event.target.value);
               } }

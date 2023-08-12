@@ -1,12 +1,13 @@
 "use client"
 
 
-import { Fragment, useState, useContext } from 'react'
+import { Fragment, useState, useContext, useEffect } from 'react'
 import { Menu, Popover, Transition, Combobox, } from '@headlessui/react'
 import { MagnifyingGlassIcon, StarIcon, MapPinIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import SchoolContext from '@/context/SchoolProvider'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 const user = {
     name: 'Chelsea Hagon',
     email: 'chelsea.hagon@example.com',
@@ -35,13 +36,8 @@ function classNames(...classes) {
 export default function NavBar() {
     const [query, setQuery] = useState('')
     const { school } = useContext(SchoolContext);
-    const [selectedPerson, setSelectedPerson] = useState(null)
-    const filteredPeople =
-        query === ''
-            ? people
-            : people.filter((person) => {
-                return person.name.toLowerCase().includes(query.toLowerCase())
-            })
+    const pathname = usePathname();
+
 
 
     return (
@@ -88,7 +84,7 @@ export default function NavBar() {
                                         <div className='hidden sm:flex sm:mt-0  space-x-6 w-full justify-center sm:w-auto'>
                                             <div className="mt-2  flex items-center text-sm text-white">
                                                 <StarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-yellow-400" aria-hidden="true" />
-                                                { school?.rating }
+                                                { school?.rating } / 10
                                             </div>
                                             <div className="mt-2 flex items-center text-center text-sm text-white">
                                                 <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-red-400" aria-hidden="true" />
