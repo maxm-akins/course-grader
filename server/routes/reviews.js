@@ -13,9 +13,7 @@ const ReviewsModels = require("../models/ReviewsModels")
 
 
 
-
-
-router.post('/review', async (req, res) => {
+router.post('/', async (req, res) => {
     const data = req.body;
     console.log(data);
     try {
@@ -134,7 +132,7 @@ router.post('/review', async (req, res) => {
     }
 });
 
-router.get('/reviews/:q', async (req, res) => {
+router.get('/:q', async (req, res) => {
     const q = req.params.q;
     try {
         const reviews = await ReviewsModels.find({ courseRef: q }, { _id: 0, courseRef: 0, schoolRef: 0, }).sort('-date');

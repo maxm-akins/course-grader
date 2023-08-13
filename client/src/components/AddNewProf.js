@@ -36,7 +36,7 @@ function classNames(...classes) {
 
 
 
-export default function AddNewProf({ open, setOpen }) {
+export default function AddNewProf({ firstName, middleName, lastName, department, setFirstName, setMiddleName, setLastName, setDepartment }) {
 
 
     let { course, school } = useContext(SchoolContext);
@@ -87,7 +87,7 @@ export default function AddNewProf({ open, setOpen }) {
     return (
         <>
 
-            <div className="grid gap-y-2 border-b border-gray-900/10 pb-6 grid-cols-3 mt-5">
+            <div className="grid gap-y-2 border-b border-gray-900/10 pb-6 grid-cols-3 mt-10">
 
 
 
@@ -124,6 +124,9 @@ export default function AddNewProf({ open, setOpen }) {
                         <div className="mt-2">
                             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                 <input
+                                    onChange={ (event) => {
+                                        setFirstName(event?.target?.value)
+                                    } }
                                     required
                                     type="text"
                                     name="firstName"
@@ -141,6 +144,9 @@ export default function AddNewProf({ open, setOpen }) {
                         <div className="mt-2">
                             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                 <input
+                                    onChange={ (event) => {
+                                        setMiddleName(event?.target?.value)
+                                    } }
                                     required
                                     type="text"
                                     name="middleName"
@@ -158,6 +164,9 @@ export default function AddNewProf({ open, setOpen }) {
                         <div className="mt-2">
                             <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
                                 <input
+                                    onChange={ (event) => {
+                                        setLastName(event?.target?.value)
+                                    } }
                                     required
                                     type="text"
                                     name="lastName"
@@ -180,14 +189,22 @@ export default function AddNewProf({ open, setOpen }) {
                                 <div className="relative mt-2">
                                     <Combobox.Input
                                         className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        onChange={ (event) => setProfQuery(event.target.value) }
+                                        onChange={ (event) => {
+                                            setProfQuery(event.target.value);
+                                            setDepartment(event?.target?.value);
+                                        } }
                                     // displayValue={ (person) => person?.name }
                                     />
                                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
                                         <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                     </Combobox.Button>
 
-                                    <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+
+
+                                    <Combobox.Options
+                                        open={ profQuery.length > 0 }
+                                        className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                                    >
 
 
                                         <Combobox.Option

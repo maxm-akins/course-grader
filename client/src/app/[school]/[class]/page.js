@@ -16,6 +16,7 @@ import { Transition } from "@headlessui/react"
 import { Fragment } from "react"
 import { Dialog } from "@headlessui/react"
 // import classNames from "classnames"
+import ClassHeader from "@/components/ClassHeader"
 
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
 
@@ -202,6 +203,7 @@ export default function Class() {
         <>
 
             <NewReviewSlide open={ open } setOpen={ setOpen } />
+            <ClassHeader open={ open } setOpen={ setOpen } />
 
 
 

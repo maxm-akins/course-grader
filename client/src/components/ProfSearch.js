@@ -56,7 +56,9 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
 
     return (
         <>
-            <Combobox value={ selectedProf }
+
+            <Combobox
+                value={ selectedProf }
                 onChange={ (value) => {
                     setSelectedProf(value);
                     setNewProf(value);
@@ -64,7 +66,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                 } }  >
 
                 <Combobox.Input
-                    className="w-full rounded-lg  bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-sm hover:drop-shadow-md transition-all"
+                    className={ ` w-full rounded-lg bg-gray-100  px-4 py-2.5 text-pink-400  focus:ring-0 sm:text-sm hover:drop-shadow-md transition-all` }
                     placeholder="Search professors at this school"
                     onChange={ (event) => {
                         handleQueryChange(event.target.value);
@@ -103,13 +105,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                     <div className="px-4 py-7 text-center sm:px-14 ">
                         <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
                         <p className="mt-4 text-sm text-gray-900">No profs at { school?.name } found which match "{ query }"</p>
-                        <Link
-                            className="mt-4 text-sm text-pink-400 hover:text-blue-400"
-                            href="/"
-                        >
-                            Click here to add a new professor to this school!
 
-                        </Link>
                     </div>
                 ) }
             </Combobox>

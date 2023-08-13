@@ -9,7 +9,6 @@ export default function ClassLayout({ children }) {
     return (
         <>
             <div className="">
-                <ClassHeader />
 
                 { children }
             </div>

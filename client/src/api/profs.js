@@ -9,7 +9,7 @@ export const searchProfsBySchool = async (school, course, q) => {
 
     try {
         const response = await axios.get(
-            `/data/profs/search/${school}/${course}/${q}`,
+            `/profs/search/${school}/${course}/${q}`,
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,

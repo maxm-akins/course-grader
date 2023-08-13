@@ -18,14 +18,13 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function ClassHeader() {
+export default function ClassHeader({ open, setOpen }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     let { school, course } = useContext(SchoolContext);
     const router = useRouter();
     const handleNewReviewClick = () => {
-        console.log("new review clicked")
-        console.log(pathname)
+
 
     }
 
@@ -81,34 +80,18 @@ export default function ClassHeader() {
                 </div>
                 <div className="hidden md:flex ">
 
-                    { (pathname.slice(-3) == "new") ? (
-                        <span className="sm:ml-3">
-                            <Link
-                                href={ pathname.slice(0, -3) }
-                            >
-                                <button
-                                    type="button"
-                                    className="inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    <XMarkIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-                                    Cancel
-                                </button>
-                            </Link>
 
-                        </span>
-                    ) : (
-                        <span className="sm:ml-3">
-                            <button
-                                onClick={ handleNewReviewClick }
-                                type="button"
-                                className="inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            >
-                                <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-                                New Review
-                            </button>
-                        </span>
-                    )
-                    }
+                    <span className="sm:ml-3">
+                        <button
+                            onClick={ () => setOpen(true) }
+                            type="button"
+                            className="inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                            <CheckIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                            New Review
+                        </button>
+                    </span>
+
 
 
 

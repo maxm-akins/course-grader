@@ -6,7 +6,7 @@ const getSchools = async () => {
 
     try {
         const response = await axios.get(
-            "/data/schools",
+            "/schools",
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
@@ -30,7 +30,7 @@ export const searchSchools = async (q) => {
 
     try {
         const response = await axios.get(
-            `/data/schools/search/${q}`,
+            `/schools/search/${q}`,
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
@@ -56,7 +56,7 @@ export const getSchool = async (q) => {
 
     try {
         const response = await axios.get(
-            `/data/schools/${q}`,
+            `/schools/${q}`,
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
@@ -76,7 +76,7 @@ export const postSchool = async (data) => {
 
     try {
         const response = await axios.post(
-            `/data/schools/add`,
+            `/schools/add`,
             JSON.stringify(data),
             {
                 headers: { "Content-Type": "application/json" },
