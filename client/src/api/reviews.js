@@ -3,20 +3,19 @@ import axios from "./axios";
 
 
 
-export const submitReview = async (data) => {
+export const postReview = async (data) => {
 
 
     try {
         const response = await axios.post(
-            `/data/review`,
+            `/reviews`,
             JSON.stringify(data),
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
-        return await response.data;
+        return await response;
 
     } catch (err) {
         console.log(err)
@@ -31,7 +30,7 @@ export const getReviews = async (course) => {
 
     try {
         const response = await axios.get(
-            `/data/reviews/${course}`,
+            `/reviews/${course}`,
             {
                 headers: { "Content-Type": "application/json" },
                 withCredentials: true,

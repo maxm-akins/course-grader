@@ -8,9 +8,11 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import SchoolContext from '@/context/SchoolProvider'
 import { useState, useContext, useEffect } from "react"
 import ProfSearch from './ProfSearch'
-import { submitReview } from '@/api/reviews'
+import { postReview } from '@/api/reviews'
 import AddNewProf from './AddNewProf'
 import ErrorNotif from './ErrorNotif'
+import SuccessNotif from './SuccessNotif'
+import { useRouter } from 'next/navigation'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -18,8 +20,8 @@ function classNames(...classes) {
 
 
 
-export default function NewReviewSlide({ open, setOpen }) {
-
+export default function NewReviewSlide({ setSubmitTrigger, open, setOpen, setShowSuccess, showSuccess, success, setSuccess, success2, setSuccess2 }) {
+    const router = useRouter();
     let { course, school } = useContext(SchoolContext);
     const [courseRating, setCourseRating] = useState(5);
     const [profRating, setProfRating] = useState(5);
@@ -35,6 +37,7 @@ export default function NewReviewSlide({ open, setOpen }) {
     const [middleName, setMiddleName] = useState("");
     const [lastName, setLastName] = useState("");
     const [department, setDepartment] = useState("");
+
     const [err, setErr] = useState(false);
     const [showError, setShowError] = useState(false);
 
@@ -44,27 +47,48 @@ export default function NewReviewSlide({ open, setOpen }) {
         const data = {
             term: term,
             year: year,
-            prof: prof,
-            newProfShow: newProfShow,
-            newProf: newProf,
             profRating: profRating,
             difficultyRating: difficultyRating,
             courseRating: courseRating,
             description: description,
             schoolRef: school?.uuid,
             courseRef: course?.uuid,
-            firstName: firstName,
-            lastName: lastName,
-            department: department,
-
         }
-        console.log(data);
+
+
+        if (prof == "0") {
+
+            if (addProf) {
+                data.addProf = 2;
+                data.firstName = firstName.trim();
+                data.middleName = middleName.trim();
+                data.lastName = lastName.trim();
+                data.department = department?.trim();
+                console.log(data);
+            }
+            else {
+                data.addProf = 1;
+                data.prof = newProf;
+                console.log(data);
+            }
+        }
+        else {
+            data.addProf = 0;
+            data.prof = prof;
+        }
+
+
+
+
 
         const keys = Object.keys(data);
-
+        const omit = ["addProf", "middleName", "course"]
         let missing = false;
         keys.forEach((key) => {
+            if (omit?.includes(key)) return;
+
             if (data[key] === "") {
+                console.log("key missing")
                 setErr(`"${key}" field is required`)
                 setShowError(true);
                 missing = true;
@@ -72,8 +96,6 @@ export default function NewReviewSlide({ open, setOpen }) {
             }
             return true;
         })
-
-        console.log(missing)
 
         if (missing) {
             setTimeout(() => {
@@ -83,19 +105,23 @@ export default function NewReviewSlide({ open, setOpen }) {
             return;
         }
         else {
-            data.trunkName = courseName.replace(/\s+/g, '').toLowerCase();
-            const res = await postClass(data);
-            if (res.status === 200) {
+            data.schoolRef = school?.uuid;
+            data.courseRef = course?.uuid;
+            const res = await postReview(data);
+            console.log(res);
+            console.log(res.response);
+
+            if (res?.status === 200) {
                 setShowSuccess(true)
                 setSuccess(res?.data?.message);
-                setSuccess2("You will be redirected shortly.");
-                document.getElementById("courseName").value = "";
-                document.getElementById("subjectCode").value = "";
-                document.getElementById("classCode").value = "";
+                setSubmitTrigger((prev) => !prev)
+                setOpen(false);
+
                 setTimeout(() => {
-                    router.push(`/${school?.trunkName}/${res?.data?.uuid}`)
+                    setShowSuccess(false);
                 }
                     , 3000);
+
             }
             else {
                 setShowError(true);
@@ -109,15 +135,14 @@ export default function NewReviewSlide({ open, setOpen }) {
         }
 
 
-        // const res = await submitReview(data);
     }
 
 
 
     return (
         <>
-            <ErrorNotif show={ showError } setShow={ setShowError } err={ err } />
             <Transition.Root show={ open } as={ Fragment }>
+
                 <Dialog as="div" className="relative z-10" onClose={ setOpen }>
                     <Transition.Child
                         as={ Fragment }
@@ -132,7 +157,11 @@ export default function NewReviewSlide({ open, setOpen }) {
                     </Transition.Child>
                     <div className="fixed inset-0" />
 
+
                     <div className="fixed inset-0 overflow-hidden">
+                        <ErrorNotif show={ showError } setShow={ setShowError } err={ err } />
+
+
                         <div className="absolute inset-0 overflow-hidden">
                             <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
                                 <Transition.Child
@@ -148,15 +177,15 @@ export default function NewReviewSlide({ open, setOpen }) {
                                         <form className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                                             <div className="flex-1">
                                                 {/* Header */ }
-                                                <div className="bg-gray-50 px-4 py-6 sm:px-6">
+                                                <div className="bg-gray-50 px-4 py-3 sm:px-6">
                                                     <div className="flex items-start justify-between space-x-3">
                                                         <div className="space-y-1">
                                                             <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
                                                                 <span className='text-4xl font-black block'> New Review </span>   for <span className='text-pink-400'>{ course.name }</span>
                                                             </Dialog.Title>
-                                                            <p className="text-sm text-gray-500">
+                                                            {/* <p className="text-sm text-gray-500">
                                                                 Get started by filling in the information below to publish your latest review!
-                                                            </p>
+                                                            </p> */}
                                                         </div>
                                                         <div className="flex h-7 items-center">
                                                             <button
@@ -179,12 +208,12 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                             <ExclamationTriangleIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
                                                         </div>
                                                         <div className="ml-3">
-                                                            <p className="text-sm text-yellow-700">
+                                                            <div className="text-sm text-yellow-700">
                                                                 Please do not expose any sensitve class material and refrain from using explict language. { " " }
                                                                 <div className="font-medium text-yellow-700 underline ">
                                                                     Any reviews which violate our policy will be removed.
                                                                 </div>
-                                                            </p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -193,7 +222,7 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                 {/* Divider container */ }
                                                 <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
                                                     {/* Project name */ }
-                                                    <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+                                                    <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-3">
 
                                                         <div className='col-span-2'>
                                                             <div className='col-span-2'>
@@ -266,7 +295,7 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                             </label>
                                                             <select
                                                                 onChange={ (event) => {
-                                                                    if (event?.target?.value === "Other") {
+                                                                    if (event?.target?.value === "0") {
                                                                         setNewProfShow(true);
 
                                                                     }
@@ -280,11 +309,11 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                                 id="prof"
                                                                 name="prof"
                                                                 className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                                defaultValue="Select a professor"
+                                                                defaultValue=""
                                                             >
-                                                                <option disabled>Select a professor</option>
-                                                                { course?.profs?.map((prof) => <option key={ prof?.uuid } value={ prof?.name }> { prof.name }</option>) }
-                                                                <option key={ 123 } value={ "Other" }>Other</option>
+                                                                <option value={ "" } disabled>Select a professor</option>
+                                                                { course?.betterProfs?.map((prof) => <option key={ prof?.uuid } value={ prof?.uuid }> { prof.name || prof.fullName }</option>) }
+                                                                <option key={ 123 } value={ 0 }>Other</option>
                                                             </select>
                                                         </div>
 
@@ -312,8 +341,8 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                                             }
                                                                             }
                                                                             className={ classNames(
-                                                                                addProf ? 'bg-indigo-600' : 'bg-gray-200',
-                                                                                'relative inline-flex h-6 w-11 mt-3 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 ml-1'
+                                                                                addProf ? 'bg-pink-400' : 'bg-gray-200',
+                                                                                'relative inline-flex h-6 w-11 mt-3 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 ml-1'
                                                                             ) }
                                                                         >
                                                                             <span className="sr-only">Use setting</span>

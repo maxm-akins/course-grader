@@ -19,8 +19,8 @@ import { Dialog } from "@headlessui/react"
 import ClassHeader from "@/components/ClassHeader"
 
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
-
-
+import ErrorNotif from "@/components/ErrorNotif"
+import SuccessNotif from "@/components/SuccessNotif"
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -41,6 +41,10 @@ export default function Class() {
     const school = params?.school;
     let { setCourse, setSchool, course } = useContext(SchoolContext);
     const [filter, setFilter] = useState(searchParams.get('filter'));
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [success2, setSuccess2] = useState(false);
+    const [submitTrigger, setSubmitTrigger] = useState(false);
 
 
     useEffect(() => {
@@ -50,10 +54,10 @@ export default function Class() {
     useEffect(() => {
         setFilter(searchParams.get('filter'));
 
-        const filtered = reviews.filter((review) => {
+        const filtered = reviews?.filter((review) => {
             console.log(review.profRef);
             console.log(searchParams.get('filter'));
-            if (review.profRef === searchParams.get('filter')) return review;
+            if (review?.prof?.uuid === searchParams.get('filter')) return review;
 
 
         });
@@ -77,7 +81,7 @@ export default function Class() {
         getClassInfo();
         getSchoolInfo();
         getReviewList();
-    }, [])
+    }, [submitTrigger])
 
 
 
@@ -92,7 +96,7 @@ export default function Class() {
                                 <p className="text-sm font-semibold leading-6 text-gray-900">
                                     <div >
                                         Professor: <span className=" inset-x-0 -top-px bottom-0 font-normal leading-5 text-sm text-gray-500 hover:underline" >
-                                            { review?.profName }
+                                            { review?.prof?.fullName || review?.prof?.name }
 
                                         </span>
                                     </div>
@@ -202,9 +206,10 @@ export default function Class() {
     return (
         <>
 
-            <NewReviewSlide open={ open } setOpen={ setOpen } />
+            <NewReviewSlide setSubmitTrigger={ setSubmitTrigger } showSuccess={ showSuccess } success={ success } success2={ success2 } setShowSuccess={ setShowSuccess } setSuccess={ setSuccess } setSuccess2={ setSuccess2 } open={ open } setOpen={ setOpen } />
             <ClassHeader open={ open } setOpen={ setOpen } />
 
+            <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
 
 
 

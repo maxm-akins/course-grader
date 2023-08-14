@@ -18,6 +18,14 @@ const ProfSchema = new Schema({
         type: String,
         required: true,
     },
+    fullName: {
+        type: String,
+        required: true,
+    },
+    trunkFullName: {
+        type: String,
+        required: true,
+    },
     department: {
         type: String,
         required: true,

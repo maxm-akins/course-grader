@@ -88,10 +88,8 @@ router.get('/search/:school/:course/:q', async (req, res) => {
         let projection = {
             '$project': {
                 'name': 1,
+                'fullName': 1,
                 'uuid': 1,
-                "schoolRefs": 1,
-                "schoolRef": 1,
-                "courseRefs": 1,
                 "_id": 0
 
             }

@@ -12,11 +12,7 @@ const ReviewsSchema = new Schema({
     },
     userRef: {
         type: String,
-        required: true,
-    },
-    profName: {
-        type: String,
-        required: true,
+        required: false,
     },
     profRef: {
         type: String,

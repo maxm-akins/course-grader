@@ -126,8 +126,8 @@ export default function ClassHeader({ open, setOpen }) {
                         } }
                     >
                         <option value={ "none" } >All Professors</option>
-                        { course?.profs?.map((prof) => (
-                            <option key={ prof?.uuid } value={ prof?.ref }>{ prof.name }</option>
+                        { course?.betterProfs?.map((prof) => (
+                            <option key={ prof?.uuid } value={ prof?.uuid }>{ prof.fullName || prof.name }</option>
                         )) }
                     </select>
                 </div>

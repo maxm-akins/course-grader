@@ -92,7 +92,9 @@ export default function School() {
 
                     </div>
 
-                    <Combobox onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
+                    <Combobox
+
+                        onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
                         <Combobox.Input
                             className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
@@ -103,7 +105,7 @@ export default function School() {
                         { classes?.length > 0 && (
                             <Combobox.Options
                                 static
-                                className=" -mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left "
+                                className=" -mb-2 max-h-84 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
                             >
                                 <Combobox.Option
                                     disabled

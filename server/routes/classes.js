@@ -212,14 +212,35 @@ router.get('/search/:school/:q', async (req, res) => {
 router.get('/:q', async (req, res) => {
     const q = req.params.q;
     try {
-        const course = await ClassesModel.findOne({ uuid: q }, { _id: 0, name: 1, uuid: 1, profs: 1, descripCode: 1, classCode: 1, });
+        const courseRes = await ClassesModel.aggregate([
+            {
+                $match: { uuid: q }
+            },
+            {
+                $lookup: {
+                    from: "profs",
+                    pipeline: [
+                        { $match: { "courseRefs": { $in: [q] } } },
+                        { $project: { _id: 0, firstName: 0, middleName: 0, lastName: 0, trunkFullName: 0, department: 0, schoolRef: 0, courseRefs: 0, __v: 0 } }
+                    ],
+                    as: "betterProfs",
+                }
+            },
+
+        ]).limit(1);
+
+
+        let course = courseRes[0];
+
+
+        // const course = await ClassesModel.findOne({ uuid: q }, { _id: 0, name: 1, uuid: 1, profs: 1, descripCode: 1, classCode: 1, });
         const reviews = await ReviewsModels.find({ courseRef: q })
         console.log(reviews.length)
-        const length = reviews.length;
+        const length = reviews?.length;
         let diffAvg = 0;
         let courseAvg = 0;
         let profAvg = 0;
-        reviews.map((review) => {
+        reviews?.map((review) => {
             courseAvg += review?.courseRating ? review?.courseRating : 0;
             diffAvg += review?.difficultyRating ? review?.difficultyRating : 0;
             profAvg += review?.profRating ? review?.profRating : 0;
@@ -229,17 +250,13 @@ router.get('/:q', async (req, res) => {
         courseAvg = courseAvg / length;
         profAvg = profAvg / length;
 
-
-        const results = course.toObject();
-
-
-        results.difficultyRating = diffAvg;
-        results.courseRating = courseAvg;
-        results.profRating = profAvg;
-        results.amount = length;
+        course.difficultyRating = diffAvg;
+        course.courseRating = courseAvg;
+        course.profRating = profAvg;
+        course.amount = length;
 
 
-        res.status(200).json(results);
+        res.status(200).json(course);
     }
     catch (err) {
         console.log(err);

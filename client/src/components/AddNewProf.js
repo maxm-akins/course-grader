@@ -27,7 +27,7 @@ import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
 import ProfSearch from './ProfSearch'
-import { submitReview } from '@/api/reviews'
+import { postReview } from '@/api/reviews'
 import Link from 'next/link'
 
 function classNames(...classes) {
@@ -58,29 +58,6 @@ export default function AddNewProf({ firstName, middleName, lastName, department
     const [publicChecked, setPublicChecked] = useState(true);
 
 
-    const handleSubmitReview = async () => {
-        const data = {
-            term: term,
-            year: year,
-            newProfShow: newProfShow,
-            newProf: newProf,
-            prof: prof,
-            title: title,
-            description: description,
-            privateChecked: privateChecked,
-            publicChecked, publicChecked,
-            profRating: profRating,
-            difficultyRating: difficultyRating,
-            courseRating: courseRating,
-            schoolRef: school?.uuid,
-            courseRef: course?.uuid,
-
-
-        }
-        console.log(data);
-
-        const res = await submitReview(data);
-    }
 
 
 
@@ -184,13 +161,18 @@ export default function AddNewProf({ firstName, middleName, lastName, department
 
 
                         <div className="mt-2">
-                            <Combobox as="div" >
+                            <Combobox as="div"
+                                onChange={ (event) => {
+                                    console.log(event);
+                                    setDepartment(event);
+                                } }
+                            >
                                 <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">Department</Combobox.Label>
                                 <div className="relative mt-2">
                                     <Combobox.Input
                                         className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         onChange={ (event) => {
-                                            setProfQuery(event.target.value);
+                                            setProfQuery(event?.target?.value);
                                             setDepartment(event?.target?.value);
                                         } }
                                     // displayValue={ (person) => person?.name }

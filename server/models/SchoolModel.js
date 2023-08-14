@@ -35,6 +35,11 @@ const SchoolsSchema = new Schema({
         required: true,
         default: [],
     },
+    trunkDepartments: {
+        type: Array,
+        required: true,
+        default: [],
+    },
     website: {
         type: String,
     },

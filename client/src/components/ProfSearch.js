@@ -60,7 +60,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
             <Combobox
                 value={ selectedProf }
                 onChange={ (value) => {
-                    setSelectedProf(value);
+                    setSelectedProf(value?.name);
                     setNewProf(value);
                     setQuery("")
                 } }  >
@@ -71,6 +71,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                     onChange={ (event) => {
                         handleQueryChange(event.target.value);
                     } }
+                    displayValue={ selectedProf }
                 />
 
                 { query !== "" && profs?.length !== 0 && (
@@ -81,7 +82,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                         { profs?.map((prof) => (
                             <Combobox.Option
                                 key={ prof?.uuid }
-                                value={ prof?.name }
+                                value={ prof }
                                 className={ ({ active }) =>
                                     classNames(
                                         'cursor-default select-none rounded-md px-4 py-2 ',
@@ -91,7 +92,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                             >
                                 <div className='grid grid-cols-2'>
                                     <div>
-                                        { prof?.name }
+                                        { prof?.fullName || prof?.name }
 
                                     </div>
 

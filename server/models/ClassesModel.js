@@ -8,7 +8,7 @@ const ClassesSchema = new Schema({
     },
     trunkName: {
         type: String,
-        required: true,
+        required: false,
     },
     descripCode: {
         type: String,
