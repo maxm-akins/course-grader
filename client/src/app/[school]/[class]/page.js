@@ -2,16 +2,16 @@
 
 import NewReviewSlide from "@/components/NewReviewSlide"
 import { StarIcon, } from "@heroicons/react/20/solid"
-import { getClass } from "@/api/classes"
-import { getSchool } from "@/api/schools"
+import { getClass } from "@/apis/classes"
+import { getSchool } from "@/apis/schools"
 import SchoolContext from '@/context/SchoolProvider'
-import { searchClasses } from '@/api/classes'
+import { searchClasses } from '@/apis/classes'
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
-import { getReviews } from "@/api/reviews"
+import { getReviews } from "@/apis/reviews"
 import { Transition } from "@headlessui/react"
 import { Fragment } from "react"
 import { Dialog } from "@headlessui/react"
@@ -282,48 +282,6 @@ export default function Class() {
                                 </div>
                             </dl>
 
-
-                            {/* <div className={ `${course?.courseRating < 4 ? " bg-red-100" : course?.courseRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} grow rounded-md lg:w-full p-2` }>
-                                <h2 className="text-lg font-semibold tracking-tight text-gray-600"> Course </h2>
-
-                                <div className="mt-3 flex items-center">
-                                    <div>
-                                        <div className="flex items-center">
-                                            <p className="text-6xl sm:text-8xl lg:text-5xl font-black">
-                                                { Math.round(course.courseRating * 100) / 100 } <span className="text-sm">/ 10                                             </span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div className={ `${course?.profRating < 4 ? " bg-red-100" : course?.profRating < 7 ? "bg-yellow-100" : "bg-emerald-100"} grow rounded-md lg:w-full p-2` }>
-                                <h2 className="text-lg font-semibold tracking-tight text-gray-600"> Professor </h2>
-
-                                <div className="mt-3 flex items-center">
-                                    <div>
-                                        <div className="flex items-center">
-                                            <p className="text-6xl sm:text-8xl lg:text-5xl font-black">
-                                                { Math.round(course.profRating * 100) / 100 } <span className="text-sm">/ 10                                             </span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div className={ `${course?.difficultyRating < 4 ? " bg-emerald-100" : course?.difficultyRating < 7 ? "bg-yellow-100" : "bg-red-100"} grow rounded-md lg:w-full p-2` }>
-                                <h2 className="text-lg font-semibold tracking-tight text-gray-600"> Difficulty </h2>
-
-                                <div className="mt-3 flex items-center">
-                                    <div>
-                                        <div className="flex items-center">
-                                            <p className=" text-6xl sm:text-8xl lg:text-5xl font-black">
-                                                { Math.round(course.difficultyRating * 100) / 100 } <span className="text-sm">/ 10                                             </span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> */}
 
                         </div>
 

@@ -8,7 +8,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import SchoolContext from '@/context/SchoolProvider'
 import { useState, useContext, useEffect } from "react"
 import ProfSearch from './ProfSearch'
-import { postReview } from '@/api/reviews'
+import { postReview } from '@/apis/reviews'
 import AddNewProf from './AddNewProf'
 import ErrorNotif from './ErrorNotif'
 import SuccessNotif from './SuccessNotif'

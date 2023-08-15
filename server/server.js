@@ -13,6 +13,11 @@ app.use(credentials);
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
+
+
+
+
+
 const dbURL =
   process.env.MONGO_URL;
 
@@ -28,6 +33,7 @@ app.use('/classes', require('./routes/classes'));
 app.use('/profs', require('./routes/profs'));
 app.use('/schools', require('./routes/schools'));
 app.use('/reviews', require('./routes/reviews'));
+app.use('/users', require('./routes/users'));
 
 
 app.listen(3001, console.log("listening on port 3001"));

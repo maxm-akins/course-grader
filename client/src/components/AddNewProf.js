@@ -19,15 +19,15 @@ import { Combobox } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { LinkIcon, CheckIcon, ChevronUpDownIcon, InformationCircleIcon } from '@heroicons/react/20/solid'
-import { getClass } from "@/api/classes"
-import { getSchool } from "@/api/schools"
+import { getClass } from "@/apis/classes"
+import { getSchool } from "@/apis/schools"
 import SchoolContext from '@/context/SchoolProvider'
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
 import ProfSearch from './ProfSearch'
-import { postReview } from '@/api/reviews'
+import { postReview } from '@/apis/reviews'
 import Link from 'next/link'
 
 function classNames(...classes) {

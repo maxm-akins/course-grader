@@ -19,15 +19,15 @@ import { Dialog, Transition } from '@headlessui/react'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { LinkIcon, PlusIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid'
-import { getClass } from "@/api/classes"
-import { getSchool } from "@/api/profs"
+import { getClass } from "@/apis/classes"
+import { getSchool } from "@/apis/profs"
 import SchoolContext from '@/context/SchoolProvider'
 import { useRouter } from 'next/navigation'
 import { Combobox, Switch } from '@headlessui/react'
 import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
-import { searchProfsBySchool } from '@/api/profs'
+import { searchProfsBySchool } from '@/apis/profs'
 import Link from 'next/link'
 
 function classNames(...classes) {

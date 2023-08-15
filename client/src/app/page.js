@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { Combobox, } from '@headlessui/react'
 import Link from 'next/link'
-import useSchoolsApi from '@/api/schools'
+import useSchoolsApi from '@/apis/schools'
 const searchSchools = useSchoolsApi();
 
 

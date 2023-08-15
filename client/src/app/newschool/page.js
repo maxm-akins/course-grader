@@ -3,7 +3,7 @@
 
 import { PhotoIcon, UserCircleIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import { postSchool } from '@/api/schools'
+import { postSchool } from '@/apis/schools'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 

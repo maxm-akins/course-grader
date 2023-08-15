@@ -8,24 +8,13 @@ import { Bars3Icon, BellIcon, XMarkIcon, ChevronUpDownIcon } from '@heroicons/re
 import SchoolContext from '@/context/SchoolProvider'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-const user = {
-    name: 'Chelsea Hagon',
-    email: 'chelsea.hagon@example.com',
-    imageUrl:
-        'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+import AuthContext from '@/context/AuthProvider'
 
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
+    { name: 'Your Profile', href: '/profile' },
+    { name: 'Sign out', href: '/profile' },
 ]
 
-
-const people = [
-    { id: 1, name: 'Leslie Alexander' },
-    // More users...
-]
 
 
 
@@ -37,6 +26,7 @@ export default function NavBar() {
     const [query, setQuery] = useState('')
     const { school } = useContext(SchoolContext);
     const pathname = usePathname();
+    const { auth } = useContext(AuthContext)
 
 
 
@@ -59,18 +49,18 @@ export default function NavBar() {
 
                                 <div className="flex order-1 inset-y-0 left-0 lg:static col-span-2 sm:col-span-1 mr-2">
                                     <div className="flex flex-shrink-0 items-center">
-                                        <a href="/">
+                                        <Link href="/">
                                             <img
                                                 className="h-12 w-auto "
                                                 src="/CJ_Logo1.png"
                                                 alt="Your Company"
                                             />
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
 
                                 <div className='sm:hidden flex justify-center col-span-8 order-2 text-center items-center  '>
-                                    <h2 className=" font-bold text-transparent tracking-tight text-3xl sm:text-4xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Judger</h2>
+                                    <h2 className=" font-bold text-transparent tracking-tight text-3xl sm:text-4xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Judge</h2>
 
                                 </div>
 
@@ -115,46 +105,60 @@ export default function NavBar() {
 
 
                                     {/* Profile dropdown */ }
-                                    <Menu as="div" className="relative ml-5 flex-shrink-0">
-                                        <div>
-                                            <Menu.Button className="relative flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                <span className="absolute -inset-1.5" />
-                                                <span className="sr-only">Open user menu</span>
-                                                <img className="h-8 w-8 rounded-full" src={ user.imageUrl } alt="" />
-                                            </Menu.Button>
-                                        </div>
-                                        <Transition
-                                            as={ Fragment }
-                                            enter="transition ease-out duration-100"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95"
-                                        >
-                                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                { userNavigation.map((item) => (
-                                                    <Menu.Item key={ item.name }>
+                                    { JSON.stringify(auth) !== "{}" ? (
+                                        <Menu as="div" className="relative ml-3">
+                                            <div>
+                                                <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                    <span className="absolute -inset-1.5" />
+                                                    <span className="sr-only">Open user menu</span>
+                                                    <span className="inline-block h-6 w-6 overflow-hidden rounded-full bg-gray-100">
+                                                        <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                        </svg>
+                                                    </span>
+                                                </Menu.Button>
+                                            </div>
+                                            <Transition
+                                                as={ Fragment }
+                                                enter="transition ease-out duration-200"
+                                                enterFrom="transform opacity-0 scale-95"
+                                                enterTo="transform opacity-100 scale-100"
+                                                leave="transition ease-in duration-75"
+                                                leaveFrom="transform opacity-100 scale-100"
+                                                leaveTo="transform opacity-0 scale-95"
+                                            >
+                                                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <Menu.Item>
                                                         { ({ active }) => (
-                                                            <a
-                                                                href={ item.href }
-                                                                className={ classNames(
-                                                                    active ? 'bg-gray-100' : '',
-                                                                    'block px-4 py-2 text-sm text-gray-700'
-                                                                ) }
+                                                            <Link
+                                                                href="/profile"
+                                                                className={ classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700') }
                                                             >
-                                                                { item.name }
-                                                            </a>
+                                                                Your Profile
+                                                            </Link>
                                                         ) }
                                                     </Menu.Item>
-                                                )) }
+                                                    <Menu.Item>
+                                                        { ({ active }) => (
+                                                            <Link
+                                                                href="/profile"
+                                                                className={ classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700') }
+                                                            >
+                                                                Sign out
+                                                            </Link>
+                                                        ) }
+                                                    </Menu.Item>
+                                                </Menu.Items>
+                                            </Transition>
+                                        </Menu>
+                                    ) : (
+                                        <Link
+                                            href={ `/login` }
+                                        >
+                                            <button className='bg-pink-400 py-2 px-4 text-sm font-black rounded-md text-white hover:bg-black hover:text-pink-400 hover:border-pink-400 border-2 border-black'> Login </button>
 
-
-                                            </Menu.Items>
-
-                                        </Transition>
-                                    </Menu>
-
+                                        </Link>
+                                    ) }
 
                                 </div>
 
@@ -169,22 +173,7 @@ export default function NavBar() {
                         <Popover.Panel as="nav" className="md:hidden" aria-label="Global">
 
                             <div className="border-t border-gray-200 pb-3 pt-4">
-                                <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
-                                    <div className="flex-shrink-0">
-                                        <img className="h-10 w-10 rounded-full" src={ user.imageUrl } alt="" />
-                                    </div>
-                                    <div className="ml-3">
-                                        <div className="text-base font-medium text-gray-800">{ user.name }</div>
-                                        <div className="text-sm font-medium text-gray-500">{ user.email }</div>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                    >
-                                        <span className="absolute -inset-1.5" />
-                                        <span className="sr-only">View notifications</span>
-                                    </button>
-                                </div>
+
                                 <div className="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
                                     <Popover.Button
                                         as={ Link }
@@ -211,13 +200,13 @@ export default function NavBar() {
 
 
                                     { userNavigation.map((item) => (
-                                        <a
+                                        <Link
                                             key={ item.name }
                                             href={ item.href }
                                             className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                                         >
                                             { item.name }
-                                        </a>
+                                        </Link>
                                     )) }
 
 

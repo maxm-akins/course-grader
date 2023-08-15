@@ -1,11 +1,14 @@
 'use client';
 
 import { SchoolProvider } from "./SchoolProvider";
+import { AuthProvider } from "./AuthProvider";
 
 export function Providers({ children }) {
     return (
-        <SchoolProvider>
-            { children }
-        </SchoolProvider>
+        <AuthProvider>
+            <SchoolProvider>
+                { children }
+            </SchoolProvider>
+        </AuthProvider>
     );
 }

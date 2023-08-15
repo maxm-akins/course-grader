@@ -3,12 +3,12 @@
 
 import { PhotoIcon, UserCircleIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
-import { postClass } from '@/api/classes'
+import { postClass } from '@/apis/classes'
 import { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import SchoolContext from '@/context/SchoolProvider'
 import { useParams } from 'next/navigation'
-import { getSchool } from '@/api/schools'
+import { getSchool } from '@/apis/schools'
 
 import ErrorNotif from '@/components/ErrorNotif'
 import SuccessNotif from '@/components/SuccessNotif'

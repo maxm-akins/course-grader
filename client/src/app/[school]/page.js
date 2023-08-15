@@ -18,9 +18,9 @@ import {
 import { Menu, Transition, Combobox } from '@headlessui/react'
 import { useState } from 'react'
 import SchoolHeader from '@/components/SchoolHeader'
-import { getSchool } from '@/api/schools'
+import { getSchool } from '@/apis/schools'
 import SchoolContext from '@/context/SchoolProvider'
-import { searchClasses } from '@/api/classes'
+import { searchClasses } from '@/apis/classes'
 import { useRouter } from 'next/navigation'
 import { notFound } from 'next/navigation'
 

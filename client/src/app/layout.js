@@ -17,7 +17,6 @@ export default function RootLayout({ children }) {
           <NavBarRender />
           <div className="w-full min-h-[calc(100vh-64px)]">
             { children }
-
           </div>
           <Footer />
         </Providers>
