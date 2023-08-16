@@ -1,3 +1,5 @@
+"use client"
+
 import AuthContext from "@/context/AuthProvider";
 import { useContext } from "react";
 import axios from "../apis/axios";
@@ -9,10 +11,11 @@ const useRefreshToken = () => {
     const refresh = async () => {
         try {
             const response = await callRefresh();
+            console.log(response.data);
             setAuth(prev => {
                 return {
                     ...prev,
-                    accessToken: response?.data?.accessToken,
+                    accessToken: response?.data?.data?.accessToken,
                 }
             });
             return response?.data?.accessToken;

@@ -1,10 +1,13 @@
+"use client"
 import { axiosPrivate } from "../apis/axios";
-import { useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import useRefreshToken from "./useRefreshToken";
 import AuthContext from "@/context/AuthProvider";
 
 
 const useAxioPrivate = () => {
+
+
   const { auth } = useContext(AuthContext);
   const refresh = useRefreshToken();
 
@@ -37,7 +40,7 @@ const useAxioPrivate = () => {
     );
 
     return () => {
-      axiosPrivate.interceptors.response.eject(responseIntercept);
+      // axiosPrivate.interceptors.response.eject(responseIntercept);
       axiosPrivate.interceptors.request.eject(requestIntercept);
     };
   }, [auth, refresh]);

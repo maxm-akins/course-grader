@@ -1,6 +1,6 @@
 "use client"
 
-
+import { useRouter } from 'next/navigation'
 import { Fragment, useState, useContext, useEffect } from 'react'
 import { Menu, Popover, Transition, Combobox, } from '@headlessui/react'
 import { MagnifyingGlassIcon, StarIcon, MapPinIcon } from '@heroicons/react/20/solid'
@@ -9,6 +9,9 @@ import SchoolContext from '@/context/SchoolProvider'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AuthContext from '@/context/AuthProvider'
+import LoadingContext from '@/context/LoadingContext'
+import useLogout from '@/hooks/useLogout'
+import { login } from '@/apis/users'
 
 const userNavigation = [
     { name: 'Your Profile', href: '/profile' },
@@ -16,17 +19,35 @@ const userNavigation = [
 ]
 
 
-
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function NavBar() {
-    const [query, setQuery] = useState('')
+    const router = useRouter();
     const { school } = useContext(SchoolContext);
-    const pathname = usePathname();
-    const { auth } = useContext(AuthContext)
+    const { auth } = useContext(AuthContext);
+    const { setLoading } = useContext(LoadingContext);
+    const logout = useLogout();
+
+    const handleLogout = async () => {
+        const res = await logout();
+        setLoading(true);
+        if (res?.status === 204) {
+            router.push("/");
+            setTimeout(() => {
+                // setShowSuccess(false);
+                setLoading(false);
+            }
+                , 1000);
+
+        }
+        else {
+            setLoading(false);
+        }
+    }
+
+
 
 
 
@@ -96,7 +117,7 @@ export default function NavBar() {
                                         { open ? (
                                             <XMarkIcon className="block h-8 w-8" aria-hidden="true" />
                                         ) : (
-                                            <Bars3Icon className="block h-8 w-8" aria- hidden="true" />
+                                            <Bars3Icon className="block h-8 w-8" aria-hidden="true" />
                                         ) }
                                     </Popover.Button>
                                 </div>
@@ -111,8 +132,8 @@ export default function NavBar() {
                                                 <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                     <span className="absolute -inset-1.5" />
                                                     <span className="sr-only">Open user menu</span>
-                                                    <span className="inline-block h-6 w-6 overflow-hidden rounded-full bg-gray-100">
-                                                        <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                                    <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-pink-400">
+                                                        <svg className="h-full w-full text-white" fill="currentColor" viewBox="0 0 24 24">
                                                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                                         </svg>
                                                     </span>
@@ -140,12 +161,11 @@ export default function NavBar() {
                                                     </Menu.Item>
                                                     <Menu.Item>
                                                         { ({ active }) => (
-                                                            <Link
-                                                                href="/profile"
-                                                                className={ classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700') }
+                                                            <button
+                                                                onClick={ handleLogout } className={ classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700') }
                                                             >
                                                                 Sign out
-                                                            </Link>
+                                                            </button>
                                                         ) }
                                                     </Menu.Item>
                                                 </Menu.Items>

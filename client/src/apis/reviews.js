@@ -36,7 +36,6 @@ export const getReviews = async (course) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return await response.data;
 
     } catch (err) {

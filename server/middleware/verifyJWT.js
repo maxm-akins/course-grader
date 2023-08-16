@@ -5,7 +5,7 @@ require('dotenv').config();
 const verifyJWT = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;;
     console.log("we are in the jwt middleware");
-    if(!authHeader) {
+    if (!authHeader) {
         console.log("Request does not have header.")
         return res.sendStatus(401);
     }
@@ -15,11 +15,14 @@ const verifyJWT = (req, res, next) => {
     jwt.verify(token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, decoded) => {
-            if(err) return res.sendStatus(403);
-            req.user = decoded.username;
+            if (err) {
+                console.log("This in not a valid access token.")
+                return res.status(403).json({ message: "This in not a valid access token." });
+            }
+            req.email = decoded?.email;
             next();
         }
-        );
+    );
 }
 
 module.exports = verifyJWT;

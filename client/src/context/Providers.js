@@ -2,13 +2,17 @@
 
 import { SchoolProvider } from "./SchoolProvider";
 import { AuthProvider } from "./AuthProvider";
+import { LoadingProvider } from "./LoadingContext";
 
 export function Providers({ children }) {
     return (
-        <AuthProvider>
-            <SchoolProvider>
-                { children }
-            </SchoolProvider>
-        </AuthProvider>
+        <LoadingProvider>
+            <AuthProvider>
+                <SchoolProvider>
+                    { children }
+                </SchoolProvider>
+            </AuthProvider>
+        </LoadingProvider>
+
     );
 }

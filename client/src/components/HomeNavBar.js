@@ -1,18 +1,44 @@
 "use client"
 
-
 import { Disclosure, Menu, Transition, } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import AuthContext from '@/context/AuthProvider'
 import { useContext, Fragment } from 'react'
+import SchoolContext from '@/context/SchoolProvider'
+import LoadingContext from '@/context/LoadingContext'
+import useLogout from '@/hooks/useLogout'
+import { useRouter } from 'next/navigation'
+
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function HomeNavBar() {
+    const router = useRouter();
+    const { school } = useContext(SchoolContext);
     const { auth } = useContext(AuthContext);
+    const { setLoading } = useContext(LoadingContext);
+    const logout = useLogout();
+
+    const handleLogout = async () => {
+        setLoading(true);
+        const res = await logout();
+        if (res?.status === 204) {
+            router.push("/");
+            setTimeout(() => {
+                // setShowSuccess(false);
+                setLoading(false);
+            }
+                , 1000);
+
+        }
+        else {
+            setLoading(false);
+        }
+    }
 
 
     return (
@@ -46,8 +72,12 @@ export default function HomeNavBar() {
                                         </Link>
 
                                     </div>
+
                                     <div className='flex items-center  '>
-                                        <h2 className=" font-bold text-transparent tracking-tight text-3xl sm:text-4xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Judge</h2>
+                                        <Link href="/">
+
+                                            <h2 className=" font-bold text-transparent tracking-tight text-3xl sm:text-4xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Judge</h2>
+                                        </Link>
 
                                     </div>
 
@@ -68,8 +98,8 @@ export default function HomeNavBar() {
                                                 <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                     <span className="absolute -inset-1.5" />
                                                     <span className="sr-only">Open user menu</span>
-                                                    <span className="inline-block h-6 w-6 overflow-hidden rounded-full bg-gray-100">
-                                                        <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                                    <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-pink-400">
+                                                        <svg className="h-full w-full text-white" fill="currentColor" viewBox="0 0 24 24">
                                                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                                         </svg>
                                                     </span>
@@ -97,12 +127,12 @@ export default function HomeNavBar() {
                                                     </Menu.Item>
                                                     <Menu.Item>
                                                         { ({ active }) => (
-                                                            <Link
-                                                                href="/profile"
+                                                            <button
+                                                                onClick={ handleLogout }
                                                                 className={ classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700') }
                                                             >
                                                                 Sign out
-                                                            </Link>
+                                                            </button>
                                                         ) }
                                                     </Menu.Item>
                                                 </Menu.Items>

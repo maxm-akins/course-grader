@@ -12,7 +12,6 @@ const getSchools = async () => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return response.data;
 
     } catch (err) {
@@ -36,7 +35,6 @@ export const searchSchools = async (q) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return await response.data;
 
     } catch (err) {
@@ -62,7 +60,6 @@ export const getSchool = async (q) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return await response.data;
 
     } catch (err) {
@@ -83,7 +80,6 @@ export const postSchool = async (data) => {
                 withCredentials: true,
             }
         );
-        await console.log(response)
         return await response;
 
     } catch (err) {

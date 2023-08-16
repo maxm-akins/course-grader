@@ -4,7 +4,8 @@ require("dotenv").config();
 const short = require('short-uuid');
 const UserModel = require("../models/UserModel")
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const verifyJWT = require("../middleware/verifyJWT");
 
 
 
@@ -32,13 +33,13 @@ router.post('/login', async (req, res) => {
         const accessToken = jwt.sign(
             { ...tokenData },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "15m" }
+            { expiresIn: "5m" }
         );
 
         const refreshToken = jwt.sign(
             { ...tokenData },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: "1hr" }
+            { expiresIn: "10m" }
         );
 
         account.refreshToken = refreshToken;
@@ -138,32 +139,38 @@ router.post('/register', async (req, res) => {
 
 router.get('/refresh', async (req, res) => {
     try {
-
-
         console.log(req.cookies);
         const cookies = req.cookies;
 
         if (!cookies?.jwt) return res.sendStatus(401);
-        const refreshToken = cookies.jwt;
+        const refreshToken = cookies?.jwt;
 
         const account = await UserModel.findOne({ refreshToken }).exec();
         if (!account) return res.status(400).json({ message: "Could not verify account" });
+
+        const tokenData = {
+            uuid: account?.uuid,
+            email: account?.email,
+        }
+
 
         jwt.verify(
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET,
             (err, decoded) => {
-                if (err || account.email !== decoded.email)
-                    return res.sendStatus(403);
+                if (err || account.email !== decoded.email) {
+                    return res.status(403).json({ message: "You do not have a valid token. Login again to recieve a new one.s" });
+
+                }
                 const accessToken = jwt.sign(
                     { ...tokenData },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: "15m" }
+                    { expiresIn: "5m" }
                 );
                 res.status(201).json({
                     message: 'User Token Refreshed',
                     data: {
-                        email: email,
+                        email: account?.email,
                         accessToken: accessToken
                     }
                 })
@@ -178,6 +185,67 @@ router.get('/refresh', async (req, res) => {
         res.sendStatus(400);
     }
 });
+
+
+
+router.get('/getUser', verifyJWT, async (req, res) => {
+    try {
+        console.log(req?.email);
+        const email = req?.email;
+        if (!email) {
+            console.log("Request does not have an auth header.")
+            return res.send(401).json({ message: "Request does not have an email." });
+        }
+
+        const account = await UserModel.findOne({ email: email }, { _id: 0, password: 0, uuid: 0, refreshToken: 0 });
+        if (!account) return res.send(400).json({ message: "Account not found with given information." });
+
+
+
+        res.status(200).json(account);
+
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+
+
+
+
+router.get('/logout', async (req, res) => {
+    const cookies = req.cookies;
+    if (!cookies?.jwt) return res.status(204).json({ message: "No cookies send with request." }); //No content
+    const refreshToken = cookies?.jwt;
+
+
+
+    const account = await UserModel.findOne({ refreshToken });
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+    if (!account) {
+        return res.sendStatus(204);
+    }
+
+    account.refreshToken = "";
+    account.save().then(() => {
+        res.status(204).json({ message: "User Successfully Logged Out" });
+    },
+        (err) => {
+            console.log(err);
+            res.status(err.status || 400).json({ message: err.message });
+            return;
+
+        })
+
+
+
+
+});
+
+
+
 
 
 

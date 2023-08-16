@@ -16,7 +16,6 @@ export const searchClasses = async (school, q) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return await response.data;
 
     } catch (err) {
@@ -40,7 +39,6 @@ export const getClass = async (q) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return await response.data;
 
     } catch (err) {
@@ -63,7 +61,6 @@ export const postClass = async (data) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return await response;
 
     } catch (err) {

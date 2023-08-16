@@ -6,26 +6,23 @@ import { UsersIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useState, useContext, use } from 'react'
 import { login } from '@/apis/users'
-import SuccessNotif from '@/components/SuccessNotif'
 import ErrorNotif from '@/components/ErrorNotif'
 import AuthContext from '@/context/AuthProvider'
-
+import LoadingContext from '@/context/LoadingContext'
 
 
 
 export default function Login() {
 
     const { setAuth } = useContext(AuthContext);
-
+    const { setLoading } = useContext(LoadingContext);
+    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [emailErr, setEmailErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
     const [err, setErr] = useState(false);
     const [showError, setShowError] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [success2, setSuccess2] = useState(false);
 
 
     const validate = async () => {
@@ -48,21 +45,16 @@ export default function Login() {
             email,
             password
         }
-
+        setLoading(true);
         const res = await login(data);
         console.log(res);
         if (res?.status === 201) {
+            setLoading(false);
             setAuth(res?.data?.data);
-            setShowSuccess(true)
-            setSuccess(res?.data?.message);
-
-            setTimeout(() => {
-                setShowSuccess(false);
-            }
-                , 3000);
-
+            router.push("/");
         }
         else {
+            setLoading(false);
             setShowError(true);
             setErr(res?.response?.data?.message)
             setTimeout(() => {
@@ -81,7 +73,6 @@ export default function Login() {
 
     return (
         <>
-            <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
             <ErrorNotif show={ showError } setShow={ setShowError } err={ err } />
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
