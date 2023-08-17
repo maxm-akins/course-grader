@@ -25,6 +25,9 @@ export default function Register() {
     const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
     const passwordRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
 
+    const [first, setFirst] = useState("");
+    const [middle, setMiddle] = useState("");
+    const [last, setLast] = useState("");
     const [email, setEmail] = useState("");
     const [confirmedEmail, setConfirmedEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -36,6 +39,8 @@ export default function Register() {
 
 
     const validate = async () => {
+
+
         const isValidEmail = emailRegex.test(email);
         if (!isValidEmail) {
             setEmailErr("Not a valid email");
@@ -72,33 +77,40 @@ export default function Register() {
 
         const data = {
             email,
-            password
+            password,
+            first,
+            middle,
+            last
         }
 
         const res = await register(data);
         console.log(res);
         if (res?.status === 201) {
-            setShowSuccess(true)
-            setSuccess(res?.data?.message);
-            setSuccess2("Redirecting to login...");
-            setEmail("")
-            setPassword("")
-            setConfirmedEmail("")
-            setConfirmedPassword("")
-            setTimeout(() => {
-                setShowSuccess(false);
-                router.push("/login");
-            }
-                , 3000);
+            // setShowSuccess(true)
+            // setSuccess(res?.data?.message);
+            // setSuccess2("Redirecting to login...");
+            // setEmail("")
+            // setPassword("")
+            // setConfirmedEmail("")
+            // setConfirmedPassword("")
+            // setTimeout(() => {
+            //     setShowSuccess(false);
+            router.push("/login");
+            // }
+            //     , 3000);
 
         }
         else {
+            const errors = res?.response?.data?.err?.errors;
+            const keys = Object.keys(errors);
+
             setShowError(true);
-            setErr(res?.response?.data?.message)
+            console.log(errors);
+            setErr(errors[keys[0]]?.message);
             setTimeout(() => {
                 setShowError(false)
             }
-                , 3000);
+                , 10000);
             return;
         }
 
@@ -125,6 +137,61 @@ export default function Register() {
 
                 <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
                     <div className="space-y-6" >
+
+                        <div>
+                            <label htmlFor="first" className="block text-sm font-medium leading-6 text-gray-900">
+                                First Name
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    onChange={ (event) => {
+                                        setFirst(event?.target?.value)
+                                    } }
+                                    id="first"
+                                    name="first"
+                                    type="text"
+                                    value={ first }
+                                    className="block w-full rounded-md border-0 p-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-400 sm:text-sm sm:leading-6"
+                                />
+
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="middle" className="block text-sm font-medium leading-6 text-gray-900">
+                                Middle Name <span className='text-xs text-gray-400'> optional </span>
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    onChange={ (event) => {
+                                        setMiddle(event?.target?.value)
+                                    } }
+                                    id="middle"
+                                    name="middle"
+                                    type="text"
+                                    value={ middle }
+                                    className="block w-full rounded-md border-0 p-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-400 sm:text-sm sm:leading-6"
+                                />
+
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="last" className="block text-sm font-medium leading-6 text-gray-900">
+                                Last Name
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    onChange={ (event) => {
+                                        setLast(event?.target?.value)
+                                    } }
+                                    id="last"
+                                    name="last"
+                                    type="test"
+                                    value={ last }
+                                    className="block w-full rounded-md border-0 p-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-400 sm:text-sm sm:leading-6"
+                                />
+
+                            </div>
+                        </div>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email Address

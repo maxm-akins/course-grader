@@ -1,9 +1,14 @@
+"use client"
+
 import axios from "axios";
-export default axios.create({ baseURL: process.env.NEXT_PUBLIC_BASE_URL });
 import { refresh } from "./users";
+
+export default axios.create({ baseURL: process.env.NEXT_PUBLIC_BASE_URL });
 
 
 export const useAxioPrivate = (auth) => {
+
+
     const axiosPrivate = axios.create(
         {
             baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -28,9 +33,11 @@ export const useAxioPrivate = (auth) => {
         (response) => response,
         async (error) => {
             const prevRequest = error?.config;
+            console.log(error);
             if (error?.response?.status === 403 && !prevRequest?.sent) {
                 prevRequest.sent = true;
-                const newAccessToken = await refresh();
+                const res = await refresh();
+                const newAccessToken = res?.data?.data?.accessToken;
                 prevRequest.headers.Authorization = `Bearer ${newAccessToken}`;
                 return axiosPrivate(prevRequest);
             }

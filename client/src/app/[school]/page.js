@@ -22,18 +22,12 @@ import { getSchool } from '@/apis/schools'
 import SchoolContext from '@/context/SchoolProvider'
 import { searchClasses } from '@/apis/classes'
 import { useRouter } from 'next/navigation'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
-
-const people = [
-    { id: 1, name: 'Computer Assembly and Organization', classCode: "0447", schoolCode: "CS", prof: "Jarret Billingsly", url: "1234567" },
-    // More people...
-]
-
 
 
 export default function School() {
@@ -60,13 +54,17 @@ export default function School() {
 
     const getSchoolInfo = async () => {
         const data = await getSchool(schoolParam);
-        if (!data) return notFound();
+        if (!data) {
+            console.log("bad");
+            router.replace("/404");
+        }
         else setSchool((data))
 
     }
 
     useEffect(() => {
-        getSchoolInfo();
+        const res = getSchoolInfo();
+
     }, [])
 
 
@@ -74,7 +72,7 @@ export default function School() {
 
     return (
         <>
-            <SchoolHeader school={ schoolInfo } />
+            <SchoolHeader />
 
             <div className="mt-3 ">
                 <div className=" ">

@@ -17,7 +17,7 @@ import { Fragment } from "react"
 import { Dialog } from "@headlessui/react"
 // import classNames from "classnames"
 import ClassHeader from "@/components/ClassHeader"
-
+import { redirect } from "next/navigation"
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
 import ErrorNotif from "@/components/ErrorNotif"
 import SuccessNotif from "@/components/SuccessNotif"
@@ -67,7 +67,11 @@ export default function Class() {
 
 
     const getClassInfo = async () => {
-        setCourse((await getClass(courseParam)))
+        const data = await getClass(courseParam);
+        if (data?.response?.status === 409) {
+            console.log("bad");
+            router.replace("/404");
+        } else setCourse(data)
     }
     const getSchoolInfo = async () => {
         setSchool((await getSchool(school)))

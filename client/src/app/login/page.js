@@ -51,7 +51,7 @@ export default function Login() {
         if (res?.status === 201) {
             setLoading(false);
             setAuth(res?.data?.data);
-            router.push("/");
+            router.back();
         }
         else {
             setLoading(false);

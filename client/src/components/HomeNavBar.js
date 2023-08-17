@@ -1,24 +1,28 @@
 "use client"
 
 import { Disclosure, Menu, Transition, } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import AuthContext from '@/context/AuthProvider'
 import { useContext, Fragment } from 'react'
-import SchoolContext from '@/context/SchoolProvider'
 import LoadingContext from '@/context/LoadingContext'
 import useLogout from '@/hooks/useLogout'
 import { useRouter } from 'next/navigation'
+import GoBack from './GoBack'
+import { usePathname } from 'next/navigation'
 
-
+const items = [
+    { name: 'Login', href: '/login' },
+    { name: 'Sign Up', href: '/register' },
+]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function HomeNavBar() {
+    const pathname = usePathname();
     const router = useRouter();
-    const { school } = useContext(SchoolContext);
     const { auth } = useContext(AuthContext);
     const { setLoading } = useContext(LoadingContext);
     const logout = useLogout();
@@ -29,7 +33,6 @@ export default function HomeNavBar() {
         if (res?.status === 204) {
             router.push("/");
             setTimeout(() => {
-                // setShowSuccess(false);
                 setLoading(false);
             }
                 , 1000);
@@ -39,7 +42,6 @@ export default function HomeNavBar() {
             setLoading(false);
         }
     }
-
 
     return (
         <>
@@ -98,11 +100,26 @@ export default function HomeNavBar() {
                                                 <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                     <span className="absolute -inset-1.5" />
                                                     <span className="sr-only">Open user menu</span>
-                                                    <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-pink-400">
-                                                        <svg className="h-full w-full text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                                        </svg>
-                                                    </span>
+
+
+                                                    { auth?.firstName && auth?.lastName ? (
+                                                        <>
+                                                            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-pink-400">
+                                                                <span className="text-sm font-medium leading-none text-white">{ auth?.firstName[0] + auth?.lastName[0] }</span>
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-pink-400">
+                                                                <svg className="h-full w-full text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                                </svg>
+                                                            </span>
+                                                        </>
+                                                    ) }
+
+
+
                                                 </Menu.Button>
                                             </div>
                                             <Transition
@@ -129,7 +146,7 @@ export default function HomeNavBar() {
                                                         { ({ active }) => (
                                                             <button
                                                                 onClick={ handleLogout }
-                                                                className={ classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700') }
+                                                                className={ classNames(active ? 'bg-gray-100' : '', ' text-left w-full block px-4 py-2 text-sm text-gray-700') }
                                                             >
                                                                 Sign out
                                                             </button>
@@ -139,12 +156,54 @@ export default function HomeNavBar() {
                                             </Transition>
                                         </Menu>
                                     ) : (
-                                        <Link
-                                            href={ `/login` }
-                                        >
-                                            <button className='bg-pink-400 py-2 px-4 text-sm font-black rounded-md text-white hover:bg-black hover:text-pink-400 hover:border-pink-400 border-2 border-black'> Login </button>
+                                        <>
 
-                                        </Link>
+                                            <div className="inline-flex rounded-md shadow-sm">
+                                                <Link
+                                                    href="/login"
+                                                    type="button"
+                                                    className="relative inline-flex items-center rounded-l-md bg-black text-pink-400 px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-black hover:text-white focus:z-10"
+                                                >
+                                                    Login
+                                                </Link>
+                                                <Menu as="div" className="relative -ml-px block">
+                                                    <Menu.Button className="relative inline-flex items-center rounded-r-md bg-black px-2 py-2 text-pink-400 hover:text-white focus:z-10">
+                                                        <span className="sr-only">Open options</span>
+                                                        <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                                                    </Menu.Button>
+                                                    <Transition
+                                                        as={ Fragment }
+                                                        enter="transition ease-out duration-100"
+                                                        enterFrom="transform opacity-0 scale-95"
+                                                        enterTo="transform opacity-100 scale-100"
+                                                        leave="transition ease-in duration-75"
+                                                        leaveFrom="transform opacity-100 scale-100"
+                                                        leaveTo="transform opacity-0 scale-95"
+                                                    >
+                                                        <Menu.Items className="absolute right-0 z-10 -mr-1 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg  focus:outline-none">
+                                                            <div className="py-1">
+                                                                { items.map((item) => (
+                                                                    <Menu.Item key={ item.name }>
+                                                                        { ({ active }) => (
+                                                                            <Link
+                                                                                href={ item.href }
+                                                                                className={ classNames(
+                                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                                    'block px-4 py-2 text-sm'
+                                                                                ) }
+                                                                            >
+                                                                                { item.name }
+                                                                            </Link>
+                                                                        ) }
+                                                                    </Menu.Item>
+                                                                )) }
+                                                            </div>
+                                                        </Menu.Items>
+                                                    </Transition>
+                                                </Menu>
+                                            </div>
+                                        </>
+
                                     ) }
 
 
@@ -163,7 +222,7 @@ export default function HomeNavBar() {
                                 >
                                     <Disclosure.Button
 
-                                        className="block border-l-4  py-2 pl-3 pr-4 text-base font-medium text-pink-400"
+                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500  hover:text-pink-600"
                                     >
                                         School Search
                                     </Disclosure.Button>
@@ -196,6 +255,8 @@ export default function HomeNavBar() {
                     </>
                 ) }
             </Disclosure>
+            { pathname !== "/" && <GoBack /> }
+
         </>
     )
 }

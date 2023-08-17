@@ -4,20 +4,17 @@ import { useRouter } from 'next/navigation'
 import { Fragment, useState, useContext, useEffect } from 'react'
 import { Menu, Popover, Transition, Combobox, } from '@headlessui/react'
 import { MagnifyingGlassIcon, StarIcon, MapPinIcon } from '@heroicons/react/20/solid'
-import { Bars3Icon, BellIcon, XMarkIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import SchoolContext from '@/context/SchoolProvider'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import AuthContext from '@/context/AuthProvider'
 import LoadingContext from '@/context/LoadingContext'
 import useLogout from '@/hooks/useLogout'
-import { login } from '@/apis/users'
 
-const userNavigation = [
-    { name: 'Your Profile', href: '/profile' },
-    { name: 'Sign out', href: '/profile' },
+const items = [
+    { name: 'Login', href: '/login' },
+    { name: 'Sign Up', href: '/register' },
 ]
-
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -36,7 +33,6 @@ export default function NavBar() {
         if (res?.status === 204) {
             router.push("/");
             setTimeout(() => {
-                // setShowSuccess(false);
                 setLoading(false);
             }
                 , 1000);
@@ -46,8 +42,6 @@ export default function NavBar() {
             setLoading(false);
         }
     }
-
-
 
 
 
@@ -162,7 +156,7 @@ export default function NavBar() {
                                                     <Menu.Item>
                                                         { ({ active }) => (
                                                             <button
-                                                                onClick={ handleLogout } className={ classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700') }
+                                                                onClick={ handleLogout } className={ classNames(active ? 'bg-gray-100' : '', 'w-full text-left block px-4 py-2 text-sm text-gray-700') }
                                                             >
                                                                 Sign out
                                                             </button>
@@ -172,12 +166,50 @@ export default function NavBar() {
                                             </Transition>
                                         </Menu>
                                     ) : (
-                                        <Link
-                                            href={ `/login` }
-                                        >
-                                            <button className='bg-pink-400 py-2 px-4 text-sm font-black rounded-md text-white hover:bg-black hover:text-pink-400 hover:border-pink-400 border-2 border-black'> Login </button>
-
-                                        </Link>
+                                        <div className="inline-flex rounded-md shadow-sm">
+                                            <Link
+                                                href="/login"
+                                                type="button"
+                                                className="relative inline-flex items-center rounded-l-md bg-black text-pink-400 px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-black hover:text-white focus:z-10"
+                                            >
+                                                Login
+                                            </Link>
+                                            <Menu as="div" className="relative -ml-px block">
+                                                <Menu.Button className="relative inline-flex items-center rounded-r-md bg-black px-2 py-2 text-pink-400 hover:text-white focus:z-10">
+                                                    <span className="sr-only">Open options</span>
+                                                    <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                                                </Menu.Button>
+                                                <Transition
+                                                    as={ Fragment }
+                                                    enter="transition ease-out duration-100"
+                                                    enterFrom="transform opacity-0 scale-95"
+                                                    enterTo="transform opacity-100 scale-100"
+                                                    leave="transition ease-in duration-75"
+                                                    leaveFrom="transform opacity-100 scale-100"
+                                                    leaveTo="transform opacity-0 scale-95"
+                                                >
+                                                    <Menu.Items className="absolute right-0 z-10 -mr-1 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg  focus:outline-none">
+                                                        <div className="py-1">
+                                                            { items.map((item) => (
+                                                                <Menu.Item key={ item.name }>
+                                                                    { ({ active }) => (
+                                                                        <Link
+                                                                            href={ item.href }
+                                                                            className={ classNames(
+                                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                                'block px-4 py-2 text-sm'
+                                                                            ) }
+                                                                        >
+                                                                            { item.name }
+                                                                        </Link>
+                                                                    ) }
+                                                                </Menu.Item>
+                                                            )) }
+                                                        </div>
+                                                    </Menu.Items>
+                                                </Transition>
+                                            </Menu>
+                                        </div>
                                     ) }
 
                                 </div>
@@ -197,7 +229,6 @@ export default function NavBar() {
                                 <div className="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
                                     <Popover.Button
                                         as={ Link }
-                                        onClick={ () => (setOpen(false)) }
                                         key={ "schools" }
                                         href={ `/` }
                                         className="block rounded-md px-3 py-2 text-base font-medium text-pink-400 hover:bg-gray-50 hover:text-gray-900"
@@ -208,7 +239,6 @@ export default function NavBar() {
                                     <Popover.Button
 
                                         as={ Link }
-                                        onClick={ () => (setOpen(false)) }
                                         key={ "courses" }
                                         href={ `/${school?.trunkName}` }
                                         className="block rounded-md px-3 py-2 text-base font-medium text-pink-400 hover:bg-gray-50 hover:text-gray-900"
@@ -217,17 +247,58 @@ export default function NavBar() {
 
                                     </Popover.Button>
 
+                                    { JSON.stringify(auth) !== "{}" ? (
+                                        <>
+                                            <Popover.Button
+
+                                                as={ Link }
+                                                key={ "profile" }
+                                                href={ `/profile` }
+                                                className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                            >
+                                                Profile
+
+                                            </Popover.Button>
+                                            <Popover.Button
+
+                                                o onClick={ () => (handleLogout()) }
+
+                                                key={ "signout" }
+                                                className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                            >
+                                                Sign Out
+
+                                            </Popover.Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Popover.Button
+
+                                                as={ Link }
+                                                key={ "login" }
+                                                href={ `/login` }
+                                                className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                            >
+                                                Login
+
+                                            </Popover.Button>
+                                            <Popover.Button
+
+                                                as={ Link }
+                                                key={ "register" }
+                                                href={ `/register` }
+                                                className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                            >
+                                                Sign Up
+
+                                            </Popover.Button>
+                                        </>
+                                    ) }
 
 
-                                    { userNavigation.map((item) => (
-                                        <Link
-                                            key={ item.name }
-                                            href={ item.href }
-                                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                        >
-                                            { item.name }
-                                        </Link>
-                                    )) }
+
+
+
 
 
                                 </div>

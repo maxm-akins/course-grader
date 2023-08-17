@@ -229,6 +229,9 @@ router.get('/:q', async (req, res) => {
 
         ]).limit(1);
 
+        console.log(courseRes);
+        if (courseRes.length === 0) return res.status(409).send({ message: "No courses found." });
+
 
         let course = courseRes[0];
 

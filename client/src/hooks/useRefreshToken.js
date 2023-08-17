@@ -11,13 +11,7 @@ const useRefreshToken = () => {
     const refresh = async () => {
         try {
             const response = await callRefresh();
-            console.log(response.data);
-            setAuth(prev => {
-                return {
-                    ...prev,
-                    accessToken: response?.data?.data?.accessToken,
-                }
-            });
+            setAuth(response?.data?.data);
             return response?.data?.accessToken;
         }
         catch (err) {

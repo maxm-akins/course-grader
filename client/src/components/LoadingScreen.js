@@ -6,10 +6,6 @@ import { useContext, useEffect } from 'react';
 import LoadingContext from '@/context/LoadingContext';
 export default function LoadingScreen() {
     const { loading } = useContext(LoadingContext);
-    useEffect(() => {
-        console.log(loading);
-    }, [])
-
     return (
         <>
 

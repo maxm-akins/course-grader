@@ -8,6 +8,8 @@
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "@/context/AuthProvider"
 import { useRouter } from "next/navigation";
+import { redirect } from 'next/navigation'
+
 
 
 export default function RegisterLayout({ children }) {
@@ -20,7 +22,7 @@ export default function RegisterLayout({ children }) {
     useEffect(() => {
         if (JSON.stringify(auth) !== "{}") {
             setAuthed(true);
-            router.push('/profile')
+            redirect('/profile')
 
         }
         else {

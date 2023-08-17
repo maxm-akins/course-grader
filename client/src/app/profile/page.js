@@ -1,7 +1,7 @@
 
 "use client"
 import { PaperClipIcon } from "@heroicons/react/20/solid"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import AuthContext from "@/context/AuthProvider"
 import { getUser } from "@/apis/users"
 import useRefreshToken from "@/hooks/useRefreshToken"
@@ -9,22 +9,34 @@ import useRefreshToken from "@/hooks/useRefreshToken"
 
 export default function Profile({ children }) {
     const refresh = useRefreshToken();
-    const { auth } = useContext(AuthContext);
+    const { auth, setAuth } = useContext(AuthContext);
     const [user, setUser] = useState({})
 
 
     const handleGetUser = async () => {
         const res = await getUser(auth);
-        setUser(res?.data);
+        if (res?.toggleAuth) {
+            setUser(res?.res?.data);
+            const accessToken = res?.res?.config?.headers?.Authorization?.split(' ')[1];
+            setAuth(prev => {
+                return {
+                    ...prev,
+                    accessToken: accessToken,
+                }
+            });
+        }
+        else {
+            setUser(res?.data);
+        }
     }
 
-    const handleRefresh = async () => {
-        const res = await refresh();
-    }
+    useEffect(() => {
+        handleGetUser();
+    }, [])
 
     return (
         <>
-            <div className="p-20">
+            <div className="sm:p-20 p-10">
 
                 <div className="overflow-hidden bg-white shadow-lg sm:rounded-lg">
                     <div className="px-4 py-6 sm:px-6">
@@ -53,18 +65,7 @@ export default function Profile({ children }) {
                         </dl>
                     </div>
                 </div>
-                <button
-                    onClick={ handleGetUser }
 
-                    className='bg-pink-400 py-2 px-4 text-sm font-black rounded-md text-white hover:bg-black hover:text-pink-400 hover:border-pink-400 border-2 border-black'>
-                    Get User
-                </button>
-                <button
-                    onClick={ handleRefresh }
-
-                    className='bg-pink-400 py-2 px-4 text-sm font-black rounded-md text-white hover:bg-black hover:text-pink-400 hover:border-pink-400 border-2 border-black'>
-                    Refresh
-                </button>
 
             </div>
 

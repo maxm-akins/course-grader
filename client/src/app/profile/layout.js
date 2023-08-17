@@ -3,6 +3,8 @@
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "@/context/AuthProvider"
 import { useRouter } from "next/navigation";
+import { redirect } from 'next/navigation'
+
 export default function ProfileLayout({ children }) {
     const { auth } = useContext(AuthContext);
     const router = useRouter();
@@ -15,7 +17,7 @@ export default function ProfileLayout({ children }) {
         }
         else {
             setAuthed(false);
-            router.push('/login')
+            redirect('/login')
         }
 
     }, [auth])

@@ -15,7 +15,6 @@ export const register = async (data) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return response;
 
     } catch (err) {
@@ -38,7 +37,6 @@ export const login = async (data) => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
         return response;
 
     } catch (err) {
@@ -58,8 +56,6 @@ export const refresh = async () => {
                 withCredentials: true,
             }
         );
-        await console.log(response.data)
-        await console.log(response?.data?.data?.accessToken)
         return response;
 
     } catch (err) {
@@ -74,15 +70,18 @@ export const getUser = async (auth) => {
     const axiosPrivate = useAxioPrivate(auth);
 
     try {
-        const response = await axiosPrivate.get(
+        const res = await axiosPrivate.get(
             "/users/getUser",
             {
                 withCredentials: true,
             }
         );
 
-        await console.log(response.data)
-        return response;
+        if (res?.config?.sent === true) {
+            return { res, toggleAuth: true }
+        }
+
+        return res;
 
     } catch (err) {
         console.log(err)
@@ -101,7 +100,6 @@ export const logout = async () => {
             }
         );
 
-        await console.log(response.data)
         return response;
 
     } catch (err) {

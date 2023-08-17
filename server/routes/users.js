@@ -6,6 +6,8 @@ const UserModel = require("../models/UserModel")
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const verifyJWT = require("../middleware/verifyJWT");
+var Filter = require('bad-words'),
+    filter = new Filter();
 
 
 
@@ -33,13 +35,13 @@ router.post('/login', async (req, res) => {
         const accessToken = jwt.sign(
             { ...tokenData },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "5m" }
+            { expiresIn: "15m" }
         );
 
         const refreshToken = jwt.sign(
             { ...tokenData },
             process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: "10m" }
+            { expiresIn: "1hr" }
         );
 
         account.refreshToken = refreshToken;
@@ -65,7 +67,10 @@ router.post('/login', async (req, res) => {
             message: 'User Logged In',
             data: {
                 email: email,
-                accessToken: accessToken
+                accessToken: accessToken,
+                firstName: account?.firstName,
+                lastName: account?.lastName,
+                fullName: account?.fullName,
             }
         });
 
@@ -84,12 +89,9 @@ router.post('/login', async (req, res) => {
 // register user
 router.post('/register', async (req, res) => {
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return res.status(400).json({ message: "Email AND password are necessary" });
-        }
+        const { email, password, first, middle, last } = req.body;
 
-        const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+        const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/);
         const passwordRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
 
         const isValidEmail = emailRegex.test(email);
@@ -106,12 +108,19 @@ router.post('/register', async (req, res) => {
         }
         const hashedPwd = await bcrypt.hash(password, 12);
 
+
         const newUser = new UserModel({
             email: email,
             password: hashedPwd,
+            firstName: first,
+            middleName: middle,
+            lastName: last,
+            fullName: `${first} ${middle ? middle + " " : ""}${last}`,
             joined: new Date(),
             uuid: short.generate()
         });
+
+
 
 
         newUser.save().then(() => {
@@ -121,7 +130,7 @@ router.post('/register', async (req, res) => {
         },
             (err) => {
                 console.log(err);
-                res.status(err.status || 400).json({ message: err.message });
+                res.status(err.status || 400).json({ err });
                 return;
 
             })
@@ -165,13 +174,16 @@ router.get('/refresh', async (req, res) => {
                 const accessToken = jwt.sign(
                     { ...tokenData },
                     process.env.ACCESS_TOKEN_SECRET,
-                    { expiresIn: "5m" }
+                    { expiresIn: "15m" }
                 );
                 res.status(201).json({
                     message: 'User Token Refreshed',
                     data: {
                         email: account?.email,
-                        accessToken: accessToken
+                        accessToken: accessToken,
+                        firstName: account?.firstName,
+                        lastName: account?.lastName,
+                        fullName: account?.fullName,
                     }
                 })
             }
@@ -190,7 +202,7 @@ router.get('/refresh', async (req, res) => {
 
 router.get('/getUser', verifyJWT, async (req, res) => {
     try {
-        console.log(req?.email);
+        console.log(req?.sent);
         const email = req?.email;
         if (!email) {
             console.log("Request does not have an auth header.")
