@@ -41,8 +41,10 @@ router.post('/add', async (req, res) => {
             return
         },
             (err) => {
-                console.log(err);
-                res.status(err.status || 400).json({ message: err.message });
+                const errs = err?.errors
+                const keys = Object.keys(err?.errors);
+                const msg = errs[keys[0]]?.properties?.message;
+                res.status(err.status || 400).json({ message: msg || err?.message });
                 return;
 
             })

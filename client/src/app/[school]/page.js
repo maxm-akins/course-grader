@@ -77,13 +77,13 @@ export default function School() {
             <div className="mt-3 ">
                 <div className=" ">
                     <div className='flex justify-between items-end'>
-                        <h2 className="mb-3 text-5xl font-bold  text-pink-400 sm:text-5xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
+                        <h2 className="mb-3 text-3xl font-bold  text-pink-400 sm:text-5xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
                         <Link
                             href={ `/${school?.trunkName}/newcourse/` }
                         >
                             <button
                                 type="button"
-                                className=" mb-3 inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className=" mb-3 inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >New Course
                             </button>
                         </Link>

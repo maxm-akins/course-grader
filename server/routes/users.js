@@ -106,7 +106,7 @@ router.post('/register', async (req, res) => {
             console.log("user already exists");
             return res.status(409).send({ message: "User with that email already exists." });
         }
-        const hashedPwd = await bcrypt.hash(password, 12);
+        const hashedPwd = await bcrypt.hash(password, process.env.SALT);
 
 
         const newUser = new UserModel({
@@ -129,8 +129,10 @@ router.post('/register', async (req, res) => {
 
         },
             (err) => {
-                console.log(err);
-                res.status(err.status || 400).json({ err });
+                const errs = err?.errors
+                const keys = Object.keys(err?.errors);
+                const msg = errs[keys[0]]?.properties?.message;
+                res.status(err.status || 400).json({ message: msg || err?.message });
                 return;
 
             })
@@ -250,6 +252,42 @@ router.get('/logout', async (req, res) => {
             return;
 
         })
+
+
+
+
+});
+
+
+router.post('/update', verifyJWT, async (req, res) => {
+    const data = req.body;
+    const email = req?.email;
+    if (!email) {
+        console.log("Request does not have an auth header.")
+        return res.send(401).json({ message: "Request does not have an email." });
+    }
+
+    const account = await UserModel.findOne({ email: email });
+    if (!account) return res.send(400).json({ message: "Account not found with given information." });
+
+    account.firstName = data?.first;
+    account.middleName = data?.middle;
+    account.lastName = data?.last;
+    account.fullName = `${data?.first} ${data?.middle ? data?.middle + " " : ""}${data?.last}`,
+
+
+        account.save().then(() => {
+            res.status(204).json({ message: "User Information Successfully Updated" });
+        },
+            (err) => {
+                const errs = err?.errors
+                const keys = Object.keys(err?.errors);
+                const msg = errs[keys[0]]?.properties?.message;
+                res.status(err.status || 400).json({ message: msg || err?.message });
+                return;
+
+
+            })
 
 
 

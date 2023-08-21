@@ -11,8 +11,14 @@ const useRefreshToken = () => {
     const refresh = async () => {
         try {
             const response = await callRefresh();
-            setAuth(response?.data?.data);
-            return response?.data?.accessToken;
+            // console.log(response);
+            if (response?.response?.status === 201 || response?.status === 201) {
+                // console.log(response?.data?.data);
+                setAuth(response?.data?.data);
+                return response?.data?.data?.accessToken;
+            }
+            else return null;
+
         }
         catch (err) {
             console.log(err);

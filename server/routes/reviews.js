@@ -148,10 +148,16 @@ router.post('/', async (req, res) => {
 
         return res.status(200).json({ message: "Review Successfully Uploaded" });
 
+
+
+
     }
     catch (err) {
-        console.log(err);
-        res.status(400).json({ message: err });
+        const errs = err?.errors
+        const keys = Object.keys(err?.errors);
+        const msg = errs[keys[0]]?.properties?.message;
+        res.status(err.status || 400).json({ message: msg || err?.message });
+        return;
     }
 });
 

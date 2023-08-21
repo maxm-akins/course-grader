@@ -19,8 +19,7 @@ import { Dialog } from "@headlessui/react"
 import ClassHeader from "@/components/ClassHeader"
 import { redirect } from "next/navigation"
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
-import ErrorNotif from "@/components/ErrorNotif"
-import SuccessNotif from "@/components/SuccessNotif"
+import ResponseContext from "@/context/ResponseContext"
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -28,7 +27,6 @@ function classNames(...classes) {
 
 export default function Class() {
     const [open, setOpen] = useState(false)
-    const [open2, setOpen2] = useState(true)
     const [reviews, setReviews] = useState([])
     const [filteredReviews, setFilteredReviews] = useState([])
 
@@ -41,10 +39,8 @@ export default function Class() {
     const school = params?.school;
     let { setCourse, setSchool, course } = useContext(SchoolContext);
     const [filter, setFilter] = useState(searchParams.get('filter'));
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [success2, setSuccess2] = useState(false);
-    const [submitTrigger, setSubmitTrigger] = useState(false);
+    const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+
 
 
     useEffect(() => {
@@ -85,7 +81,7 @@ export default function Class() {
         getClassInfo();
         getSchoolInfo();
         getReviewList();
-    }, [submitTrigger])
+    }, [])
 
 
 
@@ -93,8 +89,8 @@ export default function Class() {
         return (
             <>
 
-                <ul role="list" className="divide-y  col-6 divide-gray-300">
-                    <li key={ review?.uuid } className=" grid grid-cols-6 justify-start py-5 px-2  transition-all">
+                <ul role="list" className="divide-y mt-3 col-6 divide-gray-300">
+                    <li key={ review?.uuid } className=" grid grid-cols-6 justify-start py-5 px-5 rounded-lg bg-gray-100 hover:shadow-lg hover:bg-gray-200 transition-all">
                         <div className="flex gap-x-4 pr-6 col-span-4">
                             <div className="min-w-0 flex-auto">
                                 <p className="text-sm font-semibold leading-6 text-gray-900">
@@ -210,10 +206,9 @@ export default function Class() {
     return (
         <>
 
-            <NewReviewSlide setSubmitTrigger={ setSubmitTrigger } showSuccess={ showSuccess } success={ success } success2={ success2 } setShowSuccess={ setShowSuccess } setSuccess={ setSuccess } setSuccess2={ setSuccess2 } open={ open } setOpen={ setOpen } />
+            <NewReviewSlide open={ open } setOpen={ setOpen } />
             <ClassHeader open={ open } setOpen={ setOpen } />
 
-            <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
 
 
 
@@ -228,9 +223,10 @@ export default function Class() {
                 <div className="grid lg:max-w-7xl grid-cols-12 gap-x-5  ">
 
                     <div className="lg:col-span-2 col-span-12">
+
                         <div className=" gap-4 ">
 
-                            <dl className="mt-5 grid lg:grid-cols-1 lg:divide-y lg:divide-gray-200 overflow-hidden border-2 rounded-lg bg-white shadow grid-cols-3 divide-x divide-y-0">
+                            <dl className="mt- grid lg:grid-cols-1 lg:divide-y lg:divide-gray-200 overflow-hidden border-2 rounded-lg bg-white shadow grid-cols-3 divide-x divide-y-0">
                                 <div className="px-4 py-5 sm:p-6 ">
                                     <dt className="text-base font-normal text-gray-900">Course </dt>
                                     <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
@@ -239,27 +235,6 @@ export default function Class() {
                                             <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
                                         </div>
 
-                                        {/* <div
-                                                        className={ classNames(
-                                                            item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
-                                                            'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0'
-                                                        ) }
-                                                    >
-                                                        { item.changeType === 'increase' ? (
-                                                            <ArrowUpIcon
-                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
-                                                                aria-hidden="true"
-                                                            />
-                                                        ) : (
-                                                            <ArrowDownIcon
-                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
-                                                                aria-hidden="true"
-                                                            />
-                                                        ) }
-
-                                                        <span className="sr-only"> { item.changeType === 'increase' ? 'Increased' : 'Decreased' } by </span>
-                                                        { item.change }
-                                                    </div> */}
                                     </dd>
                                 </div>
                                 <div className="px-4 py-5 sm:p-6">
@@ -314,7 +289,10 @@ export default function Class() {
 
 
                     <div className=" col-span-12 lg:col-span-10 mt-0">
-
+                        <h3 className="text-3xl mb-2 font-black px-2 text-gray-900">Reviews</h3>
+                        <div className=" sm:hidden inset-0 flex items-center" aria-hidden="true">
+                            <div className="w-full border-t border-gray-300" />
+                        </div>
                         <div className="flow-root">
                             <div className="  ">
 

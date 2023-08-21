@@ -38,11 +38,10 @@ router.get('/:q', async (req, res) => {
 
 router.post('/add', async (req, res) => {
     const data = req.body;
-
     try {
         const trunkName = data?.name?.replace(/\s+/g, '').toLowerCase();
-        const name = data?.name?.trim()
-        const dup = await SchoolModel.find({ $or: [{ 'trunkName': trunkName }, { 'name': name }] })
+        const name = data?.name?.trim();
+        const dup = await SchoolModel.findOne({ $or: [{ 'trunkName': trunkName }, { 'name': name }] })
 
         if (dup) {
             res.status(403).json({ message: "A record of the school already exists." });
@@ -56,7 +55,6 @@ router.post('/add', async (req, res) => {
         school.name = name;
         school.state = data.state;
         school.city = data.city.trim();
-        school.website = data.website.trim();
         school.trunkName = trunkName;
         school.uuid = short.generate();
 
@@ -66,8 +64,10 @@ router.post('/add', async (req, res) => {
             return
         },
             (err) => {
-                console.log(err);
-                res.status(err.status || 400).json({ message: err.message });
+                const errs = err?.errors
+                const keys = Object.keys(err?.errors);
+                const msg = errs[keys[0]]?.properties?.message;
+                res.status(err.status || 400).json({ message: msg || err?.message });
                 return;
 
             })

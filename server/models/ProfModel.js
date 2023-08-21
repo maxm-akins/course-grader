@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+var Filter = require('bad-words'),
+    filter = new Filter();
 
 const ProfSchema = new Schema({
     uuid: {
@@ -8,15 +10,32 @@ const ProfSchema = new Schema({
     },
     firstName: {
         type: String,
-        required: true,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
+        required: [true, 'First Name required']
     },
     middleName: {
         type: String,
-        required: false,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
     },
     lastName: {
         type: String,
-        required: true,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
+        required: [true, 'Last Name required']
     },
     fullName: {
         type: String,
@@ -28,7 +47,13 @@ const ProfSchema = new Schema({
     },
     department: {
         type: String,
-        required: true,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
+        required: [true, 'Department required']
     },
     courseRefs: {
         type: Array,

@@ -4,12 +4,9 @@
 import { PhotoIcon, UserCircleIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { postSchool } from '@/apis/schools'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useRouter } from 'next/navigation'
-
-
-import ErrorNotif from '@/components/ErrorNotif'
-import SuccessNotif from '@/components/SuccessNotif'
+import ResponseContext from "@/context/ResponseContext";
 const states = [
 
     {
@@ -256,11 +253,8 @@ const states = [
 
 export default function NewSchool() {
     const router = useRouter();
-    const [showError, setShowError] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [success2, setSuccess2] = useState(false);
-    const [err, setErr] = useState(false);
+    const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+
 
 
 
@@ -268,14 +262,12 @@ export default function NewSchool() {
         const name = document.getElementById("name")?.value;
         const state = document.getElementById("state")?.value;
         const city = document.getElementById("city")?.value;
-        const website = document.getElementById("website")?.value;
 
 
         const data = {
             name: name,
             state: state,
             city: city,
-            website: website,
         }
 
         const keys = Object.keys(data);
@@ -309,20 +301,21 @@ export default function NewSchool() {
                 document.getElementById("name").value = "";
                 document.getElementById("state").value = "";
                 document.getElementById("city").value = "";
-                document.getElementById("website").value = "";
                 setTimeout(() => {
                     router.push(`/${name.replace(/\s+/g, '').toLowerCase()}`)
                 }
                     , 3000);
             }
             else {
+                console.log(res);
                 setShowError(true);
-                setErr(res?.response?.data?.message)
+                setErr(res?.response?.data?.message);
                 setTimeout(() => {
                     setShowError(false)
                 }
-                    , 3000);
+                    , 5000);
                 return;
+
             }
         }
 
@@ -333,8 +326,7 @@ export default function NewSchool() {
     return (
         <>
 
-            <ErrorNotif show={ showError } setShow={ setShowError } err={ err } />
-            <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
+
             <div>
                 <div className="space-y-12">
                     <div className="grid gap-y-5 border-b border-gray-900/10 pb-12 grid-cols-3">
@@ -409,7 +401,7 @@ export default function NewSchool() {
                                         >
                                             <option value={ "" } disabled >Select a state</option>
                                             { states.map((state) => {
-                                                return <option value={ state?.name }>{ state?.name }</option>
+                                                return <option key={ state?.abbreviation } value={ state?.name }>{ state?.name }</option>
                                             }) }
                                         </select>
                                     </div>
@@ -435,23 +427,7 @@ export default function NewSchool() {
                                 </div>
                             </div>
 
-                            <div className="col-span-1">
-                                <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
-                                    School Website
-                                </label>
-                                <div className="mt-2">
-                                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 lg:max-w-lg">
-                                        <input
-                                            required
-                                            type="website"
-                                            name="website"
-                                            id="website"
-                                            className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                            placeholder="Website"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+
 
                         </div>
 

@@ -10,8 +10,7 @@ import SchoolContext from '@/context/SchoolProvider'
 import { useParams } from 'next/navigation'
 import { getSchool } from '@/apis/schools'
 
-import ErrorNotif from '@/components/ErrorNotif'
-import SuccessNotif from '@/components/SuccessNotif'
+import ResponseContext from '@/context/ResponseContext'
 
 
 
@@ -22,11 +21,8 @@ export default function NewCourse() {
     const router = useRouter();
     const params = useParams();
 
-    const [showError, setShowError] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [success2, setSuccess2] = useState(false);
-    const [err, setErr] = useState(false);
+    const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+
     let { school, setSchool } = useContext(SchoolContext);
     const schoolParam = params?.school;
 
@@ -112,8 +108,7 @@ export default function NewCourse() {
     return (
         <>
 
-            <ErrorNotif show={ showError } setShow={ setShowError } err={ err } />
-            <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
+
             <div>
                 <div className="space-y-12">
                     <div className="grid gap-y-5 border-b border-gray-900/10 pb-12 grid-cols-3">

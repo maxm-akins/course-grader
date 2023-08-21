@@ -4,15 +4,17 @@
 import { useRouter } from 'next/navigation'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { useState, useContext, use } from 'react'
+import { useState, useContext, } from 'react'
 import { login } from '@/apis/users'
 import ErrorNotif from '@/components/ErrorNotif'
 import AuthContext from '@/context/AuthProvider'
 import LoadingContext from '@/context/LoadingContext'
 
+import ResponseContext from "@/context/ResponseContext";
 
 
 export default function Login() {
+    const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
 
     const { setAuth } = useContext(AuthContext);
     const { setLoading } = useContext(LoadingContext);
@@ -21,8 +23,6 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [emailErr, setEmailErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
-    const [err, setErr] = useState(false);
-    const [showError, setShowError] = useState(false);
 
 
     const validate = async () => {
@@ -73,7 +73,6 @@ export default function Login() {
 
     return (
         <>
-            <ErrorNotif show={ showError } setShow={ setShowError } err={ err } />
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img

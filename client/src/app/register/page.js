@@ -3,11 +3,12 @@
 import { useRouter } from 'next/navigation'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { register } from '@/apis/users'
 import SuccessNotif from '@/components/SuccessNotif'
 import ErrorNotif from '@/components/ErrorNotif'
 
+import ResponseContext from "@/context/ResponseContext";
 
 
 
@@ -15,11 +16,8 @@ import ErrorNotif from '@/components/ErrorNotif'
 export default function Register() {
 
     const router = useRouter();
-    const [err, setErr] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [success2, setSuccess2] = useState(false);
+    const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+
 
 
     const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
@@ -86,32 +84,19 @@ export default function Register() {
         const res = await register(data);
         console.log(res);
         if (res?.status === 201) {
-            // setShowSuccess(true)
-            // setSuccess(res?.data?.message);
-            // setSuccess2("Redirecting to login...");
-            // setEmail("")
-            // setPassword("")
-            // setConfirmedEmail("")
-            // setConfirmedPassword("")
-            // setTimeout(() => {
-            //     setShowSuccess(false);
             router.push("/login");
-            // }
-            //     , 3000);
-
         }
         else {
-            const errors = res?.response?.data?.err?.errors;
-            const keys = Object.keys(errors);
 
             setShowError(true);
-            console.log(errors);
-            setErr(errors[keys[0]]?.message);
+            setErr(res?.response?.data?.message);
             setTimeout(() => {
                 setShowError(false)
             }
                 , 10000);
             return;
+
+
         }
 
 
@@ -120,8 +105,7 @@ export default function Register() {
 
     return (
         <>
-            <SuccessNotif show={ showSuccess } setShow={ setShowSuccess } success={ success } success2={ success2 } />
-            <ErrorNotif show={ showError } setShow={ setShowError } err={ err } />
+
 
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-2 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">

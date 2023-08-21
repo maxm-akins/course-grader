@@ -13,6 +13,7 @@ import AddNewProf from './AddNewProf'
 import ErrorNotif from './ErrorNotif'
 import SuccessNotif from './SuccessNotif'
 import { useRouter } from 'next/navigation'
+import ResponseContext from '@/context/ResponseContext'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -20,7 +21,7 @@ function classNames(...classes) {
 
 
 
-export default function NewReviewSlide({ setSubmitTrigger, open, setOpen, setShowSuccess, showSuccess, success, setSuccess, success2, setSuccess2 }) {
+export default function NewReviewSlide({ open, setOpen }) {
     const router = useRouter();
     let { course, school } = useContext(SchoolContext);
     const [courseRating, setCourseRating] = useState(5);
@@ -38,8 +39,8 @@ export default function NewReviewSlide({ setSubmitTrigger, open, setOpen, setSho
     const [lastName, setLastName] = useState("");
     const [department, setDepartment] = useState("");
 
-    const [err, setErr] = useState(false);
-    const [showError, setShowError] = useState(false);
+    const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+
 
 
 
@@ -114,7 +115,6 @@ export default function NewReviewSlide({ setSubmitTrigger, open, setOpen, setSho
             if (res?.status === 200) {
                 setShowSuccess(true)
                 setSuccess(res?.data?.message);
-                setSubmitTrigger((prev) => !prev)
                 setOpen(false);
 
                 setTimeout(() => {

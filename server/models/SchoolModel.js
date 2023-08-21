@@ -1,14 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const short = require('short-uuid');
-
+var Filter = require('bad-words'),
+    filter = new Filter();
 
 
 
 const SchoolsSchema = new Schema({
     name: {
         type: String,
-        required: true,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
+        required: [true, 'Name required']
     },
     trunkName: {
         type: String,
@@ -16,11 +23,23 @@ const SchoolsSchema = new Schema({
     },
     city: {
         type: String,
-        required: true,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
+        required: [true, 'City required']
     },
     state: {
         type: String,
-        required: true,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
+        required: [true, 'State required']
     },
     rating: {
         type: String,
@@ -40,13 +59,18 @@ const SchoolsSchema = new Schema({
         required: true,
         default: [],
     },
-    website: {
+    uuid: {
         type: String,
+        default: short.generate(),
+        required: true
     },
     uuid: {
         type: String,
         default: short.generate(),
         required: true
+    },
+    user: {
+        type: String,
     }
 
 });

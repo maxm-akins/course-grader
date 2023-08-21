@@ -111,6 +111,29 @@ export const logout = async () => {
 };
 
 
+export const updateUser = async (data, auth) => {
+    const axiosPrivate = useAxioPrivate(auth);
+
+    try {
+        const response = await axiosPrivate.post(
+            "/users/update",
+            JSON.stringify(data),
+            {
+                withCredentials: true,
+            }
+        );
+
+        return response;
+
+    } catch (err) {
+        console.log(err)
+        return err;
+
+    }
+
+};
+
+
 
 
 
