@@ -6,6 +6,33 @@ import { refresh } from "./users";
 export default axios.create({ baseURL: process.env.NEXT_PUBLIC_BASE_URL });
 
 
+export const useAxios = () => {
+
+
+    const axiosIP = axios.create(
+        {
+            baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+            headers: { "Content-Type": "application/json" },
+
+        });
+
+    axiosIP.interceptors.request.use(
+        async config => {
+            const res = await axios.get("https://api.ipify.org/?format=json");
+            config.headers['X-Originating-IP'] = res?.data?.ip;
+            console.log(config);
+            return config;
+
+        }, (err) => {
+            console.log(err);
+            Promise.reject(err)
+        }
+    );
+
+    return axiosIP;
+}
+
+
 export const useAxioPrivate = (auth) => {
 
 
@@ -47,3 +74,5 @@ export const useAxioPrivate = (auth) => {
 
     return axiosPrivate
 }
+
+

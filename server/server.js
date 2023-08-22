@@ -6,10 +6,12 @@ const corsOptions = require("./config/corsOptions");
 const credentials = require(".//middleware/credentials");
 const cookieParser = require("cookie-parser");
 require('dotenv').config();
+const clientIP = require('./middleware/ClientIP');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(credentials);
+app.use(clientIP);
 app.use(cors(corsOptions));
 app.use(cookieParser());
 

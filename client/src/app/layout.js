@@ -8,6 +8,7 @@ import { Providers } from '@/context/Providers'
 import PersistWrapper from '@/components/PersistWrapper'
 import LoadingScreen from '@/components/LoadingScreen'
 import { Suspense } from 'react';
+import CookieBanner from '@/components/CookieBanner'
 
 
 export default function RootLayout({ children }) {
@@ -19,8 +20,8 @@ export default function RootLayout({ children }) {
 
             <PersistWrapper>
               <NavBarRender />
-              <div className="w-full min-h-[calc(100vh-64px)]">
-
+              <div className="w-full min-h-[calc(100vh-64px)] ">
+                <CookieBanner />
                 { children }
 
               </div>

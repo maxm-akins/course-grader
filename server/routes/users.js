@@ -150,7 +150,8 @@ router.post('/register', async (req, res) => {
 
 router.get('/refresh', async (req, res) => {
     try {
-        console.log(req.cookies);
+        // console.log(req);
+        // console.log(req.cookies);
         const cookies = req.cookies;
 
         if (!cookies?.jwt) return res.sendStatus(401);

@@ -47,7 +47,6 @@ export default function Login() {
         }
         setLoading(true);
         const res = await login(data);
-        console.log(res);
         if (res?.status === 201) {
             setLoading(false);
             setAuth(res?.data?.data);

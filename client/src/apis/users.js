@@ -2,7 +2,7 @@
 import axios from "./axios";
 // import useAxioPrivate from "@/hooks/useAxiosPrivate";
 import { useAxioPrivate } from "./axios";
-
+import { useAxios } from "./axios";
 
 export const register = async (data) => {
 
@@ -48,9 +48,9 @@ export const login = async (data) => {
 };
 
 export const refresh = async () => {
-
+    const axiosIP = useAxios();
     try {
-        const response = await axios.get(
+        const response = await axiosIP.get(
             "/users/refresh",
             {
                 withCredentials: true,
@@ -59,7 +59,6 @@ export const refresh = async () => {
         return response;
 
     } catch (err) {
-        console.log(err)
         return err;
 
     }
