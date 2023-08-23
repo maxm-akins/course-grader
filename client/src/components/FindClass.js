@@ -84,7 +84,7 @@ export default function FindClass() {
             <div className="mt-3 ">
                 <div className=" ">
                     <div className='flex justify-between items-end'>
-                        <h2 className="mb-3 text-3xl font-bold  text-pink-400 sm:text-5xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
+                        <h2 className="mb-3 text-3xl font-bold  text-pink-400 sm:text-5xl">Find a Class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
                         <Link
                             href={ `/${school?.trunkName}/newcourse/` }
                         >

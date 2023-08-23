@@ -108,4 +108,64 @@ router.get('/search/:school/:course/:q', async (req, res) => {
 });
 
 
+
+router.get('/search/:school/:q', async (req, res) => {
+    try {
+        const school = req.params.school;
+        const q = req.params.q;
+        console.log("q " + q);
+        console.log("school " + school);
+
+        // Start building the search aggregation stage
+        let searcher_aggregate = {
+            "$search": {
+                "index": 'prof_search',
+                "compound": {
+                    "must": [
+                        {
+                            "text": {
+                                "query": school,
+                                "path": ['schoolRefs', 'schoolRef'],
+                            }
+                        },
+
+                    ],
+                    "should": [
+                        {
+                            "text": {
+                                "query": q,
+                                "path": 'name',
+                                "fuzzy": {}
+                            },
+                        },
+                    ],
+
+                }
+            }
+        };
+
+        let projection = {
+            '$project': {
+                'name': 1,
+                'fullName': 1,
+                'uuid': 1,
+                "department": 1,
+                "_id": 0
+
+            }
+        };
+
+
+        let results = await ProfModel.aggregate([searcher_aggregate, projection]).limit(50);
+        console.log(results)
+        res.send(results).status(200);
+
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+
 module.exports = router;

@@ -20,7 +20,7 @@ import { useState } from 'react'
 import SchoolHeader from '@/components/SchoolHeader'
 import { getSchool } from '@/apis/schools'
 import SchoolContext from '@/context/SchoolProvider'
-import { searchClasses } from '@/apis/classes'
+import { searchProfs } from '@/apis/profs'
 import { useRouter } from 'next/navigation'
 import { redirect } from 'next/navigation'
 import { BuildingOfficeIcon, AcademicCapIcon, BuildingLibraryIcon } from '@heroicons/react/20/solid'
@@ -31,16 +31,16 @@ const tabs = [
 
 ]
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+function classNames(...profs) {
+    return profs.filter(Boolean).join(' ')
 }
 
 
-export default function FindClass() {
+export default function FindProf() {
     const router = useRouter()
     const pathname = usePathname()
     const [query, setQuery] = useState('');
-    const [classes, setClasses] = useState([]);
+    const [profs, setProfs] = useState([]);
     const [schoolInfo, setSchoolInfo] = useState({})
     const params = useParams();
     const schoolParam = params?.school;
@@ -50,12 +50,12 @@ export default function FindClass() {
 
     const handleQueryChange = async (q) => {
         await setQuery(q);
-        setClasses((await searchClasses(school.uuid, q)));
+        setProfs((await searchProfs(school.uuid, q)));
     }
 
     useEffect(() => {
 
-    }, [classes])
+    }, [profs])
 
 
     const getSchoolInfo = async () => {
@@ -78,14 +78,13 @@ export default function FindClass() {
 
     return (
         <>
-            <SchoolHeader />
 
 
 
             <div className="mt-3 ">
                 <div className=" ">
                     <div className='flex justify-between items-end'>
-                        <h2 className="mb-3 text-3xl font-bold  text-pink-400 sm:text-5xl">Find a class <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
+                        <h2 className="mb-3 text-3xl font-bold  text-pink-400 sm:text-5xl">Find a Professor <span className='sm:text-xl sm:inline block text-sm text-black'>  at { school?.name } </span> </h2>
                         <Link
                             href={ `/${school?.trunkName}/newcourse/` }
                         >
@@ -100,7 +99,7 @@ export default function FindClass() {
 
                     <Combobox
 
-                        onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
+                        onChange={ (value) => (router.push(`${pathname}/prof/${value}`)) } >
 
                         <Combobox.Input
                             className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
@@ -108,12 +107,12 @@ export default function FindClass() {
                             onChange={ (event) => handleQueryChange(event?.target?.value) }
                         />
 
-                        { classes?.length > 0 && (
+                        { profs?.length > 0 && (
                             <Combobox.Options
                                 static
                                 className=" -mb-2 max-h-84 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
                             >
-                                <Combobox.Option
+                                {/* <Combobox.Option
                                     disabled
                                     key={ 0 }
                                     value={ 0 }
@@ -137,8 +136,8 @@ export default function FindClass() {
 
                                     </p>
 
-                                </Combobox.Option>
-                                { classes.map((item) => (
+                                </Combobox.Option> */}
+                                { profs.map((item) => (
 
 
                                     <Combobox.Option
@@ -146,23 +145,20 @@ export default function FindClass() {
                                         value={ item?.uuid }
                                         className={ ({ active }) =>
                                             classNames(
-                                                'cursor-default select-none font-base text-gray-600 md:text-base text-sm border-b-2 px-2 py-2 grid grid-cols-3 gap-4  ',
+                                                'cursor-default select-none font-base text-gray-600 md:text-base text-sm border-b-2 px-2 py-2 grid grid-cols-2 gap-4 ',
                                                 active && 'bg-gray-100 text-black'
                                             )
                                         }
                                     >
-                                        <p>
-                                            { item?.name }
+                                        <p className='text-left'>
+                                            { item?.fullName }
 
                                         </p>
-                                        <p>
-                                            { item?.descripCode }
+                                        <p className='text-right text-sm text-black'>
+                                            { item?.department }
 
                                         </p>
-                                        <p>
-                                            { item?.classCode }
 
-                                        </p>
 
 
                                     </Combobox.Option>
@@ -171,10 +167,10 @@ export default function FindClass() {
                             </Combobox.Options>
                         ) }
 
-                        { query && classes?.length === 0 && (
+                        { query && profs?.length === 0 && (
                             <div className="px-4 py-14 text-center sm:px-14 ">
                                 <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
-                                <p className="mt-4 text-sm text-gray-900">No classes found?</p>
+                                <p className="mt-4 text-sm text-gray-900">No profs found?</p>
                                 <Link
                                     className="mt-4 text-sm text-pink-400 hover:text-blue-400"
                                     href={ `/${school?.trunkName}/newcourse` }

@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
 
             <PersistWrapper>
               <NavBarRender />
-              <div className="w-full min-h-[calc(100vh)] pt-[70px]">
+              <div className="w-full min-h-[calc(100vh)] pt-[100px] sm:pt-[70px] transition-all">
                 {/* <CookieBanner /> */ }
                 { children }
 

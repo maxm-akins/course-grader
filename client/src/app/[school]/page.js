@@ -27,10 +27,9 @@ import { BuildingOfficeIcon, AcademicCapIcon, BuildingLibraryIcon } from '@heroi
 import FindClass from '@/components/FindClass'
 
 
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import { Tab, Tabs } from '@mui/material';
+import FindProf from '@/components/FindProf'
+
 
 const tabs = [
     { name: 'Find a class', href: '#', icon: BuildingLibraryIcon, current: false },
@@ -52,7 +51,7 @@ export default function School() {
     const params = useParams();
     const schoolParam = params?.school;
     let { school, setSchool } = useContext(SchoolContext);
-
+    const [value, setValue] = useState(1);
 
 
     const handleQueryChange = async (q) => {
@@ -87,6 +86,13 @@ export default function School() {
         <>
             <SchoolHeader />
 
+            {/* 
+            <Tabs className='text-sm' value={ value } aria-label="basic tabs example">
+                <Tab label="Find a Class" value={ 0 } />
+                <Tab label="Find a Professor" value={ 1 } />
+
+            </Tabs> */}
+
 
             <div className='my-8'>
                 <div className="sm:hidden">
@@ -95,46 +101,72 @@ export default function School() {
                     </label>
                     {/* Use an "onChange" listener to redirect the user to the selected tab URL. */ }
                     <select
+                        value={ value }
+                        onChange={ (e) => {
+                            setValue(e?.target?.value)
+                        } }
                         id="tabs"
                         name="tabs"
-                        className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="block w-full bg-gray-100 p-2 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                     >
-                        { tabs.map((tab) => (
-                            <option key={ tab.name }>{ tab.name }</option>
-                        )) }
+
+                        <option key={ 1 } value={ 1 }>{ `Find a Class` }</option>
+                        <option key={ 2 } value={ 2 }>{ `Find a Professor` }</option>
                     </select>
                 </div>
                 <div className="hidden sm:block">
                     <div className="border-b border-gray-200">
                         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                            { tabs.map((tab) => (
-                                <a
-                                    key={ tab.name }
-                                    href={ tab.href }
+                            <button
+                                onClick={ () => setValue(1) }
+                                className={ classNames(
+                                    value === 1
+                                        ? 'border-indigo-500 text-indigo-600'
+                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                                    'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium'
+                                ) }
+                                aria-current={ value === 1 ? 'page' : undefined }
+                            >
+                                <BuildingLibraryIcon
                                     className={ classNames(
-                                        tab.current
-                                            ? 'border-indigo-500 text-indigo-600'
-                                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                                        'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium'
+                                        value === 1 ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
+                                        '-ml-0.5 mr-2 h-5 w-5'
                                     ) }
-                                    aria-current={ tab.current ? 'page' : undefined }
-                                >
-                                    <tab.icon
-                                        className={ classNames(
-                                            tab.current ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
-                                            '-ml-0.5 mr-2 h-5 w-5'
-                                        ) }
-                                        aria-hidden="true"
-                                    />
-                                    <span>{ tab.name }</span>
-                                </a>
-                            )) }
+                                    aria-hidden="true"
+                                />
+                                <span>{ 'Find a Class' }</span>
+                            </button>
+                            <button
+                                onClick={ () => setValue(2) }
+                                className={ classNames(
+                                    value === 2
+                                        ? 'border-indigo-500 text-indigo-600'
+                                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                                    'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium'
+                                ) }
+                                aria-current={ value === 2 ? 'page' : undefined }
+                            >
+                                <AcademicCapIcon
+                                    className={ classNames(
+                                        value === 2 ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
+                                        '-ml-0.5 mr-2 h-5 w-5'
+                                    ) }
+                                    aria-hidden="true"
+                                />
+                                <span>{ 'Find a Professor' }</span>
+                            </button>
                         </nav>
                     </div>
                 </div>
             </div>
 
-            <FindClass />
+            { value === 1 ? (
+                <FindClass />
+
+            ) : (
+                <FindProf />
+            ) }
+
 
             {/* <div className="mt-3 ">
                 <div className=" ">
