@@ -89,7 +89,7 @@ export default function Class() {
         return (
             <>
 
-                <ul role="list" className="divide-y mt-3 col-6 divide-gray-300">
+                <ul role="list" className="divide-y mt-3 col-6 divide-gray-300 ">
                     <li key={ review?.uuid } className=" grid grid-cols-6 justify-start py-5 px-5 rounded-lg bg-gray-100 hover:shadow-lg hover:bg-gray-200 transition-all">
                         <div className="flex gap-x-4 pr-6 col-span-4">
                             <div className="min-w-0 flex-auto">
@@ -204,7 +204,7 @@ export default function Class() {
 
 
     return (
-        <>
+        <div className="mb-10">
 
             <NewReviewSlide open={ open } setOpen={ setOpen } />
             <ClassHeader open={ open } setOpen={ setOpen } />
@@ -315,6 +315,6 @@ export default function Class() {
 
 
 
-        </>
+        </div>
     )
 }

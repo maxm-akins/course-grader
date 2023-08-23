@@ -52,8 +52,8 @@ export default function NavBar() {
                 as="header"
                 className={ ({ open }) =>
                     classNames(
-                        open ? 'fixed inset-0  z-40 overflow-y-auto' : '',
-                        'bg-white  lg:static lg:overflow-y-visible'
+                        open ? 'fixed inset-0  z-40 overflow-y-auto ' : '',
+                        'bg-white fixed w-full top-0 lg:overflow-y-visible'
                     )
                 }
             >

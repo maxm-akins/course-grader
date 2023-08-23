@@ -1,8 +1,19 @@
 "use client"
 
+import { useEffect, useState } from "react"
+
 
 
 export default function CookieBanner() {
+    const [showBanner, setShowBanner] = useState(true);
+
+    useEffect(() => {
+        const consent = JSON.parse(localStorage.getItem("cmp-consent"));
+        console.log(consent);
+        if (consent === "all") {
+            showBanner(false);
+        }
+    }, [])
 
 
 

@@ -24,13 +24,6 @@ import { searchClasses } from '@/apis/classes'
 import { useRouter } from 'next/navigation'
 import { redirect } from 'next/navigation'
 import { BuildingOfficeIcon, AcademicCapIcon, BuildingLibraryIcon } from '@heroicons/react/20/solid'
-import FindClass from '@/components/FindClass'
-
-
-// import Tab from '@mui/material/Tab';
-// import TabContext from '@mui/lab/TabContext';
-// import TabList from '@mui/lab/TabList';
-// import TabPanel from '@mui/lab/TabPanel';
 
 const tabs = [
     { name: 'Find a class', href: '#', icon: BuildingLibraryIcon, current: false },
@@ -43,7 +36,7 @@ function classNames(...classes) {
 }
 
 
-export default function School() {
+export default function FindClass() {
     const router = useRouter()
     const pathname = usePathname()
     const [query, setQuery] = useState('');
@@ -85,13 +78,8 @@ export default function School() {
 
     return (
         <>
-            <SchoolHeader />
 
 
-
-
-
-            {/* <FindClass /> */ }
 
             <div className="mt-3 ">
                 <div className=" ">

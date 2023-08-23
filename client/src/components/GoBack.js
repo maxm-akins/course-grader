@@ -24,7 +24,7 @@ export default function GoBack() {
 
     return (
         <>
-            <div className="absolute items-center bg-transparent justify-between p-3 ">
+            <div className="fixed items-center bg-transparent justify-between p-3 pt-[90px]">
 
                 <button
                     type="button"
@@ -33,7 +33,7 @@ export default function GoBack() {
 
                 >
                     <span className="sr-only">Dismiss</span>
-                    <ArrowLeftIcon className="h-8 w-8 text-pink-400 " aria-hidden="true" />
+                    <ArrowLeftIcon className="sm:h-8 sm:w-8 text-pink-400 h-6 w-6 transition-all" aria-hidden="true" />
 
                 </button>
             </div >
