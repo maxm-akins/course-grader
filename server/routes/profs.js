@@ -168,4 +168,61 @@ router.get('/search/:school/:q', async (req, res) => {
 });
 
 
+router.get('/:q', async (req, res) => {
+    const q = req.params.q;
+    console.log(q);
+    try {
+
+
+
+
+        const prof = await ProfModel.aggregate([
+            {
+                $match: { uuid: q }
+            },
+            {
+                $lookup: {
+                    from: "classes",
+                    "localField": "courseRefs",
+                    "foreignField": "uuid",
+                    as: "courses",
+                    pipeline: [
+                        {
+                            $project: { _id: 0, __v: 0 }
+                        }
+                    ]
+                }
+            },
+
+            {
+                $project: {
+                    _id: 0,
+                }
+            },
+            {
+                $sort: { date: -1 }
+            },
+
+        ],)
+
+
+
+        // const prof = await ProfModel.findOne({ uuid: q });
+        console.log(prof);
+        if (!prof) res.status(403).json({ message: "Professor Not Found" });
+
+        if (prof.length > 1) res.status(403).json({ message: "Duplicates Found" });
+
+
+
+        return res.status(200).json(prof[0]);
+    }
+    catch (err) {
+        console.log(err);
+        res.sendStatus(400);
+    }
+});
+
+
+
 module.exports = router;

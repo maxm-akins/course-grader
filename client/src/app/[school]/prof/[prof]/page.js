@@ -20,7 +20,9 @@ import ClassHeader from "@/components/ClassHeader"
 import { redirect } from "next/navigation"
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
 import ResponseContext from "@/context/ResponseContext"
-
+import { getProf } from "@/apis/profs"
+import ProfHeader from "@/components/ProfHeader"
+import NewProfReviewSlide from "@/components/NewProfReviewSlide"
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -44,7 +46,7 @@ export default function Prof() {
 
 
     useEffect(() => {
-
+        console.log(params);
     }, [classes])
 
     useEffect(() => {
@@ -73,12 +75,12 @@ export default function Prof() {
         setSchool((await getSchool(school)))
     }
     const getReviewList = async () => {
-        setReviews((await getReviews(courseParam)))
+        setReviews((await getReviews(profParam)))
     }
 
 
     useEffect(() => {
-        // getClassInfo();
+        getProfInfo();
         getSchoolInfo();
         getReviewList();
     }, [])
@@ -139,10 +141,10 @@ export default function Prof() {
                         <div className="col-span-6 md:col-span-6">
                             <dl className="mt-5 grid  divide-gray-200 overflow-hidden rounded-lg bg-white border-2 grid-cols-3 divide-x md:divide-y-0">
                                 <div className="px-4 py-5 sm:p-6">
-                                    <dt className="text-base font-normal text-gray-900">Course </dt>
+                                    <dt className="text-base font-normal text-gray-900">prof </dt>
                                     <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                                        <div className={ `flex items-baseline text-2xl font-semibold ${review?.courseRating > 7 ? "text-emerald-500" : review?.courseRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
-                                            { review?.courseRating }
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${review?.profRating > 7 ? "text-emerald-500" : review?.profRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { review?.profRating }
                                             <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
                                         </div>
 
@@ -206,13 +208,12 @@ export default function Prof() {
     return (
         <div className="mb-10">
 
-            <NewReviewSlide open={ open } setOpen={ setOpen } />
-            <ClassHeader open={ open } setOpen={ setOpen } />
+            <NewProfReviewSlide open={ open } setOpen={ setOpen } />
+            <ProfHeader open={ open } setOpen={ setOpen } />
 
 
 
-
-            <div className="relative my-5">
+            <div className=" my-5">
                 <div className=" inset-0 flex items-center" aria-hidden="true">
                     <div className="w-full border-t border-gray-300" />
                 </div>
@@ -226,33 +227,23 @@ export default function Prof() {
 
                         <div className=" gap-4 ">
 
-                            <dl className="mt- grid lg:grid-cols-1 lg:divide-y lg:divide-gray-200 overflow-hidden border-2 rounded-lg bg-white shadow grid-cols-3 divide-x divide-y-0">
+                            <dl className="mt- grid lg:grid-cols-1 lg:divide-y lg:divide-gray-200 overflow-hidden border-2 rounded-lg bg-white shadow grid-cols-2 divide-x divide-y-0">
                                 <div className="px-4 py-5 sm:p-6 ">
-                                    <dt className="text-base font-normal text-gray-900">Course </dt>
+                                    <dt className="text-base font-normal text-gray-900">Rating </dt>
                                     <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                                        <div className={ `flex items-baseline text-2xl font-semibold ${course?.courseRating > 7 ? " text-emerald-500" : course?.courseRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
-                                            { Math.round(course?.courseRating * 100) / 100 }
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${prof?.profRating > 7 ? " text-emerald-500" : prof?.profRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { Math.round(prof?.profRating * 100) / 100 }
                                             <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
                                         </div>
 
                                     </dd>
                                 </div>
-                                <div className="px-4 py-5 sm:p-6">
-                                    <dt className="text-base font-normal text-gray-900">Professor </dt>
-                                    <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                                        <div className={ `flex items-baseline text-2xl font-semibold ${course?.profRating > 7 ? " text-emerald-500" : course?.profRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
-                                            { Math.round(course?.profRating * 100) / 100 }
-                                            <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
-                                        </div>
 
-
-                                    </dd>
-                                </div>
                                 <div className="px-4 py-5 sm:p-6">
                                     <dt className="text-base font-normal text-gray-900">Difficulty </dt>
                                     <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                                        <div className={ `flex items-baseline text-2xl font-semibold ${course?.difficultyRating < 4 ? " text-emerald-500" : course?.difficultyRating > 7 ? "text-red-500" : "text-yellow-500"}` }>
-                                            { Math.round(course?.difficultyRating * 100) / 100 }
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${prof?.difficultyRating < 4 ? " text-emerald-500" : prof?.difficultyRating > 7 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { Math.round(prof?.difficultyRating * 100) / 100 }
                                             <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
                                         </div>
 
@@ -264,14 +255,14 @@ export default function Prof() {
 
                         </div>
 
-                        <p className=" mt-3 text-sm text-gray-900">Based on { course?.amount } review(s)</p>
+                        <p className=" mt-3 text-sm text-gray-900">Based on { prof?.amount } review(s)</p>
 
 
 
                         <div className="mt-2 mb-5">
                             <h3 className="text-lg font-medium text-gray-900">Share your thoughts</h3>
                             <p className="mt-1 text-sm text-gray-600">
-                                If you’ve taken this course, share your thoughts with other students.
+                                If you’ve taken this prof, share your thoughts with other students.
                                 Provide valuable insight into this class for your peers.
                             </p>
 

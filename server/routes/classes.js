@@ -233,6 +233,7 @@ router.get('/:q', async (req, res) => {
 
         console.log(courseRes);
         if (courseRes.length === 0) return res.status(409).send({ message: "No courses found." });
+        if (courseRes.length > 1) return res.status(409).send({ message: "Duplicates found." });
 
 
         let course = courseRes[0];

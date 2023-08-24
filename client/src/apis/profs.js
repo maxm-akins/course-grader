@@ -63,6 +63,7 @@ export const getProf = async (q) => {
                 withCredentials: true,
             }
         );
+        // console.log(response.data);
         return await response.data;
 
     } catch (err) {
@@ -72,3 +73,5 @@ export const getProf = async (q) => {
     }
 
 };
+
+

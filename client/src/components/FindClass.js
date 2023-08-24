@@ -24,6 +24,7 @@ import { searchClasses } from '@/apis/classes'
 import { useRouter } from 'next/navigation'
 import { redirect } from 'next/navigation'
 import { BuildingOfficeIcon, AcademicCapIcon, BuildingLibraryIcon } from '@heroicons/react/20/solid'
+import ClassSearch from './ClassSearch'
 
 const tabs = [
     { name: 'Find a class', href: '#', icon: BuildingLibraryIcon, current: false },
@@ -97,7 +98,7 @@ export default function FindClass() {
 
                     </div>
 
-                    <Combobox
+                    {/* <Combobox
 
                         onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
@@ -183,7 +184,9 @@ export default function FindClass() {
                                 </Link>
                             </div>
                         ) }
-                    </Combobox>
+                    </Combobox> */}
+
+                    <ClassSearch />
 
 
 
