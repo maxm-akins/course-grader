@@ -24,6 +24,8 @@ import { searchClasses } from '@/apis/classes'
 import { useRouter } from 'next/navigation'
 import { redirect } from 'next/navigation'
 import { BuildingOfficeIcon, AcademicCapIcon, BuildingLibraryIcon } from '@heroicons/react/20/solid'
+import { validateConfig } from 'next/dist/server/config-shared'
+import { InformationCircleIcon } from '@heroicons/react/20/solid'
 
 
 function classNames(...classes) {
@@ -31,24 +33,23 @@ function classNames(...classes) {
 }
 
 
-export default function SmallClassSearch({ course, setCourse }) {
+export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) {
     const router = useRouter()
     const pathname = usePathname()
     const [query, setQuery] = useState('');
     const [classes, setClasses] = useState([]);
     const params = useParams();
-    let { school, setSchool } = useContext(SchoolContext);
+    let { school, setSchool, prof } = useContext(SchoolContext);
 
 
 
-    const handleQueryChange = async (q) => {
-        await setQuery(q);
+    const getClassInfo = async (q) => {
         setClasses((await searchClasses(school?.uuid, q)));
     }
 
     useEffect(() => {
-
-    }, [classes])
+        getClassInfo();
+    }, [])
 
 
 
@@ -57,96 +58,40 @@ export default function SmallClassSearch({ course, setCourse }) {
         <>
 
 
+            <div className='col-span-1'>
+                <label htmlFor="prof" className="block text-sm font-medium leading-6 text-gray-900">
+                    Classes
+                </label>
+                <select
+                    onChange={ (event) => {
 
+                    } }
 
-            <Combobox
-                value={ course?.name }
-                onChange={ (value) => (setCourse(value)) } >
-
-                <Combobox.Input
-                    className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
-                    placeholder="Search"
-                    onChange={ (event) => handleQueryChange(event?.target?.value) }
-                />
-
-                { classes?.length > 0 && (
-                    <Combobox.Options
-                        static
-                        className=" -mb-2 max-h-84 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
-                    >
-                        <Combobox.Option
-                            disabled
-                            key={ 0 }
-                            value={ 0 }
-                            className={ ({ active }) =>
-                                classNames(
-                                    'cursor-default select-none rounded-md px-2 py-2 font-bold text-xl grid grid-cols-3 gap-4 text-black ',
-                                    active && 'bg-pink-400 text-white'
-                                )
-                            }
-                        >
-                            <p>
-                                Class Name
-
-                            </p>
-                            <p>
-                                Subject Code
-
-                            </p>
-                            <p>
-                                Class Code
-
-                            </p>
-
-                        </Combobox.Option>
-                        { classes.map((item) => (
-
-
-                            <Combobox.Option
-                                key={ item?.uuid }
-                                value={ { uuid: item?.uuid, name: item?.name } }
-                                className={ ({ active }) =>
-                                    classNames(
-                                        'cursor-default select-none font-base text-gray-600 md:text-base text-sm border-b-2 px-2 py-2 grid grid-cols-3 gap-4  ',
-                                        active && 'bg-gray-100 text-black'
-                                    )
-                                }
-                            >
-                                <p>
-                                    { item?.name }
-
-                                </p>
-                                <p>
-                                    { item?.descripCode }
-
-                                </p>
-                                <p>
-                                    { item?.classCode }
-
-                                </p>
-
-
-                            </Combobox.Option>
-
-                        )) }
-                    </Combobox.Options>
-                ) }
-
-                { query && classes?.length === 0 && (
-                    <div className="px-4 py-14 text-center sm:px-14 ">
-                        <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
-                        <p className="mt-4 text-sm text-gray-900">No classes found?</p>
-                        <Link
-                            className="mt-4 text-sm text-pink-400 hover:text-blue-400"
-                            href={ `/${school?.trunkName}/newcourse` }
-                        >
-                            Click here to submit a new class!
-
-                        </Link>
+                    id="prof"
+                    name="prof"
+                    className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    defaultValue=""
+                >
+                    <option value={ "" } disabled>Select a course</option>
+                    { classes?.map((course) => <option key={ course?.uuid } value={ course?.uuid }> { course?.descripCode + " " + course?.classCode }</option>) }
+                </select>
+            </div>
+            <div className="rounded-md bg-blue-50 p-4">
+                <div className="flex">
+                    <div className="flex-shrink-0">
+                        <InformationCircleIcon className="h-5 w-5 text-blue-400" aria-hidden="true" />
                     </div>
-                ) }
-            </Combobox>
-
+                    <div className="ml-3 flex-1 md:flex md:justify-between">
+                        <p className="text-sm text-blue-700">If you cannot find the class you are looking for please add it here.</p>
+                        <p className="mt-3 text-sm md:ml-6 md:mt-0">
+                            <Link href={ `/${school?.trunkName}/newcourse` } className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
+                                Add Class
+                                <span aria-hidden="true"> &rarr;</span>
+                            </Link>
+                        </p>
+                    </div>
+                </div>
+            </div>
 
 
         </>

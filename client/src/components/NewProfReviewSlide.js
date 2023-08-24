@@ -32,6 +32,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
     const [newProfShow, setNewProfShow] = useState(false);
     const [term, setTerm] = useState("");
     const [year, setYear] = useState("");
+    const [selectedCourse, setSelectedCourse] = useState("");
     // const [prof, setProf] = useState("");
     const [newProf, setNewProf] = useState("");
     const [addProf, setAddProf] = useState(false);
@@ -226,7 +227,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
 
 
                                                     <div className="space-y-2 px-4 sm:grid  sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                                                        <SmallClassSearch />
+                                                        <SmallClassSearch selectedCourse={ selectedCourse } setSelectedCourse={ setSelectedCourse } />
                                                     </div>
 
 
@@ -236,7 +237,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                                 htmlFor="courseRating"
                                                                 className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
                                                             >
-                                                                Overall Course Rating
+                                                                Overall Rating
                                                             </label>
                                                         </div>
                                                         <div className="sm:col-span-1">
@@ -259,7 +260,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                                 htmlFor="courseRating"
                                                                 className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
                                                             >
-                                                                Course Difficulty
+                                                                Difficulty Rating
                                                             </label>
                                                         </div>
                                                         <div className="sm:col-span-1">
@@ -277,29 +278,8 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                             <span className='text-pink-400'>{ difficultyRating }</span>  / 10
 
                                                         </div>
-                                                        <div>
-                                                            <label
-                                                                htmlFor="profRating"
-                                                                className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
-                                                            >
-                                                                Professor Rating (based upon this course)
-                                                            </label>
-                                                        </div>
-                                                        <div className="sm:col-span-1">
-                                                            <input
-                                                                onChange={ (event) => setProfRating(event?.target?.value) }
-                                                                type="range"
-                                                                name="profRating"
-                                                                id="profRating"
-                                                                min="0" max="10" step="0.5"
-                                                                className="block w-full rounded-md  py-1.5 text-gray-900 placeholder:text-gray-400  sm:text-sm sm:leading-6"
-                                                            />
 
-                                                        </div>
-                                                        <div className="sm:col-span-1">
-                                                            <span className='text-pink-400'>{ profRating }</span>  / 10
 
-                                                        </div>
 
                                                     </div>
 
@@ -314,7 +294,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                             >
                                                                 <span className='font-medium'> Description </span>
                                                                 <div className="text-xs text-gray-500">
-                                                                    Tell us about your experience with this class, professor, etc!
+                                                                    Tell us about your experience with this  professor, class, etc!
                                                                     Other students will benefit greatly from your helpful insight.
                                                                 </div>
                                                             </label>
