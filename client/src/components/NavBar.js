@@ -87,10 +87,10 @@ export default function NavBar() {
                                             <Link href={ `/${school?.trunkName}` }> { school?.name } </Link>
                                         </div>
                                         <div className='hidden sm:flex sm:mt-0  space-x-6 w-full justify-center sm:w-auto'>
-                                            <div className="mt-2  flex items-center text-sm text-white">
+                                            {/* <div className="mt-2  flex items-center text-sm text-white">
                                                 <StarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-yellow-400" aria-hidden="true" />
                                                 { school?.rating } / 10
-                                            </div>
+                                            </div> */}
                                             <div className="mt-2 flex items-center text-center text-sm text-white">
                                                 <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-red-400" aria-hidden="true" />
                                                 { `${school?.city}, ${school?.state}` }

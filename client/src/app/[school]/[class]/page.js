@@ -212,7 +212,7 @@ export default function Class() {
 
 
 
-            <div className="relative my-5">
+            <div className=" my-5">
                 <div className=" inset-0 flex items-center" aria-hidden="true">
                     <div className="w-full border-t border-gray-300" />
                 </div>
