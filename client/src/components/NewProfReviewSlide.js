@@ -26,8 +26,7 @@ function classNames(...classes) {
 export default function NewProfReviewSlide({ open, setOpen }) {
     const router = useRouter();
     let { prof, school } = useContext(SchoolContext);
-    const [courseRating, setCourseRating] = useState(5);
-    const [profRating, setProfRating] = useState(5);
+    const [overallRating, setOverallRating] = useState(5);
     const [difficultyRating, setDifficultyRating] = useState(5);
     const [newProfShow, setNewProfShow] = useState(false);
     const [term, setTerm] = useState("");
@@ -51,91 +50,70 @@ export default function NewProfReviewSlide({ open, setOpen }) {
         const data = {
             term: term,
             year: year,
-            profRating: profRating,
+            overallRating: overallRating,
             difficultyRating: difficultyRating,
-            courseRating: courseRating,
             description: description,
             schoolRef: school?.uuid,
-            courseRef: course?.uuid,
+            courseRef: selectedCourse,
+            profRef: prof?.uuid,
         }
 
-
-        if (prof == "0") {
-
-            if (addProf) {
-                data.addProf = 2;
-                data.firstName = firstName.trim();
-                data.middleName = middleName.trim();
-                data.lastName = lastName.trim();
-                data.department = department?.trim();
-                console.log(data);
-            }
-            else {
-                data.addProf = 1;
-                data.prof = newProf;
-                console.log(data);
-            }
-        }
-        else {
-            data.addProf = 0;
-            data.prof = prof;
-        }
+        console.log(data);
 
 
 
 
+        // const keys = Object.keys(data);
+        // const omit = ["addProf", "middleName", "course"]
+        // let missing = false;
+        // keys.forEach((key) => {
+        //     if (omit?.includes(key)) return;
 
-        const keys = Object.keys(data);
-        const omit = ["addProf", "middleName", "course"]
-        let missing = false;
-        keys.forEach((key) => {
-            if (omit?.includes(key)) return;
+        //     if (data[key] === "") {
+        //         console.log("key missing")
+        //         setErr(`"${key}" field is required`)
+        //         setShowError(true);
+        //         missing = true;
+        //         return true;
+        //     }
+        //     return true;
+        // })
 
-            if (data[key] === "") {
-                console.log("key missing")
-                setErr(`"${key}" field is required`)
-                setShowError(true);
-                missing = true;
-                return true;
-            }
-            return true;
-        })
+        // if (missing) {
+        //     setTimeout(() => {
+        //         setShowError(false)
+        //     }
+        //         , 3000);
+        //     return;
+        // }
+        // else {
+        //     data.schoolRef = school?.uuid;
+        //     data.courseRef = course?.uuid;
+        //     const res = await postReview(data);
+        //     console.log(res);
+        //     console.log(res.response);
 
-        if (missing) {
-            setTimeout(() => {
-                setShowError(false)
-            }
-                , 3000);
-            return;
-        }
-        else {
-            data.schoolRef = school?.uuid;
-            data.courseRef = course?.uuid;
-            const res = await postReview(data);
-            console.log(res);
-            console.log(res.response);
+        //     if (res?.status === 200) {
+        //         setShowSuccess(true)
+        //         setSuccess(res?.data?.message);
+        //         setOpen(false);
 
-            if (res?.status === 200) {
-                setShowSuccess(true)
-                setSuccess(res?.data?.message);
-                setOpen(false);
+        //         setTimeout(() => {
+        //             setShowSuccess(false);
+        //         }
+        //             , 3000);
 
-                setTimeout(() => {
-                    setShowSuccess(false);
-                }
-                    , 3000);
-
-            }
-            else {
-                setShowError(true);
-                setErr(res?.response?.data?.message)
-                setTimeout(() => {
-                    setShowError(false)
-                }
-                    , 3000);
-                return;
-            }
-        }
+        //     }
+        //     else {
+        //         setShowError(true);
+        //         setErr(res?.response?.data?.message)
+        //         setTimeout(() => {
+        //             setShowError(false)
+        //         }
+        //             , 3000);
+        //         return;
+        //     }
+        // }
 
 
     }
@@ -242,7 +220,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                         </div>
                                                         <div className="sm:col-span-1">
                                                             <input
-                                                                onChange={ (event) => setCourseRating(event?.target?.value) }
+                                                                onChange={ (event) => setOverallRating(event?.target?.value) }
                                                                 type="range"
                                                                 name="courseRating"
                                                                 id="courseRating"
@@ -252,7 +230,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
 
                                                         </div>
                                                         <div className="sm:col-span-1">
-                                                            <span className='text-pink-400'>{ courseRating }</span>  / 10
+                                                            <span className='text-pink-400'>{ overallRating }</span>  / 10
 
                                                         </div>
                                                         <div>
@@ -304,12 +282,68 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                                 onChange={ (event) => setDescription(event?.target?.value) }
                                                                 id="project-description"
                                                                 name="project-description"
-                                                                rows={ 3 }
+                                                                rows={ 6 }
                                                                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                                 defaultValue={ '' }
                                                             />
                                                         </div>
+
+                                                        <div className='col-span-3 flex gap-1'>
+                                                            <select
+                                                                required
+                                                                onChange={ (event) => setTerm(event?.target?.value) }
+                                                                defaultValue={ "Select a term" }
+                                                                id="term"
+                                                                name="term"
+                                                                className="mt-2 inline w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                            >
+                                                                <option disabled>Select a term</option>
+                                                                <option>Fall</option>
+                                                                <option>Spring</option>
+                                                                <option>Summer</option>
+                                                                <option>Tri 1</option>
+                                                                <option>Tri 2</option>
+                                                                <option>Tri 3</option>
+                                                                <option>Q 1</option>
+                                                                <option>Q 2</option>
+                                                                <option>Q 3</option>
+                                                                <option>Q 4</option>
+                                                            </select>
+                                                            <select
+                                                                defaultValue={ "Select a year" }
+                                                                onChange={ (event) => setYear(event?.target?.value) }
+                                                                id="year"
+                                                                name="year"
+                                                                className="mt-2 inline w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                            >
+                                                                <option disabled>Select a year</option>
+
+                                                                <option>2030</option>
+                                                                <option>2029</option>
+                                                                <option>2028</option>
+                                                                <option>2027</option>
+                                                                <option>2026</option>
+                                                                <option>2025</option>
+                                                                <option>2024</option>
+                                                                <option>2023</option>
+                                                                <option>2022</option>
+                                                                <option>2021</option>
+                                                                <option>2020</option>
+                                                                <option>2019</option>
+                                                                <option>2018</option>
+                                                                <option>2017</option>
+                                                                <option>2016</option>
+                                                                <option>2015</option>
+                                                                <option>2014</option>
+                                                                <option>2013</option>
+                                                                <option>2012</option>
+                                                                <option>2011</option>
+                                                                <option>2010</option>
+                                                            </select>
+
+                                                        </div>
                                                     </div>
+
 
 
 
@@ -328,7 +362,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                         Cancel
                                                     </button>
                                                     <button
-                                                        // onClick={ handleSubmitReview }
+                                                        onClick={ handleSubmitReview }
                                                         type="button"
                                                         className="inline-flex justify-center rounded-md bg-pink-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                                     >

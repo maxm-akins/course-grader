@@ -64,7 +64,7 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
                 </label>
                 <select
                     onChange={ (event) => {
-
+                        setSelectedCourse(event?.target?.value)
                     } }
 
                     id="prof"
