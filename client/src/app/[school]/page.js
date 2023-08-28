@@ -26,8 +26,6 @@ import { redirect } from 'next/navigation'
 import { BuildingOfficeIcon, AcademicCapIcon, BuildingLibraryIcon } from '@heroicons/react/20/solid'
 import FindClass from '@/components/FindClass'
 
-
-import { Tab, Tabs } from '@mui/material';
 import FindProf from '@/components/FindProf'
 
 
@@ -107,7 +105,7 @@ export default function School() {
                         } }
                         id="tabs"
                         name="tabs"
-                        className="block w-full bg-gray-100 p-2 rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="block w-full bg-gray-100 p-2 rounded-md border-gray-300 focus:border-pink-500 focus:ring-pink-500"
                     >
 
                         <option key={ 1 } value={ 1 }>{ `Find a Class` }</option>
@@ -121,7 +119,7 @@ export default function School() {
                                 onClick={ () => setValue(1) }
                                 className={ classNames(
                                     value === 1
-                                        ? 'border-indigo-500 text-indigo-600'
+                                        ? 'border-pink-400 text-pink-500'
                                         : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                                     'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium'
                                 ) }
@@ -129,7 +127,7 @@ export default function School() {
                             >
                                 <BuildingLibraryIcon
                                     className={ classNames(
-                                        value === 1 ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
+                                        value === 1 ? 'text-pink-400' : 'text-gray-400 group-hover:text-gray-500',
                                         '-ml-0.5 mr-2 h-5 w-5'
                                     ) }
                                     aria-hidden="true"
@@ -140,7 +138,7 @@ export default function School() {
                                 onClick={ () => setValue(2) }
                                 className={ classNames(
                                     value === 2
-                                        ? 'border-indigo-500 text-indigo-600'
+                                        ? 'border-pink-400 text-pink-400'
                                         : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                                     'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium'
                                 ) }
@@ -148,7 +146,7 @@ export default function School() {
                             >
                                 <AcademicCapIcon
                                     className={ classNames(
-                                        value === 2 ? 'text-indigo-500' : 'text-gray-400 group-hover:text-gray-500',
+                                        value === 2 ? 'text-pink-500' : 'text-gray-400 group-hover:text-gray-500',
                                         '-ml-0.5 mr-2 h-5 w-5'
                                     ) }
                                     aria-hidden="true"
@@ -177,7 +175,7 @@ export default function School() {
                         >
                             <button
                                 type="button"
-                                className=" mb-3 inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className=" mb-3 inline-flex items-center rounded-md bg-pink-400 px-3 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600"
                             >New Course
                             </button>
                         </Link>
