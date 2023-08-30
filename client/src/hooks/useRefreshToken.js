@@ -3,7 +3,7 @@
 import AuthContext from "@/context/AuthProvider";
 import { useContext } from "react";
 import axios from "../apis/axios";
-import { refresh as callRefresh } from "@/apis/users";
+import { Refresh as callRefresh } from "@/apis/users";
 
 const useRefreshToken = () => {
     const { setAuth } = useContext(AuthContext);
