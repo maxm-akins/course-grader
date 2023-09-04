@@ -2,7 +2,7 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
 import AuthContext from "@/context/AuthProvider"
-import { getUser, updateUser } from "@/apis/users"
+import { GetUser, UpdateUser } from "@/apis/users"
 import ResponseContext from "@/context/ResponseContext";
 
 export default function Profile({ children }) {
@@ -15,7 +15,7 @@ export default function Profile({ children }) {
     const [last, setLast] = useState("");
 
     const handleGetUser = async () => {
-        const res = await getUser(auth);
+        const res = await GetUser(auth);
         if (res?.toggleAuth) {
             setUser(res?.res?.data);
             const accessToken = res?.res?.config?.headers?.Authorization?.split(' ')[1];
@@ -48,7 +48,7 @@ export default function Profile({ children }) {
             middle,
             last
         };
-        const res = await updateUser(data, auth);
+        const res = await UpdateUser(data, auth);
         console.log(res);
         if (res?.status === 204) {
             setShowSuccess(true)

@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 
 "use client"
 import { Fragment } from 'react'
@@ -50,23 +36,23 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
     }
 
     useEffect(() => {
+        console.log(selectedProf);
 
     }, [profs])
 
 
     return (
         <>
-
             <Combobox
                 value={ selectedProf }
                 onChange={ (value) => {
-                    setSelectedProf(value?.name);
+                    setSelectedProf(value?.fullName || value?.name);
                     setNewProf(value);
                     setQuery("")
                 } }  >
 
                 <Combobox.Input
-                    className={ ` w-full rounded-lg bg-gray-100  px-4 py-2.5 text-pink-400  focus:ring-0 sm:text-sm hover:drop-shadow-md transition-all` }
+                    className={ `w-full rounded-lg bg-gray-100 px-4 py-2.5 text-pink-400 focus:ring-0 sm:text-sm hover:drop-shadow-md transition-all` }
                     placeholder="Search professors at this school"
                     onChange={ (event) => {
                         handleQueryChange(event.target.value);
@@ -111,14 +97,5 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                 ) }
             </Combobox>
         </>
-
-
-
-
-
-
-
-
-
     )
 }

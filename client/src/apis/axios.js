@@ -1,12 +1,12 @@
 "use client"
 
 import axios from "axios";
-import { refresh } from "./users";
+import { Refresh } from "./users";
 
 export default axios.create({ baseURL: process.env.NEXT_PUBLIC_BASE_URL });
 
 
-export const useAxios = () => {
+export const Axios = () => {
 
 
     const axiosIP = axios.create(
@@ -33,7 +33,7 @@ export const useAxios = () => {
 }
 
 
-export const useAxioPrivate = (auth) => {
+export const AxioPrivate = (auth) => {
 
 
     const axiosPrivate = axios.create(

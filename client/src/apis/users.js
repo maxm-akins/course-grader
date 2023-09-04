@@ -1,8 +1,8 @@
 
 import axios from "./axios";
 // import useAxioPrivate from "@/hooks/useAxiosPrivate";
-import { useAxioPrivate } from "./axios";
-import { useAxios } from "./axios";
+import { AxioPrivate } from "./axios";
+import { Axios } from "./axios";
 
 export const register = async (data) => {
 
@@ -47,8 +47,8 @@ export const login = async (data) => {
 
 };
 
-export const refresh = async () => {
-    const axiosIP = useAxios();
+export const Refresh = async () => {
+    const axiosIP = Axios();
     try {
         const response = await axiosIP.get(
             "/users/refresh",
@@ -65,8 +65,8 @@ export const refresh = async () => {
 
 };
 
-export const getUser = async (auth) => {
-    const axiosPrivate = useAxioPrivate(auth);
+export const GetUser = async (auth) => {
+    const axiosPrivate = AxioPrivate(auth);
 
     try {
         const res = await axiosPrivate.get(
@@ -110,8 +110,8 @@ export const logout = async () => {
 };
 
 
-export const updateUser = async (data, auth) => {
-    const axiosPrivate = useAxioPrivate(auth);
+export const UpdateUser = async (data, auth) => {
+    const axiosPrivate = AxioPrivate(auth);
 
     try {
         const response = await axiosPrivate.post(

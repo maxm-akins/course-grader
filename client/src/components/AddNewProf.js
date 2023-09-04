@@ -208,7 +208,7 @@ export default function AddNewProf({ firstName, middleName, lastName, department
 
 
                                                 <Combobox.Option
-
+                                                    key={ department }
                                                     value={ department }
                                                     className={ ({ active }) =>
                                                         classNames(

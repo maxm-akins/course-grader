@@ -5,7 +5,6 @@ import { UsersIcon } from '@heroicons/react/24/outline'
 import { Combobox, } from '@headlessui/react'
 import Link from 'next/link'
 import useSchoolsApi from '@/apis/schools'
-const searchSchools = useSchoolsApi();
 
 
 function classNames(...classes) {
@@ -17,6 +16,7 @@ export default function Home() {
   const router = useRouter()
   const [schools, setSchools] = useState([]);
   const [query, setQuery] = useState("");
+  const searchSchools = useSchoolsApi();
 
 
   const handleQueryChange = async (q) => {

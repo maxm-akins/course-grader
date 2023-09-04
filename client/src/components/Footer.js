@@ -66,6 +66,9 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
+                <div className="mt-16 border-t border-white pt-8 sm:mt-20 lg:mt-24">
+                    <p className="text-xs leading-5 text-white">&copy; 2023 Course Judge LLC, All rights reserved.</p>
+                </div>
             </div>
         </footer>
     )
