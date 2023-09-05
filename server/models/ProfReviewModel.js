@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 var Filter = require('bad-words'),
     filter = new Filter();
 
-const ReviewsSchema = new Schema({
+const ProfReviewsSchema = new Schema({
     schoolRef: {
         type: String,
         required: true,
@@ -78,4 +78,4 @@ const ReviewsSchema = new Schema({
 
 });
 
-module.exports = mongoose.model("reviews", ReviewsSchema);
+module.exports = mongoose.model("profReviews", ProfReviewsSchema);

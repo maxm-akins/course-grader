@@ -8,7 +8,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import SchoolContext from '@/context/SchoolProvider'
 import { useState, useContext, useEffect } from "react"
 import ProfSearch from './ProfSearch'
-import { postReview } from '@/apis/reviews'
+import { postProfPlusReview } from '@/apis/reviews'
 import AddNewProf from './AddNewProf'
 import ErrorNotif from './ErrorNotif'
 import SuccessNotif from './SuccessNotif'
@@ -54,66 +54,63 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
             difficultyRating: difficultyRating,
             description: description,
             schoolRef: school?.uuid,
-            courseRef: selectedCourse,
+            courseRef: selectedCourse?.uuid,
             profRef: prof?.uuid,
+            department: department,
+            firstName: firstName,
+            lastName: lastName,
+            middleName: middleName,
         }
 
         console.log(data);
 
+        const keys = Object.keys(data);
+        let missing = false;
+        keys.forEach((key) => {
+            if (!data[key]) {
+                console.log("key missing")
+                setErr(`All fields are required`)
+                setShowError(true);
+                missing = true;
+                return true;
+            }
+            return true;
+        })
 
+        if (missing) {
+            setTimeout(() => {
+                setShowError(false)
+            }
+                , 3000);
+            return;
+        }
+        else {
 
+            const res = await postProfPlusReview(data);
+            console.log(res);
+            console.log(res.response);
 
-        // const keys = Object.keys(data);
-        // const omit = ["addProf", "middleName", "course"]
-        // let missing = false;
-        // keys.forEach((key) => {
-        //     if (omit?.includes(key)) return;
+            if (res?.status === 200) {
+                setShowSuccess(true)
+                setSuccess(res?.data?.message);
+                setOpen(false);
 
-        //     if (data[key] === "") {
-        //         console.log("key missing")
-        //         setErr(`"${key}" field is required`)
-        //         setShowError(true);
-        //         missing = true;
-        //         return true;
-        //     }
-        //     return true;
-        // })
+                setTimeout(() => {
+                    setShowSuccess(false);
+                }
+                    , 3000);
 
-        // if (missing) {
-        //     setTimeout(() => {
-        //         setShowError(false)
-        //     }
-        //         , 3000);
-        //     return;
-        // }
-        // else {
-        //     data.schoolRef = school?.uuid;
-        //     data.courseRef = course?.uuid;
-        //     const res = await postReview(data);
-        //     console.log(res);
-        //     console.log(res.response);
-
-        //     if (res?.status === 200) {
-        //         setShowSuccess(true)
-        //         setSuccess(res?.data?.message);
-        //         setOpen(false);
-
-        //         setTimeout(() => {
-        //             setShowSuccess(false);
-        //         }
-        //             , 3000);
-
-        //     }
-        //     else {
-        //         setShowError(true);
-        //         setErr(res?.response?.data?.message)
-        //         setTimeout(() => {
-        //             setShowError(false)
-        //         }
-        //             , 3000);
-        //         return;
-        //     }
-        // }
+            }
+            else {
+                setShowError(true);
+                setErr(res?.response?.data?.message)
+                setTimeout(() => {
+                    setShowError(false)
+                }
+                    , 3000);
+                return;
+            }
+        }
 
 
     }
