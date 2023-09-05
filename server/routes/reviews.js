@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
         let prof = null;
         let course = null;
         let school = null;
-        let schoolSave = true;
+        let schoolSave = false;
         if (data.addProf === 0) {
             prof = await ProfModel.findOne({ uuid: data?.prof, schoolRef: data?.schoolRef })
             if (!prof) return res.status(400).json({ message: "There was an error finding that professor." });
@@ -164,6 +164,7 @@ router.post('/', async (req, res) => {
 
     }
     catch (err) {
+        console.log(err);
         const errs = err?.errors
         const keys = Object.keys(err?.errors);
         const msg = errs[keys[0]]?.properties?.message;

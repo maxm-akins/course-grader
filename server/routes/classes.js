@@ -141,40 +141,7 @@ router.get('/search/:school/:q', async (req, res) => {
             "$search": {
                 "index": 'class_search',
                 "compound": {
-
-                    "should": [
-                        // get home where queries.category is property_type
-                        {
-                            "text": {
-                                "query": q,
-                                "path": 'name',
-                                "fuzzy": {}
-                            }
-                        },
-                        {
-                            "text": {
-                                "query": q,
-                                "path": 'descripCode',
-                                "fuzzy": {}
-                            }
-                        },
-                        {
-                            "text": {
-                                "query": q,
-                                "path": 'classCode',
-                                "fuzzy": {}
-                            }
-                        },
-                        {
-                            "text": {
-                                "query": q,
-                                "path": 'profs.name',
-                                "fuzzy": {}
-                            }
-                        },
-
-                    ],
-                    "must": [
+                    "filter": [
                         {
                             "text": {
                                 "query": school,
@@ -182,7 +149,30 @@ router.get('/search/:school/:q', async (req, res) => {
                             }
                         },
 
-                    ]
+                    ],
+                    "should": [
+                        // get home where queries.category is property_type
+                        {
+                            autocomplete: {
+                                query: q,
+                                path: "name"
+                            }
+                        },
+                        {
+                            autocomplete: {
+                                query: q,
+                                path: "descripCode"
+                            }
+                        },
+                        {
+                            autocomplete: {
+                                query: q,
+                                path: "classCode"
+                            }
+                        },
+
+                    ],
+
                 }
             }
         };

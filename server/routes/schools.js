@@ -89,14 +89,14 @@ router.get('/search/:q', async (req, res) => {
         let searcher_aggregate = {
             "$search": {
                 "index": 'search_schools',
+
                 "compound": {
                     "must": [
                         // get home where queries.category is property_type
                         {
-                            "text": {
-                                "query": q,
-                                "path": 'name',
-
+                            autocomplete: {
+                                query: q,
+                                path: "name"
                             }
                         },
 

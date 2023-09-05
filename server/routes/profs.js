@@ -7,7 +7,8 @@ const { randomUUID } = require('crypto');
 const short = require('short-uuid');
 const ClassesModel = require("../models/ClassesModel");
 const ProfModel = require("../models/ProfModel");
-const ReviewsModels = require("../models/ReviewsModels")
+const ReviewsModels = require("../models/ReviewsModels");
+const ProfReviewModel = require("../models/ProfReviewModel");
 
 
 router.get('/', async (req, res) => {
@@ -121,7 +122,7 @@ router.get('/search/:school/:q', async (req, res) => {
             "$search": {
                 "index": 'prof_search',
                 "compound": {
-                    "must": [
+                    "filter": [
                         {
                             "text": {
                                 "query": school,
@@ -132,11 +133,16 @@ router.get('/search/:school/:q', async (req, res) => {
                     ],
                     "should": [
                         {
-                            "text": {
-                                "query": q,
-                                "path": 'name',
-                                "fuzzy": {}
-                            },
+                            autocomplete: {
+                                query: q,
+                                path: "fullName"
+                            }
+                        },
+                        {
+                            autocomplete: {
+                                query: q,
+                                path: "department"
+                            }
                         },
                     ],
 
@@ -176,6 +182,7 @@ router.get('/:q', async (req, res) => {
 
 
 
+
         const prof = await ProfModel.aggregate([
             {
                 $match: { uuid: q }
@@ -207,12 +214,30 @@ router.get('/:q', async (req, res) => {
 
 
 
-        // const prof = await ProfModel.findOne({ uuid: q });
         console.log(prof);
         if (!prof) res.status(403).json({ message: "Professor Not Found" });
 
         if (prof.length > 1) res.status(403).json({ message: "Duplicates Found" });
 
+
+        const reviews = await ProfReviewModel.find({ profRef: q })
+        console.log(reviews.length)
+        const length = reviews?.length;
+        let diffAvg = 0;
+        let overallAvg = 0;
+        reviews?.map((review) => {
+            overallAvg += review?.overallRating ? review?.overallRating : 0;
+            diffAvg += review?.difficultyRating ? review?.difficultyRating : 0;
+        })
+
+        diffAvg = diffAvg / length;
+        overallAvg = overallAvg / length;
+
+        prof[0].difficultyRating = diffAvg;
+        prof[0].overallRating = overallAvg;
+        prof[0].amount = length;
+
+        console.log(prof[0])
 
 
         return res.status(200).json(prof[0]);
