@@ -20,6 +20,8 @@ import ClassHeader from "@/components/ClassHeader"
 import { redirect } from "next/navigation"
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
 import ResponseContext from "@/context/ResponseContext"
+import Link from "next/link"
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -37,7 +39,7 @@ export default function Class() {
     const searchParams = useSearchParams();
     const courseParam = params?.class;
     const school = params?.school;
-    let { setCourse, setSchool, course } = useContext(SchoolContext);
+    let { setCourse, setSchool, course, prof } = useContext(SchoolContext);
     const [filter, setFilter] = useState(searchParams.get('filter'));
     const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
 
@@ -93,28 +95,39 @@ export default function Class() {
                     <li key={ review?.uuid } className=" grid grid-cols-6 justify-start py-5 px-5 rounded-lg bg-gray-100 hover:shadow-lg hover:bg-gray-200 transition-all">
                         <div className="flex gap-x-4 pr-6 col-span-4">
                             <div className="min-w-0 flex-auto">
-                                <p className="text-sm font-semibold leading-6 text-gray-900">
+                                <div className="text-sm font-semibold leading-6 text-gray-900">
                                     <div >
-                                        Professor: <span className=" inset-x-0 -top-px bottom-0 font-normal leading-5 text-sm text-gray-500 hover:underline" >
-                                            { review?.prof?.fullName || review?.prof?.name }
+                                        Professor:  { " " }
 
-                                        </span>
+                                        <Link
+                                            href={ `/${school}/prof/${review?.prof?.uuid}` }
+                                        >
+                                            <span className=" inset-x-0 -top-px bottom-0 font-normal leading-5 text-sm text-gray-500 hover:underline" >
+                                                { review?.prof?.fullName || review?.prof?.name }
+
+                                            </span>
+
+                                        </Link>
+
+
+
+
                                     </div>
                                     <div >
                                         <span className=" inset-x-0 -top-px bottom-0 hover:underline" />
                                         Term:  <span className=" font-normal leading-5 text-sm text-gray-500">{ review?.term }{ " " }{ review?.year }</span>
                                     </div>
-                                </p>
-                                <p className="mt-1 flex  text-sm leading-5 text-gray-500">
+                                </div>
+                                <div className="mt-1 flex  text-sm leading-5 text-gray-500">
                                     <div className="relative   ">
                                         { review?.description }
                                     </div>
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <div className="flex items-start justify-end gap-x-4 col-span-2 sm:flex-none">
                             <div className=" block">
-                                <p className="text-sm leading-6 text-end text-gray-900">{ new Date(review?.date).toLocaleDateString("en-US") }</p>
+                                <div className="text-sm leading-6 text-end text-gray-900">{ new Date(review?.date).toLocaleDateString("en-US") }</div>
 
                                 { review?.reviewed ? (
                                     <div className="mt-1 flex items-center justify-end gap-x-1.5">

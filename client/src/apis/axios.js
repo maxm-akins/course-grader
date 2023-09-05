@@ -20,7 +20,6 @@ export const Axios = () => {
         async config => {
             const res = await axios.get("https://api.ipify.org/?format=json");
             config.headers['X-Originating-IP'] = res?.data?.ip;
-            console.log(config);
             return config;
 
         }, (err) => {
@@ -60,7 +59,6 @@ export const AxioPrivate = (auth) => {
         (response) => response,
         async (error) => {
             const prevRequest = error?.config;
-            console.log(error);
             if (error?.response?.status === 403 && !prevRequest?.sent) {
                 prevRequest.sent = true;
                 const res = await refresh();

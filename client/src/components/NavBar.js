@@ -126,11 +126,22 @@ export default function NavBar() {
                                                 <Menu.Button className="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                     <span className="absolute -inset-1.5" />
                                                     <span className="sr-only">Open user menu</span>
-                                                    <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-pink-400">
-                                                        <svg className="h-full w-full text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                                        </svg>
-                                                    </span>
+
+                                                    { auth?.firstName && auth?.lastName ? (
+                                                        <>
+                                                            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-pink-400">
+                                                                <span className="text-sm font-medium leading-none text-white">{ auth?.firstName[0] + auth?.lastName[0] }</span>
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-pink-400">
+                                                                <svg className="h-full w-full text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                                </svg>
+                                                            </span>
+                                                        </>
+                                                    ) }
                                                 </Menu.Button>
                                             </div>
                                             <Transition

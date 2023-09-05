@@ -55,7 +55,6 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
             description: description,
             schoolRef: school?.uuid,
             courseRef: selectedCourse?.uuid,
-            profRef: prof?.uuid,
             department: department,
             firstName: firstName,
             lastName: lastName,
@@ -67,6 +66,7 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
         const keys = Object.keys(data);
         let missing = false;
         keys.forEach((key) => {
+            if (key === "middleName") return;
             if (!data[key]) {
                 console.log("key missing")
                 setErr(`All fields are required`)

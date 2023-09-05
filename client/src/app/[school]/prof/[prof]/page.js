@@ -154,7 +154,7 @@ export default function Prof() {
                             <div className="px-4 py-5 sm:p-6">
                                 <dt className="text-base font-normal text-gray-900">Overall </dt>
                                 <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                                    <div className={ `flex items-baseline text-2xl font-semibold ${review?.profRating < 4 ? " text-red-500" : review?.profRating < 7 ? "text-yellow-500" : "text-emerald-500"}` }>
+                                    <div className={ `flex items-baseline text-2xl font-semibold ${prof?.overallRating > 7 ? " text-emerald-500" : prof?.overallRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
                                         { review?.overallRating }
                                         <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
                                     </div>
@@ -211,8 +211,8 @@ export default function Prof() {
                                 <div className="px-4 py-5 sm:p-6 ">
                                     <dt className="text-base font-normal text-gray-900">Rating </dt>
                                     <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
-                                        <div className={ `flex items-baseline text-2xl font-semibold ${prof?.profRating > 7 ? " text-emerald-500" : prof?.profRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
-                                            { Math.round(prof?.profRating * 100) / 100 }
+                                        <div className={ `flex items-baseline text-2xl font-semibold ${prof?.overallRating > 7 ? " text-emerald-500" : prof?.overallRating < 4 ? "text-red-500" : "text-yellow-500"}` }>
+                                            { Math.round(prof?.overallRating * 100) / 100 }
                                             <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
                                         </div>
 
