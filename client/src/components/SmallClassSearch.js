@@ -51,6 +51,13 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
         getClassInfo();
     }, [])
 
+    const filteredClasses =
+        query === ''
+            ? classes
+            : classes.filter((course) => {
+                return course.name.toLowerCase().includes(query.toLowerCase()) || course.descripCode.toLowerCase().includes(query.toLowerCase()) || course.classCode.toLowerCase().includes(query.toLowerCase())
+            })
+
 
 
 
@@ -59,8 +66,46 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
 
 
             <div className='col-span-1'>
-                <label htmlFor="prof" className="block text-sm font-medium leading-6 text-gray-900">
-                    Classes
+                <p className='mb-1'> Class</p>
+                <Combobox value={ selectedCourse } onChange={ setSelectedCourse }>
+                    <Combobox.Input
+                        className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
+                        onChange={ (event) => setQuery(event.target.value) }
+                        displayValue={ (course) => {
+                            if (selectedCourse) return `${course?.name} (${course?.descripCode} ${course?.classCode})`
+                            return "";
+                        } }
+                    />
+                    <Combobox.Options
+                        className=" -mb-2 max-h-84 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
+
+                    >
+                        { filteredClasses?.map((course) => (
+                            /* Use the `active` state to conditionally style the active option. */
+                            /* Use the `selected` state to conditionally style the selected option. */
+                            <Combobox.Option
+                                key={ course?.uuid }
+                                value={ course }
+                                className={ ({ active }) =>
+                                    classNames(
+                                        'cursor-default select-none font-base text-gray-600 md:text-base text-sm border-b-2 px-2 py-2 gap-4  ',
+                                        active && 'bg-gray-100 text-black'
+                                    )
+                                }
+                            >
+
+                                <p>
+                                    { `${course?.name} (${course?.descripCode} ${course?.classCode})` }
+
+                                </p>
+
+
+                            </Combobox.Option>
+                        )) }
+                    </Combobox.Options>
+                </Combobox>
+                {/* <label htmlFor="prof" className="block text-sm font-medium leading-6 text-gray-900">
+                    Class
                 </label>
                 <select
                     onChange={ (event) => {
@@ -74,7 +119,7 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
                 >
                     <option value={ "" } disabled>Select a course</option>
                     { classes?.map((course) => <option key={ course?.uuid } value={ course?.uuid }> { course?.descripCode + " " + course?.classCode }</option>) }
-                </select>
+                </select> */}
             </div>
             <div className="rounded-md bg-blue-50 p-4">
                 <div className="flex">
@@ -92,6 +137,10 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
                     </div>
                 </div>
             </div>
+
+
+
+
 
 
         </>

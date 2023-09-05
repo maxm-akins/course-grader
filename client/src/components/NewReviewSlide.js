@@ -366,8 +366,15 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                                         ) }
 
 
-                                                                        { addProf && <AddNewProf firstName={ firstName } middleName={ middleName } lastName={ lastName } department={ department } setFirstName={ setFirstName } setMiddleName={ setMiddleName } setLastName={ setLastName } setDepartment={ setDepartment } /> }
+                                                                        { addProf && (<>
+                                                                            <h2 className="text-3xl mt-5 font-black leading-7 text-gray-900">Add a professor</h2>
+                                                                            <AddNewProf firstName={ firstName } middleName={ middleName } lastName={ lastName } department={ department } setFirstName={ setFirstName } setMiddleName={ setMiddleName } setLastName={ setLastName } setDepartment={ setDepartment } />
 
+                                                                        </>
+
+                                                                        )
+
+                                                                        }
                                                                     </div>
 
                                                                 </>

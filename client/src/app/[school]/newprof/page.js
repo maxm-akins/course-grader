@@ -26,7 +26,6 @@ import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
-import ProfSearch from './ProfSearch'
 import { postReview } from '@/apis/reviews'
 import Link from 'next/link'
 
@@ -64,22 +63,25 @@ export default function AddNewProf({ firstName, middleName, lastName, department
     return (
         <>
 
-            <div className="grid gap-y-2 border-b border-gray-900/10 pb-6 grid-cols-3 mt-5">
+            <div className="grid gap-y-2 border-b border-gray-900/10 pb-6 grid-cols-3 mt-10">
 
 
 
 
                 <div className='col-span-3'>
+                    <h2 className="text-3xl mb-5 font-black leading-7 text-gray-900">Add a professor</h2>
 
                     <div className="rounded-md bg-blue-50 p-4">
                         <div className="flex">
                             <div className="flex-shrink-0">
                                 <InformationCircleIcon className="h-5 w-5 text-blue-400" aria-hidden="true" />
                             </div>
-                            <div className="ml-3 flex-1 ">
-                                <p className="text-sm text-blue-700">Please search first to ensure that this professor does not already exist in this school.</p>
-                                <p className="text-sm text-blue-700"> If you are adding a new department please make sure it does not already exist.</p>
+                            <div className="ml-3 flex-1 md:flex md:justify-between">
+                                <p className="text-xs text-blue-700">Please search above first to ensure that this professor does not already exist in this school.</p>
+                                <p className="text-xs text-blue-700"> If you are adding a new department please make sure it does not already exist.</p>
+                                <p className="mt-3 text-sm md:ml-6 md:mt-0">
 
+                                </p>
                             </div>
                         </div>
                     </div>
