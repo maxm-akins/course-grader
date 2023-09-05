@@ -1,6 +1,6 @@
 # Welcome to Course Judge!
 
-## A website designed and developed by Maxm Akins _[Personal Webisite](https://maxmakins.com)_
+## A website designed and developed by Maxm Akins [Personal Webisite](https://maxmakins.com)\_
 
 ## Feel free to look around the source code.
 
