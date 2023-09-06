@@ -59,7 +59,7 @@ export default function NavBar() {
             >
                 { ({ open }) => (
                     <>
-                        <div className="relative bg-black">
+                        <div className="relative z-50 bg-black">
                             <div className=" mx-auto max-w-7xl  px-4 sm:px-6 pt-3 sm:pt-0 lg:px-8 justify-between gap-8 gap-y-0 grid grid-cols-12">
 
                                 <div className="flex order-1 inset-y-0 left-0 lg:static col-span-2 sm:col-span-1 mr-2">

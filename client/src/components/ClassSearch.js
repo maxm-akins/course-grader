@@ -64,7 +64,7 @@ export default function ClassSearch() {
                 onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
 
                 <Combobox.Input
-                    className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
+                    className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl  transition-all"
                     placeholder="Search"
                     onChange={ (event) => handleQueryChange(event?.target?.value) }
                 />

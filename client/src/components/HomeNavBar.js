@@ -45,14 +45,14 @@ export default function HomeNavBar() {
 
     return (
         <>
-            <Disclosure as="nav" className="bg-black shadow fixed w-full">
+            <Disclosure as="nav" className="bg-black shadow fixed w-full z-50">
                 { ({ open }) => (
                     <>
                         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                             <div className="relative flex h-20 justify-between">
                                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                     {/* Mobile menu button */ }
-                                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-pink-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                                    <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-pink-400 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                         <span className="absolute -inset-0.5" />
                                         <span className="sr-only">Open main menu</span>
                                         { open ? (
@@ -158,15 +158,15 @@ export default function HomeNavBar() {
                                     ) : (
                                         <>
 
-                                            <div className="inline-flex rounded-md shadow-sm">
+                                            <div className=" rounded-md ">
                                                 <Link
                                                     href="/login"
                                                     type="button"
-                                                    className="relative inline-flex items-center rounded-l-md bg-black text-pink-400 px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-black hover:text-white focus:z-10"
+                                                    className="relative inline-flex items-center rounded-l-md bg-black  px-3 pr-0 py-2 text-xs sm:text-base font-semibold text-white hover:bg-black hover:text-pink-400 "
                                                 >
                                                     Login
                                                 </Link>
-                                                <Menu as="div" className="relative -ml-px block">
+                                                {/* <Menu as="div" className="relative -ml-px block">
                                                     <Menu.Button className="relative inline-flex items-center rounded-r-md bg-black px-2 py-2 text-pink-400 hover:text-white focus:z-10">
                                                         <span className="sr-only">Open options</span>
                                                         <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
@@ -200,7 +200,7 @@ export default function HomeNavBar() {
                                                             </div>
                                                         </Menu.Items>
                                                     </Transition>
-                                                </Menu>
+                                                </Menu> */}
                                             </div>
                                         </>
 
@@ -238,16 +238,7 @@ export default function HomeNavBar() {
                                     </Disclosure.Button>
                                 </Link>
 
-                                <Link
-                                    href="/socials"
-                                >
-                                    <Disclosure.Button
 
-                                        className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:text-pink-600"
-                                    >
-                                        Socials
-                                    </Disclosure.Button>
-                                </Link>
 
 
                             </div>
