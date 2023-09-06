@@ -11,9 +11,9 @@ const navigation = {
     ],
 
     legal: [
-        { name: 'Cookies', href: '#' },
-        { name: 'Privacy', href: '#' },
-        { name: 'Terms', href: '#' },
+        { name: 'Cookies', href: '/cookies' },
+        { name: 'Privacy', href: '/privacy' },
+        { name: 'Terms and Conditions', href: '/terms' },
     ],
 }
 
@@ -52,13 +52,14 @@ export default function Footer() {
                                 </ul>
                             </div>
                             <div className="mt-10 md:mt-0">
-                                <h3 className="text-sm font-semibold leading-6 text-pink-400">Legal</h3>
+                                <h3 id="legal" className="text-sm font-semibold leading-6 text-pink-400">Legal</h3>
                                 <ul role="list" className="mt-6 space-y-4">
                                     { navigation.legal.map((item) => (
                                         <li key={ item.name }>
-                                            <Link href={ item.href } className="text-sm leading-6 text-gray-300 hover:text-pink-400">
+                                            <a target="_blank" rel="noopener noreferrer" href={ item.href } className="text-sm leading-6 text-gray-300 hover:text-pink-400">
+
                                                 { item.name }
-                                            </Link>
+                                            </a>
                                         </li>
                                     )) }
                                 </ul>

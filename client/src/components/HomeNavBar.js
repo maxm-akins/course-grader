@@ -228,7 +228,7 @@ export default function HomeNavBar() {
                                     </Disclosure.Button>
                                 </Link>
                                 <Link
-                                    href="/policies"
+                                    href="#legal"
                                 >
                                     <Disclosure.Button
 
