@@ -8,6 +8,8 @@ import useSchoolsApi from '@/apis/schools'
 import Landing from '@/components/Landing'
 import { useSearchParams } from 'next/navigation'
 import LandingFeatures from '@/components/LandingFeatures'
+import LandingAdding from '@/components/LandingAdding'
+import { validateConfig } from 'next/dist/server/config-shared'
 
 
 function classNames(...classes) {
@@ -35,7 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     const searchToggle = searchParams.get('search');
-    if (searchToggle === true) setSearch(true);
+    if (searchToggle === "true") setSearch(true);
     else setSearch(false);
 
 
@@ -46,23 +48,23 @@ export default function Home() {
     <>
 
       { search ? (
-        <div className="bg-white px-6 lg:px-8 pb-20 pt-[200px] ">
+        <div className="bg-white px-6 lg:px-8 pb-20 pt-[100px] ">
           <div className="mx-auto max-w-4xl text-center">
-            {/* <h2 className="mb-10 font-bold text-transparent tracking-tight text-9xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Grader</h2> */ }
-            <div className=' mb-10 flex justify-center'>
-              <img
+            <h2 className="transition-all pb-10 font-bold text-transparent tracking-tight text-4xl sm:text-6xl md:text-8xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Find your school</h2>
+            {/* <div className=' mb-10 flex justify-center'>
+             <img
                 className="h-48 w-auto"
                 src="/CJ_Logo1.png"
                 alt="Your Company"
-              />
-            </div>
+              /> 
+            </div> */}
 
-            <Combobox onChange={ (value) => (router.push(`/${value}`)) } >
+            <Combobox onChange={ (value) => (router.push(`/${value?.trunkName}`)) } >
 
               <Combobox.Input
                 className={ `w-full ${schools?.length < 1 ? "rounded-lg" : " rounded-t-lg "} bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all` }
-                placeholder="Search for your school..."
-
+                placeholder="Search"
+                displayValue={ (value) => value?.name }
                 onChange={ (event) => {
                   handleQueryChange(event.target.value);
                 } }
@@ -76,7 +78,7 @@ export default function Home() {
                   { schools?.map((school) => (
                     <Combobox.Option
                       key={ school?.trunkName }
-                      value={ school?.trunkName }
+                      value={ school }
                       className={ ({ active }) =>
                         classNames(
                           'cursor-default select-none rounded-md px-4 py-2 ',
@@ -111,6 +113,7 @@ export default function Home() {
         <>
           <Landing />
           <LandingFeatures />
+          <LandingAdding />
         </>
 
 

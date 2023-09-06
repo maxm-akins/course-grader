@@ -3,7 +3,8 @@ import Link from "next/link";
 
 const navigation = {
     nav: [
-        { name: 'School Search', href: '/' },
+        { name: 'Landing Page', href: '/' },
+        { name: 'School Search', href: '/?search=true' },
         { name: 'Add New School', href: '/newschool' },
         { name: 'Login', href: '/login' },
         { name: 'Sign Up', href: '/register' },

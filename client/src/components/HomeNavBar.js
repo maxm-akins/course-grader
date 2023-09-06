@@ -246,7 +246,7 @@ export default function HomeNavBar() {
                     </>
                 ) }
             </Disclosure>
-            { pathname !== "/?search=true" && <GoBack /> }
+            { pathname !== "/" && <GoBack /> }
 
         </>
     )

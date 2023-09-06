@@ -345,7 +345,7 @@ export default function NewSchool() {
                                     <div className="ml-3 flex-1 md:flex md:justify-between">
                                         <p className="text-sm text-blue-700">Please search first to ensure that this school does not already exist.</p>
                                         <p className="mt-3 text-sm md:ml-6 md:mt-0">
-                                            <Link href="/" className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
+                                            <Link href="/?search=true" className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
                                                 Search
                                                 <span aria-hidden="true"> &rarr;</span>
                                             </Link>

@@ -257,6 +257,7 @@ export default function NavBar() {
                                         Course Search
 
                                     </Popover.Button>
+
                                     <Popover.Button
 
                                         as={ Link }

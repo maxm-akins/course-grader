@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 
-export default function Example() {
+export default function Landing() {
     return (
         <div className="relative isolate overflow-hidden bg-white">
             <svg
@@ -22,7 +22,7 @@ export default function Example() {
                 </defs>
                 <rect width="100%" height="100%" strokeWidth={ 0 } fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)" />
             </svg>
-            <div className="mx-auto max-w-7xl px-6 pb-12 pt-10 sm:pb-24 lg:flex lg:px-8 lg:py-36">
+            <div className="mx-auto max-w-7xl px-6 pb-12 pt-10 sm:pb-12 lg:flex lg:px-8 lg:py-12">
                 <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
                     {/* <img
                         className="h-24 w-auto"
@@ -41,12 +41,13 @@ export default function Example() {
                         </a>
                     </div> */}
                     <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                        Review your university <span className='text-pink-400'>  courses and professors </span>
+                        Your home for  <span className='text-pink-400'>  course </span> reviews
+                        {/* <span className='mt-2 text-sm block tracking-normal font-normal'> and professors</span> */ }
                     </h1>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
                         Course Judge is a platform <span className='text-pink-400'> made by students for students </span> to give others valuable
-                        insights into upcoming or current semesters. We unqiuely offer the ability to review both individual professors
-                        <span className='font-bold'> and </span> courses.
+                        insights into upcoming or current semesters. We unqiuely offer the ability to review both individual courses
+                        and professors.
                     </p>
                     <div className="mt-10 flex items-center gap-x-6">
                         <Link

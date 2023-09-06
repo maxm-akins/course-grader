@@ -117,7 +117,7 @@ export default function ClassHeader({ open, setOpen }) {
                 </div>
                 <div className='col-span-4 md:col-span-2 flex justify-start md:justify-end '>
                     <div>
-                        <label for="prof" className='text-xs text-right'>
+                        <label for="prof" className='text-xs text-right text-pink-400 w-full'>
                             Filter by Professor
                         </label>
                         <select

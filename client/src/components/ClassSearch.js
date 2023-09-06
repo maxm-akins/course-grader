@@ -61,12 +61,13 @@ export default function ClassSearch() {
 
             <Combobox
 
-                onChange={ (value) => (router.push(`${pathname}/${value}`)) } >
+                onChange={ (value) => (router.push(`${pathname}/${value?.uuid}`)) } >
 
                 <Combobox.Input
                     className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl  transition-all"
                     placeholder="Search"
                     onChange={ (event) => handleQueryChange(event?.target?.value) }
+                    displayValue={ (value) => value?.name }
                 />
 
                 { classes?.length > 0 && (
@@ -104,7 +105,7 @@ export default function ClassSearch() {
 
                             <Combobox.Option
                                 key={ item?.uuid }
-                                value={ item?.uuid }
+                                value={ item }
                                 className={ ({ active }) =>
                                     classNames(
                                         'cursor-default select-none font-base text-gray-600 md:text-base text-sm border-b-2 px-2 py-2 grid grid-cols-3 gap-4  ',

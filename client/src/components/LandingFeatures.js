@@ -4,14 +4,14 @@ const features = [
     {
         name: 'Course and Professor Reviews',
         description:
-            'Easily find or add reviews for specific courses or professors. After navigating to your intended university you will be able to search through all of the courses and professors we have on record. ',
+            'Effortlessly find or add reviews for specific courses or professors. After navigating to your intended university you will be able to search through all of the courses and professors we have on record. ',
         href: '#',
         icon: AcademicCapIcon,
     },
     {
         name: 'Complete Anonymity',
         description:
-            'While you may register for an account with us (and we encourage you to do so), it is not a requirement to do anything on the site. Additionaly, no submissions or reviews will ever contain information about the author. Ever.',
+            'While you may register for an account with us (and we encourage you to do so), it is not a requirement to do anything on the site. Additionaly, no submissions or reviews will contain information about the author. Ever.',
         href: '#',
         icon: LockClosedIcon,
     },
@@ -26,7 +26,7 @@ const features = [
 
 export default function LandingFeatures() {
     return (
-        <div className="bg-white py-12 sm:py-24">
+        <div className="bg-white py-12 sm:py-12">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h2 className="text-base font-semibold leading-7 text-pink-400">Features</h2>
