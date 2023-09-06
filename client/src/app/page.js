@@ -5,6 +5,9 @@ import { UsersIcon } from '@heroicons/react/24/outline'
 import { Combobox, } from '@headlessui/react'
 import Link from 'next/link'
 import useSchoolsApi from '@/apis/schools'
+import Landing from '@/components/Landing'
+import { useSearchParams } from 'next/navigation'
+import LandingFeatures from '@/components/LandingFeatures'
 
 
 function classNames(...classes) {
@@ -13,10 +16,12 @@ function classNames(...classes) {
 
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [schools, setSchools] = useState([]);
   const [query, setQuery] = useState("");
   const searchSchools = useSchoolsApi();
+  const [search, setSearch] = useState(false);
 
 
   const handleQueryChange = async (q) => {
@@ -28,73 +33,91 @@ export default function Home() {
 
   }, [schools])
 
+  useEffect(() => {
+    const searchToggle = searchParams.get('search');
+    if (searchToggle === true) setSearch(true);
+    else setSearch(false);
 
+
+  }, [searchParams]);
 
   return (
 
     <>
 
-      <div className="bg-white px-6 pt-12 sm:pt-24 lg:px-8 pb-20">
-        <div className="mx-auto max-w-4xl text-center">
-          {/* <h2 className="mb-10 font-bold text-transparent tracking-tight text-9xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Grader</h2> */ }
-          <div className=' mb-10 flex justify-center'>
-            <img
-              className="h-48 w-auto"
-              src="/CJ_Logo1.png"
-              alt="Your Company"
-            />
-          </div>
+      { search ? (
+        <div className="bg-white px-6 lg:px-8 pb-20 pt-[200px] ">
+          <div className="mx-auto max-w-4xl text-center">
+            {/* <h2 className="mb-10 font-bold text-transparent tracking-tight text-9xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Grader</h2> */ }
+            <div className=' mb-10 flex justify-center'>
+              <img
+                className="h-48 w-auto"
+                src="/CJ_Logo1.png"
+                alt="Your Company"
+              />
+            </div>
 
-          <Combobox onChange={ (value) => (router.push(`/${value}`)) } >
+            <Combobox onChange={ (value) => (router.push(`/${value}`)) } >
 
-            <Combobox.Input
-              className={ `w-full ${schools?.length < 1 ? "rounded-lg" : " rounded-t-lg "} bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all` }
-              placeholder="Search for your school..."
+              <Combobox.Input
+                className={ `w-full ${schools?.length < 1 ? "rounded-lg" : " rounded-t-lg "} bg-gray-100 px-4 py-2.5 text-pink-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all` }
+                placeholder="Search for your school..."
 
-              onChange={ (event) => {
-                handleQueryChange(event.target.value);
-              } }
-            />
+                onChange={ (event) => {
+                  handleQueryChange(event.target.value);
+                } }
+              />
 
-            { schools?.length > 0 && (
-              <Combobox.Options
-                static
-                className=" -mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-gray-100 rounded-b-lg  text-left "
-              >
-                { schools?.map((school) => (
-                  <Combobox.Option
-                    key={ school?.trunkName }
-                    value={ school?.trunkName }
-                    className={ ({ active }) =>
-                      classNames(
-                        'cursor-default select-none rounded-md px-4 py-2 ',
-                        active && 'bg-pink-400 text-white'
-                      )
-                    }
-                  >
-                    { school?.name }
-                  </Combobox.Option>
-                )) }
-              </Combobox.Options>
-            ) }
-
-            { schools?.length === 0 && query && (
-              <div className="px-4 py-14 text-center sm:px-14 ">
-                <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
-                <p className="mt-4 text-sm text-gray-900">No schools found using that search term.</p>
-                <Link
-                  className="mt-4 text-sm text-pink-400 hover:text-blue-400"
-                  href="/newschool"
+              { schools?.length > 0 && (
+                <Combobox.Options
+                  static
+                  className=" -mb-2 max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 bg-gray-100 rounded-b-lg  text-left "
                 >
-                  Click here to add a new school!
+                  { schools?.map((school) => (
+                    <Combobox.Option
+                      key={ school?.trunkName }
+                      value={ school?.trunkName }
+                      className={ ({ active }) =>
+                        classNames(
+                          'cursor-default select-none rounded-md px-4 py-2 ',
+                          active && 'bg-pink-400 text-white'
+                        )
+                      }
+                    >
+                      { school?.name }
+                    </Combobox.Option>
+                  )) }
+                </Combobox.Options>
+              ) }
 
-                </Link>
-              </div>
-            ) }
-          </Combobox>
+              { schools?.length === 0 && query && (
+                <div className="px-4 py-14 text-center sm:px-14 ">
+                  <UsersIcon className="mx-auto h-6 w-6 text-gray-400" aria-hidden="true" />
+                  <p className="mt-4 text-sm text-gray-900">No schools found using that search term.</p>
+                  <Link
+                    className="mt-4 text-sm text-pink-400 hover:text-blue-400"
+                    href="/newschool"
+                  >
+                    Click here to add a new school!
 
+                  </Link>
+                </div>
+              ) }
+            </Combobox>
+
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <Landing />
+          <LandingFeatures />
+        </>
+
+
+
+      ) }
+
+
 
 
       {/* <div className="container mx-auto sm:px-6 lg:px-8 grid justify-center content-center w-full h-full ease-linear  ">

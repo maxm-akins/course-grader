@@ -40,7 +40,7 @@ export default function ClassHeader({ open, setOpen }) {
                         <ol role="list" className="flex items-center space-x-4">
                             <li>
                                 <div className="flex">
-                                    <Link href="/" className="text-sm font-medium text-gray-500 hover:text-gray-700 ">
+                                    <Link href="/?search=true" className="text-sm font-medium text-gray-500 hover:text-gray-700 ">
                                         Schools
                                     </Link>
                                 </div>
@@ -116,20 +116,26 @@ export default function ClassHeader({ open, setOpen }) {
 
                 </div>
                 <div className='col-span-4 md:col-span-2 flex justify-start md:justify-end '>
-                    <select
-                        id="prof"
-                        name="prof"
-                        className="block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        value={ searchParams.get("filter") || "none" }
-                        onChange={ (event) => {
-                            router.push(`?filter=${event?.target?.value}`)
-                        } }
-                    >
-                        <option value={ "none" } >All Professors</option>
-                        { course?.betterProfs?.map((prof) => (
-                            <option key={ prof?.uuid } value={ prof?.uuid }>{ prof.fullName || prof.name }</option>
-                        )) }
-                    </select>
+                    <div>
+                        <label for="prof" className='text-xs text-right'>
+                            Filter by Professor
+                        </label>
+                        <select
+                            id="prof"
+                            name="prof"
+                            className="block rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            value={ searchParams.get("filter") || "none" }
+                            onChange={ (event) => {
+                                router.push(`?filter=${event?.target?.value}`)
+                            } }
+                        >
+                            <option value={ "none" } >All Professors</option>
+                            { course?.betterProfs?.map((prof) => (
+                                <option key={ prof?.uuid } value={ prof?.uuid }>{ prof.fullName || prof.name }</option>
+                            )) }
+                        </select>
+                    </div>
+
                 </div>
             </div>
 

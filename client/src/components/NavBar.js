@@ -64,7 +64,7 @@ export default function NavBar() {
 
                                 <div className="flex order-1 inset-y-0 left-0 lg:static col-span-2 sm:col-span-1 mr-2">
                                     <div className="flex flex-shrink-0 items-center">
-                                        <Link href="/">
+                                        <Link href="/?search=true">
                                             <img
                                                 className="h-12 w-auto "
                                                 src="/CJ_Logo1.png"
@@ -241,7 +241,7 @@ export default function NavBar() {
                                     <Popover.Button
                                         as={ Link }
                                         key={ "schools" }
-                                        href={ `/` }
+                                        href={ `/?search=true` }
                                         className="block rounded-md px-3 py-2 text-base font-medium text-pink-400 hover:bg-gray-50 hover:text-gray-900"
                                     >
                                         School Search
@@ -255,6 +255,16 @@ export default function NavBar() {
                                         className="block rounded-md px-3 py-2 text-base font-medium text-pink-400 hover:bg-gray-50 hover:text-gray-900"
                                     >
                                         Course Search
+
+                                    </Popover.Button>
+                                    <Popover.Button
+
+                                        as={ Link }
+                                        key={ "courses" }
+                                        href="#legal"
+                                        className="block rounded-md px-3 py-2 text-base font-medium text-pink-400 hover:bg-gray-50 hover:text-gray-900"
+                                    >
+                                        Policies
 
                                     </Popover.Button>
 

@@ -64,7 +64,7 @@ export default function HomeNavBar() {
                                 </div>
                                 <div className=" flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                     <div className="hidden sm:flex flex-shrink-0 items-center">
-                                        <Link href="/">
+                                        <Link href="/?search=true">
 
                                             <img
                                                 className="h-16 w-auto"
@@ -76,7 +76,7 @@ export default function HomeNavBar() {
                                     </div>
 
                                     <div className='flex items-center  '>
-                                        <Link href="/">
+                                        <Link href="/?search=true">
 
                                             <h2 className=" font-bold text-transparent tracking-tight text-3xl sm:text-4xl bg-clip-text bg-gradient-to-r from-pink-300 to-pink-600">Course Judge</h2>
                                         </Link>
@@ -218,7 +218,7 @@ export default function HomeNavBar() {
                             <div className="space-y-1 pb-4 pt-2">
                                 {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */ }
                                 <Link
-                                    href="/"
+                                    href="/?search=true"
                                 >
                                     <Disclosure.Button
 
@@ -246,7 +246,7 @@ export default function HomeNavBar() {
                     </>
                 ) }
             </Disclosure>
-            { pathname !== "/" && <GoBack /> }
+            { pathname !== "/?search=true" && <GoBack /> }
 
         </>
     )
