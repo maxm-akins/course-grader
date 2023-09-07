@@ -7,15 +7,12 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import SchoolContext from '@/context/SchoolProvider'
 import { useState, useContext, useEffect } from "react"
-import ProfSearch from './ProfSearch'
 import { postProfReview } from '@/apis/reviews'
-import AddNewProf from './AddNewProf'
 import ErrorNotif from './ErrorNotif'
-import SuccessNotif from './SuccessNotif'
 import { useRouter } from 'next/navigation'
 import ResponseContext from '@/context/ResponseContext'
-import ClassSearch from './ClassSearch'
 import SmallClassSearch from './SmallClassSearch'
+import LoadingContext from '@/context/LoadingContext'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -42,6 +39,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
     const [department, setDepartment] = useState("");
 
     const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+    const { setTriggerUpdate } = useContext(LoadingContext);
 
 
 
@@ -90,7 +88,7 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                 setShowSuccess(true)
                 setSuccess(res?.data?.message);
                 setOpen(false);
-
+                setTriggerUpdate((prev) => !prev);
                 setTimeout(() => {
                     setShowSuccess(false);
                 }
@@ -196,10 +194,6 @@ export default function NewProfReviewSlide({ open, setOpen }) {
                                                 {/* Divider container */ }
                                                 <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
 
-
-                                                    <div className="space-y-2 px-4 sm:grid  sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                                                        <SmallClassSearch selectedCourse={ selectedCourse } setSelectedCourse={ setSelectedCourse } />
-                                                    </div>
 
 
                                                     <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
@@ -341,7 +335,14 @@ export default function NewProfReviewSlide({ open, setOpen }) {
 
 
 
+                                                    <div className="space-y-2 px-4 sm:grid  sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+                                                        <p className='py-'>What course did you take with this professor?</p>
+                                                        <SmallClassSearch selectedCourse={ selectedCourse } setSelectedCourse={ setSelectedCourse } />
+                                                    </div>
+
                                                 </div>
+
+
                                             </div>
 
                                             {/* Action buttons */ }

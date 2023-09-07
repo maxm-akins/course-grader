@@ -172,6 +172,7 @@ router.get('/search/:school/:q', async (req, res) => {
                         },
 
                     ],
+                    "minimumShouldMatch": 1
 
                 }
             }

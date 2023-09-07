@@ -110,7 +110,7 @@ export default function FindProf() {
                         { profs?.length > 0 && (
                             <Combobox.Options
                                 static
-                                className=" -mb-2 max-h-84 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
+                                className=" -mb-2 max-h-96 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
                             >
                                 {/* <Combobox.Option
                                     disabled

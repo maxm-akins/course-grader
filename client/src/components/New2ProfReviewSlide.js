@@ -16,7 +16,6 @@ import { useRouter } from 'next/navigation'
 import ResponseContext from '@/context/ResponseContext'
 import ClassSearch from './ClassSearch'
 import SmallClassSearch from './SmallClassSearch'
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -94,6 +93,7 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
                 setShowSuccess(true)
                 setSuccess(res?.data?.message);
                 setOpen(false);
+                setTr
 
                 setTimeout(() => {
                     setShowSuccess(false);
@@ -203,13 +203,10 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
                                                 <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
 
 
-                                                    <div className="space-y-2 px-4 sm:grid  sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                                                        <SmallClassSearch selectedCourse={ selectedCourse } setSelectedCourse={ setSelectedCourse } />
-                                                    </div>
 
 
                                                     <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                                                        <h2 className="text-2xl  font-bold leading-7 text-gray-900 col-span-3">Review</h2>
+                                                        <h2 className="text-2xl  font-bold leading-7 text-gray-900 col-span-3">New Professor Review</h2>
                                                         {/* Warning */ }
                                                         <div className=" col-span-3 border-l-4 border-yellow-400 bg-yellow-50 p-4 ">
                                                             <div className="flex">
@@ -362,7 +359,10 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
                                                     </div>
 
 
-
+                                                    <div className="space-y-2 px-4 sm:grid  sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+                                                        <p className='py-'>What course did you take with this professor?</p>
+                                                        <SmallClassSearch selectedCourse={ selectedCourse } setSelectedCourse={ setSelectedCourse } />
+                                                    </div>
 
 
                                                 </div>

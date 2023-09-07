@@ -74,13 +74,14 @@ router.get('/search/:school/:course/:q', async (req, res) => {
                     ],
                     "should": [
                         {
-                            "text": {
-                                "query": q,
-                                "path": 'name',
-                                "fuzzy": {}
-                            },
+                            autocomplete: {
+                                query: q,
+                                path: "fullName"
+                            }
                         },
                     ],
+                    "minimumShouldMatch": 1
+
 
                 }
             }
@@ -145,8 +146,9 @@ router.get('/search/:school/:q', async (req, res) => {
                             }
                         },
                     ],
-
+                    "minimumShouldMatch": 1
                 }
+
             }
         };
 

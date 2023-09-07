@@ -48,8 +48,8 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
     }
 
     useEffect(() => {
-        getClassInfo();
-    }, [])
+        getClassInfo(query);
+    }, [query])
 
     const filteredClasses =
         query === ''
@@ -66,10 +66,11 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
 
 
             <div className='col-span-1'>
-                <p className='mb-1'> Class</p>
+                {/* <p className='mb-1'> Class</p> */ }
                 <Combobox value={ selectedCourse } onChange={ setSelectedCourse }>
                     <Combobox.Input
-                        className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
+                        placeholder='Search'
+                        className="w-full rounded-md  bg-gray-100 px-2 py-2 text-gray-400 border-none focus:ring-0 sm:text-sm hover:drop-shadow-md transition-all"
                         onChange={ (event) => setQuery(event.target.value) }
                         displayValue={ (course) => {
                             if (selectedCourse) return `${course?.name} (${course?.descripCode} ${course?.classCode})`
@@ -77,10 +78,10 @@ export default function SmallClassSearch({ selectedCourse, setSelectedCourse }) 
                         } }
                     />
                     <Combobox.Options
-                        className=" -mb-2 max-h-84 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
+                        className=" -mb-2 max-h-48 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
 
                     >
-                        { filteredClasses?.map((course) => (
+                        { classes?.map((course) => (
                             /* Use the `active` state to conditionally style the active option. */
                             /* Use the `selected` state to conditionally style the selected option. */
                             <Combobox.Option

@@ -27,7 +27,7 @@ const features = [
 
 export default function LandingFeatures() {
     return (
-        <div className="bg-white py-12 sm:py-12 pt-0 ">
+        <div className="bg-white sm:pb-8 py-12 sm:py-16  ">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h2 className="text-base font-semibold leading-7 text-pink-400">Features</h2>

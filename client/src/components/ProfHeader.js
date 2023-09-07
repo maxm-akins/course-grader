@@ -127,7 +127,7 @@ export default function ProfHeader({ open, setOpen }) {
                                 router.push(`?filter=${event?.target?.value}`)
                             } }
                         >
-                            <option value={ "none" } >Courses</option>
+                            <option value={ "none" } >All Courses</option>
                             { prof?.courses?.map((course) => (
                                 <option key={ course?.uuid } value={ course?.uuid }>{ course?.descripCode } { " " } { course?.classCode }</option>
                             )) }

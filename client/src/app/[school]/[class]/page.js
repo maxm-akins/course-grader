@@ -1,24 +1,19 @@
 "use client"
 
 import NewReviewSlide from "@/components/NewReviewSlide"
-import { StarIcon, } from "@heroicons/react/20/solid"
 import { getClass } from "@/apis/classes"
 import { getSchool } from "@/apis/schools"
 import SchoolContext from '@/context/SchoolProvider'
-import { searchClasses } from '@/apis/classes'
+import LoadingContext from "@/context/LoadingContext"
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
 import { getReviews } from "@/apis/reviews"
-import { Transition } from "@headlessui/react"
-import { Fragment } from "react"
-import { Dialog } from "@headlessui/react"
-// import classNames from "classnames"
+
 import ClassHeader from "@/components/ClassHeader"
-import { redirect } from "next/navigation"
-import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
+
 import ResponseContext from "@/context/ResponseContext"
 import Link from "next/link"
 
@@ -39,15 +34,14 @@ export default function Class() {
     const searchParams = useSearchParams();
     const courseParam = params?.class;
     const school = params?.school;
-    let { setCourse, setSchool, course, prof } = useContext(SchoolContext);
+
     const [filter, setFilter] = useState(searchParams.get('filter'));
     const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+    let { setCourse, setSchool, course, prof } = useContext(SchoolContext);
+    let { triggerUpdate, setTriggerUpdate } = useContext(LoadingContext);
 
 
 
-    useEffect(() => {
-
-    }, [classes])
 
     useEffect(() => {
         setFilter(searchParams.get('filter'));
@@ -83,7 +77,7 @@ export default function Class() {
         getClassInfo();
         getSchoolInfo();
         getReviewList();
-    }, [])
+    }, [triggerUpdate])
 
 
 

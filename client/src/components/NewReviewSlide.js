@@ -14,6 +14,7 @@ import ErrorNotif from './ErrorNotif'
 import SuccessNotif from './SuccessNotif'
 import { useRouter } from 'next/navigation'
 import ResponseContext from '@/context/ResponseContext'
+import LoadingContext from '@/context/LoadingContext'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -24,6 +25,7 @@ function classNames(...classes) {
 export default function NewReviewSlide({ open, setOpen }) {
     const router = useRouter();
     let { course, school } = useContext(SchoolContext);
+    let { setTriggerUpdate } = useContext(LoadingContext);
     const [courseRating, setCourseRating] = useState(5);
     const [profRating, setProfRating] = useState(5);
     const [difficultyRating, setDifficultyRating] = useState(5);
@@ -113,6 +115,7 @@ export default function NewReviewSlide({ open, setOpen }) {
             console.log(res.response);
 
             if (res?.status === 200) {
+                setTriggerUpdate((prev) => !prev);
                 setShowSuccess(true)
                 setSuccess(res?.data?.message);
                 setOpen(false);

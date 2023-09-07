@@ -1,24 +1,15 @@
 "use client"
 
-import NewReviewSlide from "@/components/NewReviewSlide"
-import { StarIcon, } from "@heroicons/react/20/solid"
-import { getClass } from "@/apis/classes"
+
 import { getSchool } from "@/apis/schools"
 import SchoolContext from '@/context/SchoolProvider'
-import { searchClasses } from '@/apis/classes'
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useState, useContext, useEffect } from "react"
 import { getProfReviews } from "@/apis/reviews"
-import { Transition } from "@headlessui/react"
-import { Fragment } from "react"
-import { Dialog } from "@headlessui/react"
-// import classNames from "classnames"
-import ClassHeader from "@/components/ClassHeader"
-import { redirect } from "next/navigation"
-import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid'
+import LoadingContext from "@/context/LoadingContext"
 import ResponseContext from "@/context/ResponseContext"
 import { getProf } from "@/apis/profs"
 import ProfHeader from "@/components/ProfHeader"
@@ -32,17 +23,16 @@ export default function Prof() {
     const [open, setOpen] = useState(false)
     const [reviews, setReviews] = useState([])
     const [filteredReviews, setFilteredReviews] = useState([])
-
     const router = useRouter()
-    const pathname = usePathname()
     const [classes, setClasses] = useState([]);
     const params = useParams();
     const searchParams = useSearchParams();
     const profParam = params?.prof;
     const school = params?.school;
-    let { prof, setSchool, setProf } = useContext(SchoolContext);
     const [filter, setFilter] = useState(searchParams.get('filter'));
     const { err, setErr, showError, setShowError, success, setSuccess, showSuccess, setShowSuccess, success2, setSuccess2 } = useContext(ResponseContext);
+    let { triggerUpdate, setTriggerUpdate } = useContext(LoadingContext);
+    let { prof, setSchool, setProf } = useContext(SchoolContext);
 
 
 
@@ -84,7 +74,7 @@ export default function Prof() {
         getProfInfo();
         getSchoolInfo();
         getReviewList();
-    }, [])
+    }, [triggerUpdate])
 
 
 
