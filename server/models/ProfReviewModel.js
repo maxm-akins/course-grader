@@ -68,6 +68,22 @@ const ProfReviewsSchema = new Schema({
     },
     tags: {
         type: Array,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
+        required: false,
+    },
+    grade: {
+        type: String,
+        validate: {
+            validator: function (v) {
+                return !filter.isProfane(v);
+            },
+            message: props => `Profane Language is not allowed`
+        },
         required: false,
     },
     reviewed: {
