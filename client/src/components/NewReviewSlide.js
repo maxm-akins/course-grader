@@ -224,173 +224,7 @@ export default function NewReviewSlide({ open, setOpen }) {
 
                                                 {/* Divider container */ }
                                                 <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
-                                                    {/* Project name */ }
-                                                    <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-3">
 
-                                                        <div className='col-span-2'>
-                                                            <div className='col-span-2'>
-                                                                <label htmlFor="term" className="block text-sm font-medium leading-6 text-gray-900">
-                                                                    Term
-                                                                </label>
-                                                                <div className='flex gap-1'>
-                                                                    <select
-                                                                        required
-                                                                        onChange={ (event) => setTerm(event?.target?.value) }
-                                                                        defaultValue={ "Select a term" }
-                                                                        id="term"
-                                                                        name="term"
-                                                                        className="mt-2 inline w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                                    >
-                                                                        <option disabled>Select a term</option>
-                                                                        <option>Fall</option>
-                                                                        <option>Spring</option>
-                                                                        <option>Summer</option>
-                                                                        <option>Tri 1</option>
-                                                                        <option>Tri 2</option>
-                                                                        <option>Tri 3</option>
-                                                                        <option>Q 1</option>
-                                                                        <option>Q 2</option>
-                                                                        <option>Q 3</option>
-                                                                        <option>Q 4</option>
-                                                                    </select>
-                                                                    <select
-                                                                        defaultValue={ "Select a year" }
-                                                                        onChange={ (event) => setYear(event?.target?.value) }
-                                                                        id="year"
-                                                                        name="year"
-                                                                        className="mt-2 inline w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                                    >
-                                                                        <option disabled>Select a year</option>
-
-                                                                        <option>2030</option>
-                                                                        <option>2029</option>
-                                                                        <option>2028</option>
-                                                                        <option>2027</option>
-                                                                        <option>2026</option>
-                                                                        <option>2025</option>
-                                                                        <option>2024</option>
-                                                                        <option>2023</option>
-                                                                        <option>2022</option>
-                                                                        <option>2021</option>
-                                                                        <option>2020</option>
-                                                                        <option>2019</option>
-                                                                        <option>2018</option>
-                                                                        <option>2017</option>
-                                                                        <option>2016</option>
-                                                                        <option>2015</option>
-                                                                        <option>2014</option>
-                                                                        <option>2013</option>
-                                                                        <option>2012</option>
-                                                                        <option>2011</option>
-                                                                        <option>2010</option>
-                                                                    </select>
-
-                                                                </div>
-
-                                                            </div>
-
-
-                                                        </div>
-
-                                                        <div className='col-span-1'>
-                                                            <label htmlFor="prof" className="block text-sm font-medium leading-6 text-gray-900">
-                                                                Professor
-                                                            </label>
-                                                            <select
-                                                                onChange={ (event) => {
-                                                                    if (event?.target?.value === "0") {
-                                                                        setNewProfShow(true);
-
-                                                                    }
-                                                                    else {
-                                                                        setNewProfShow(false);
-                                                                    }
-                                                                    setProf(event?.target?.value);
-
-                                                                } }
-
-                                                                id="prof"
-                                                                name="prof"
-                                                                className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                                defaultValue=""
-                                                            >
-                                                                <option value={ "" } disabled>Select a professor</option>
-                                                                { course?.betterProfs?.map((prof) => <option key={ prof?.uuid } value={ prof?.uuid }> { prof.name || prof.fullName }</option>) }
-                                                                <option key={ 123 } value={ 0 }>Other</option>
-                                                            </select>
-                                                        </div>
-
-
-
-                                                        <div className='col-span-3'>
-                                                            { newProfShow &&
-                                                                <>
-
-
-                                                                    { !addProf && (
-
-                                                                        <ProfSearch newProf={ newProf } setNewProf={ setNewProf } />
-
-                                                                    ) }
-
-
-
-
-                                                                    <div className='flex flex-wrap items-end'>
-                                                                        <Switch
-                                                                            checked={ addProf }
-                                                                            onChange={ () => {
-                                                                                setAddProf((prev) => !prev);
-                                                                            }
-                                                                            }
-                                                                            className={ classNames(
-                                                                                addProf ? 'bg-pink-400' : 'bg-gray-200',
-                                                                                'relative inline-flex h-6 w-11 mt-3 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 ml-1'
-                                                                            ) }
-                                                                        >
-                                                                            <span className="sr-only">Use setting</span>
-                                                                            <span
-                                                                                aria-hidden="true"
-                                                                                className={ classNames(
-                                                                                    addProf ? 'translate-x-5' : 'translate-x-0',
-                                                                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
-                                                                                ) }
-                                                                            />
-                                                                        </Switch>
-
-                                                                        { addProf ? (
-                                                                            <p className='ml-1 font-normal text-xs  p-1 pt-2'> Toggle to search for an existing professor at "{ school?.name }" </p>
-
-
-                                                                        ) : (
-                                                                            <p className='ml-1 font-normal text-xs  p-1 pt-2'> Toggle to add a new professor for "{ school?.name }" </p>
-
-
-                                                                        ) }
-
-
-                                                                        { addProf && (<>
-                                                                            <h2 className="text-3xl mt-5 font-black leading-7 text-gray-900">Add a professor</h2>
-                                                                            <AddNewProf firstName={ firstName } middleName={ middleName } lastName={ lastName } department={ department } setFirstName={ setFirstName } setMiddleName={ setMiddleName } setLastName={ setLastName } setDepartment={ setDepartment } />
-
-                                                                        </>
-
-                                                                        )
-
-                                                                        }
-                                                                    </div>
-
-                                                                </>
-                                                            }
-                                                        </div>
-
-
-
-
-
-
-
-                                                    </div>
 
 
 
@@ -493,6 +327,174 @@ export default function NewReviewSlide({ open, setOpen }) {
                                                                 defaultValue={ '' }
                                                             />
                                                         </div>
+                                                    </div>
+
+                                                    {/* Project name */ }
+                                                    <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-3">
+                                                        <p className='col-span-3 text-base font-bold'>When did you take this course and with who?</p>
+                                                        <div className='col-span-2'>
+                                                            <div className='col-span-2'>
+                                                                <label htmlFor="term" className="block text-xs font-medium leading-6 text-gray-900">
+                                                                    Term
+                                                                </label>
+                                                                <div className='flex gap-1'>
+                                                                    <select
+                                                                        required
+                                                                        onChange={ (event) => setTerm(event?.target?.value) }
+                                                                        defaultValue={ "Select a term" }
+                                                                        id="term"
+                                                                        name="term"
+                                                                        className="mt-2 inline w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                                    >
+                                                                        <option disabled>Select a term</option>
+                                                                        <option>Fall</option>
+                                                                        <option>Spring</option>
+                                                                        <option>Summer</option>
+                                                                        <option>Tri 1</option>
+                                                                        <option>Tri 2</option>
+                                                                        <option>Tri 3</option>
+                                                                        <option>Q 1</option>
+                                                                        <option>Q 2</option>
+                                                                        <option>Q 3</option>
+                                                                        <option>Q 4</option>
+                                                                    </select>
+                                                                    <select
+                                                                        defaultValue={ "Select a year" }
+                                                                        onChange={ (event) => setYear(event?.target?.value) }
+                                                                        id="year"
+                                                                        name="year"
+                                                                        className="mt-2 inline w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                                    >
+                                                                        <option disabled>Select a year</option>
+
+                                                                        <option>2030</option>
+                                                                        <option>2029</option>
+                                                                        <option>2028</option>
+                                                                        <option>2027</option>
+                                                                        <option>2026</option>
+                                                                        <option>2025</option>
+                                                                        <option>2024</option>
+                                                                        <option>2023</option>
+                                                                        <option>2022</option>
+                                                                        <option>2021</option>
+                                                                        <option>2020</option>
+                                                                        <option>2019</option>
+                                                                        <option>2018</option>
+                                                                        <option>2017</option>
+                                                                        <option>2016</option>
+                                                                        <option>2015</option>
+                                                                        <option>2014</option>
+                                                                        <option>2013</option>
+                                                                        <option>2012</option>
+                                                                        <option>2011</option>
+                                                                        <option>2010</option>
+                                                                    </select>
+
+                                                                </div>
+
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div className='col-span-1'>
+                                                            <label htmlFor="prof" className="block text-xs font-medium leading-6 text-gray-900">
+                                                                Professor
+                                                            </label>
+                                                            <select
+                                                                onChange={ (event) => {
+                                                                    if (event?.target?.value === "0") {
+                                                                        setNewProfShow(true);
+
+                                                                    }
+                                                                    else {
+                                                                        setNewProfShow(false);
+                                                                    }
+                                                                    setProf(event?.target?.value);
+
+                                                                } }
+
+                                                                id="prof"
+                                                                name="prof"
+                                                                className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                                defaultValue=""
+                                                            >
+                                                                <option value={ "" } disabled>Select a professor</option>
+                                                                { course?.betterProfs?.map((prof) => <option key={ prof?.uuid } value={ prof?.uuid }> { prof.name || prof.fullName }</option>) }
+                                                                <option key={ 123 } value={ 0 }>Other</option>
+                                                            </select>
+                                                        </div>
+
+
+
+                                                        <div className='col-span-3'>
+                                                            { newProfShow &&
+                                                                <>
+
+
+                                                                    { !addProf && (
+
+                                                                        <ProfSearch newProf={ newProf } setNewProf={ setNewProf } />
+
+                                                                    ) }
+
+
+
+
+                                                                    <div className='flex flex-wrap items-end'>
+                                                                        <Switch
+                                                                            checked={ addProf }
+                                                                            onChange={ () => {
+                                                                                setAddProf((prev) => !prev);
+                                                                            }
+                                                                            }
+                                                                            className={ classNames(
+                                                                                addProf ? 'bg-pink-400' : 'bg-gray-200',
+                                                                                'relative inline-flex h-6 w-11 mt-3 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 ml-1'
+                                                                            ) }
+                                                                        >
+                                                                            <span className="sr-only">Use setting</span>
+                                                                            <span
+                                                                                aria-hidden="true"
+                                                                                className={ classNames(
+                                                                                    addProf ? 'translate-x-5' : 'translate-x-0',
+                                                                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                                                                ) }
+                                                                            />
+                                                                        </Switch>
+
+                                                                        { addProf ? (
+                                                                            <p className='ml-1 font-normal text-xs  p-1 pt-2'> Toggle to search for an existing professor at "{ school?.name }" </p>
+
+
+                                                                        ) : (
+                                                                            <p className='ml-1 font-normal text-xs  p-1 pt-2'> Toggle to add a new professor for "{ school?.name }" </p>
+
+
+                                                                        ) }
+
+
+                                                                        { addProf && (<>
+                                                                            <h2 className="text-3xl mt-5 font-black leading-7 text-gray-900">Add a professor</h2>
+                                                                            <AddNewProf firstName={ firstName } middleName={ middleName } lastName={ lastName } department={ department } setFirstName={ setFirstName } setMiddleName={ setMiddleName } setLastName={ setLastName } setDepartment={ setDepartment } />
+
+                                                                        </>
+
+                                                                        )
+
+                                                                        }
+                                                                    </div>
+
+                                                                </>
+                                                            }
+                                                        </div>
+
+
+
+
+
+
+
                                                     </div>
 
 

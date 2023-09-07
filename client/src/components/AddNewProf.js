@@ -45,7 +45,7 @@ export default function AddNewProf({ firstName, middleName, lastName, department
     const [profRating, setProfRating] = useState(5);
     const [difficultyRating, setDifficultyRating] = useState(5);
     const [newProfShow, setNewProfShow] = useState(false);
-    const [profQuery, setProfQuery] = useState(false);
+    const [profQuery, setProfQuery] = useState("");
     const [term, setTerm] = useState("");
     const [year, setYear] = useState("");
     const [prof, setProf] = useState("");
@@ -57,7 +57,12 @@ export default function AddNewProf({ firstName, middleName, lastName, department
     const [privateChecked, setPrivateChecked] = useState(false);
     const [publicChecked, setPublicChecked] = useState(true);
 
-
+    const filteredDepartments =
+        profQuery === ''
+            ? school?.departments
+            : school?.departments.filter((department) => {
+                return department.toLowerCase().includes(profQuery.toLowerCase())
+            })
 
 
 
@@ -199,7 +204,7 @@ export default function AddNewProf({ firstName, middleName, lastName, department
                                         </Combobox.Option>
 
 
-                                        { school?.departments?.map((department) => {
+                                        { filteredDepartments?.map((department) => {
 
                                             return (
 
