@@ -9,24 +9,25 @@ const features = [
         icon: AcademicCapIcon,
     },
     {
-        name: 'Complete Anonymity',
-        description:
-            'While you may register for an account with us (and we encourage you to do so), it is not a requirement to do anything on the site. Additionaly, no submissions or reviews will contain information about the author. Ever.',
-        href: '#',
-        icon: LockClosedIcon,
-    },
-    {
         name: 'Simple Expansion',
         description:
             "Don't see your school, course, or professor? Easily follow the links provided to add your missing item. You don't even need to register for an account. ",
         href: '#',
         icon: PlusIcon,
     },
+    {
+        name: 'Complete Anonymity',
+        description:
+            'While you may register for an account with us (and we encourage you to do so), it is not a requirement to do anything on the site. Additionaly, no submissions or reviews will contain information about the author. Ever.',
+        href: '#',
+        icon: LockClosedIcon,
+    },
+
 ]
 
 export default function LandingFeatures() {
     return (
-        <div className="bg-white py-12 sm:py-12">
+        <div className="bg-white py-12 sm:py-12 pt-0 ">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:text-center">
                     <h2 className="text-base font-semibold leading-7 text-pink-400">Features</h2>
