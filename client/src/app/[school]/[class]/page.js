@@ -111,6 +111,10 @@ export default function Class() {
                                         <span className=" inset-x-0 -top-px bottom-0 hover:underline" />
                                         Term:  <span className=" font-normal leading-5 text-sm text-gray-500">{ review?.term }{ " " }{ review?.year }</span>
                                     </div>
+                                    <div >
+                                        <span className=" inset-x-0 -top-px bottom-0 hover:underline" />
+                                        Grade:  <span className=" font-normal leading-5 text-sm text-gray-500">{ review?.grade || "Not given" }</span>
+                                    </div>
                                 </div>
                                 <div className="mt-1 flex  text-sm leading-5 text-gray-500">
                                     <div className="relative   ">
@@ -153,27 +157,7 @@ export default function Class() {
                                             <span className="ml-2 text-sm font-medium text-gray-500"> / 10</span>
                                         </div>
 
-                                        {/* <div
-                                                        className={ classNames(
-                                                            item.changeType === 'increase' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
-                                                            'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0'
-                                                        ) }
-                                                    >
-                                                        { item.changeType === 'increase' ? (
-                                                            <ArrowUpIcon
-                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"
-                                                                aria-hidden="true"
-                                                            />
-                                                        ) : (
-                                                            <ArrowDownIcon
-                                                                className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-red-500"
-                                                                aria-hidden="true"
-                                                            />
-                                                        ) }
 
-                                                        <span className="sr-only"> { item.changeType === 'increase' ? 'Increased' : 'Decreased' } by </span>
-                                                        { item.change }
-                                                    </div> */}
                                     </dd>
                                 </div>
                                 <div className="px-4 py-5 sm:p-6">

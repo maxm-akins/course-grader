@@ -165,7 +165,6 @@ export default function AddNewProf({ firstName, middleName, lastName, department
                         <div className="mt-2">
                             <Combobox as="div"
                                 onChange={ (event) => {
-                                    console.log(event);
                                     setDepartment(event);
                                 } }
                             >

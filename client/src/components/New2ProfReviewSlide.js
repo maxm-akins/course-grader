@@ -30,6 +30,7 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
     const [newProfShow, setNewProfShow] = useState(false);
     const [term, setTerm] = useState("");
     const [year, setYear] = useState("");
+    const [grade, setGrade] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
     // const [prof, setProf] = useState("");
     const [newProf, setNewProf] = useState("");
@@ -49,6 +50,7 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
         const data = {
             term: term,
             year: year,
+            grade: grade,
             overallRating: overallRating,
             difficultyRating: difficultyRating,
             description: description,
@@ -93,8 +95,6 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
                 setShowSuccess(true)
                 setSuccess(res?.data?.message);
                 setOpen(false);
-                setTr
-
                 setTimeout(() => {
                     setShowSuccess(false);
                 }
@@ -360,12 +360,55 @@ export default function New2ProfReviewSlide({ open, setOpen }) {
 
 
                                                     <div className="space-y-2 px-4 sm:grid  sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                                                        <p className='py-'>What course did you take with this professor?</p>
+                                                        <p className=' text-base font-bold'>What course did you take with this professor?</p>
                                                         <SmallClassSearch selectedCourse={ selectedCourse } setSelectedCourse={ setSelectedCourse } />
                                                     </div>
 
 
                                                 </div>
+                                            </div>
+
+                                            {/* Grade  */ }
+                                            <div className="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:px-6 sm:py-3">
+                                                <p className='col-span-3 text-base font-bold'>What grade did you get with this professor?</p>
+                                                <div className='col-span-3'>
+                                                    <div className='col-span-2'>
+
+                                                        <div className='flex gap-1'>
+                                                            <select
+                                                                required
+                                                                onChange={ (event) => setGrade(event?.target?.value) }
+                                                                defaultValue={ "Select a grade" }
+                                                                id="grade"
+                                                                name="grade"
+                                                                className="mt-2 inline w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                            >
+                                                                <option disabled>Select a grade</option>
+                                                                <option>A+</option>
+                                                                <option>A</option>
+                                                                <option>A-</option>
+                                                                <option>B+</option>
+                                                                <option>B</option>
+                                                                <option>B-</option>
+                                                                <option>C+</option>
+                                                                <option>C</option>
+                                                                <option>C-</option>
+                                                                <option>D+</option>
+                                                                <option>D</option>
+                                                                <option>D-</option>
+                                                                <option>F</option>
+                                                                <option>P</option>
+                                                                <option>Withdrawl</option>
+                                                                <option>In progress</option>
+
+                                                            </select>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
                                             </div>
 
                                             {/* Action buttons */ }

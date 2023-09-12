@@ -20,7 +20,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function ProfSearch({ open, setOpen, setNewProf }) {
+export default function ProfSearch({ setNewProf, newProf }) {
     const router = useRouter()
     const [profs, setProfs] = useState([]);
     const [selectedProf, setSelectedProf] = useState("");
@@ -44,7 +44,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
     return (
         <>
             <Combobox
-                value={ selectedProf }
+                value={ newProf }
                 onChange={ (value) => {
                     setSelectedProf(value?.fullName || value?.name);
                     setNewProf(value);
@@ -57,7 +57,7 @@ export default function ProfSearch({ open, setOpen, setNewProf }) {
                     onChange={ (event) => {
                         handleQueryChange(event.target.value);
                     } }
-                    displayValue={ selectedProf }
+                    displayValue={ (value) => value?.fullName }
                 />
 
                 { query !== "" && profs?.length !== 0 && (

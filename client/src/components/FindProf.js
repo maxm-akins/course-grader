@@ -99,50 +99,26 @@ export default function FindProf() {
 
                     <Combobox
 
-                        onChange={ (value) => (router.push(`${pathname}/prof/${value}`)) } >
+                        onChange={ (value) => (router.push(`${pathname}/prof/${value?.uuid}`)) } >
 
                         <Combobox.Input
                             className="w-full rounded-md  bg-gray-100 px-4 py-2.5 text-gray-400 border-none focus:ring-0 sm:text-xl hover:drop-shadow-md transition-all"
                             placeholder="Search"
                             onChange={ (event) => handleQueryChange(event?.target?.value) }
+                            displayValue={ (value) => value?.fullName }
                         />
+
 
                         { profs?.length > 0 && (
                             <Combobox.Options
                                 static
                                 className=" -mb-2 max-h-96 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 text-left  border-pink-400"
                             >
-                                {/* <Combobox.Option
-                                    disabled
-                                    key={ 0 }
-                                    value={ 0 }
-                                    className={ ({ active }) =>
-                                        classNames(
-                                            'cursor-default select-none rounded-md px-2 py-2 font-bold text-xl grid grid-cols-3 gap-4 text-black ',
-                                            active && 'bg-pink-400 text-white'
-                                        )
-                                    }
-                                >
-                                    <p>
-                                        Class Name
-
-                                    </p>
-                                    <p>
-                                        Subject Code
-
-                                    </p>
-                                    <p>
-                                        Class Code
-
-                                    </p>
-
-                                </Combobox.Option> */}
                                 { profs.map((item) => (
-
 
                                     <Combobox.Option
                                         key={ item?.uuid }
-                                        value={ item?.uuid }
+                                        value={ item }
                                         className={ ({ active }) =>
                                             classNames(
                                                 'cursor-default select-none font-base text-gray-600 md:text-base text-sm border-b-2 px-2 py-2 grid grid-cols-2 gap-4 ',
@@ -159,10 +135,7 @@ export default function FindProf() {
 
                                         </p>
 
-
-
                                     </Combobox.Option>
-
                                 )) }
                             </Combobox.Options>
                         ) }
