@@ -5,6 +5,7 @@ import {
     CheckIcon,
     ChevronDownIcon,
     ChevronRightIcon,
+    InformationCircleIcon,
     MapPinIcon,
     XMarkIcon,
     StarIcon,
@@ -134,6 +135,21 @@ export default function ProfHeader({ open, setOpen }) {
                         </select>
                     </div>
 
+                </div>
+                <div className="col-span-4 rounded-md bg-blue-50 p-4">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <InformationCircleIcon className="h-5 w-5 text-blue-400" aria-hidden="true" />
+                        </div>
+                        <div className="ml-3 flex-1 md:flex md:justify-between">
+                            <p className="text-sm text-blue-700">Note: This section is intended for reviews directly pertaining to this professor.
+                                If you wish to leave a class-specific review, return to the school page and select "Search for Class"
+                            </p>
+                            <p className="mt-3 text-sm md:ml-6 md:mt-0">
+
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
